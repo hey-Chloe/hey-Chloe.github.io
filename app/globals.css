@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 320 100% 98%;
+  --foreground: 259 42% 22%;
+  --muted: 270 60% 96%;
+  --muted-foreground: 265 20% 48%;
+  --border: 282 48% 88%;
+  --primary: 316 91% 67%;
+  --primary-foreground: 0 0% 100%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  color: hsl(var(--foreground));
+  background: radial-gradient(circle at 10% 10%, rgba(255, 178, 225, 0.45), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(154, 211, 255, 0.42), transparent 28%),
+    radial-gradient(circle at 50% 85%, rgba(187, 160, 255, 0.38), transparent 36%),
+    linear-gradient(135deg, #fff8fc 0%, #f5efff 48%, #eef8ff 100%);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(255, 146, 211, 0.35);
+}
+
+.glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.36));
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 24px 80px rgba(136, 92, 190, 0.14);
+  backdrop-filter: blur(22px);
+}
+
+.glass-dark {
+  background: linear-gradient(135deg, rgba(55, 38, 95, 0.72), rgba(96, 55, 139, 0.4));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 90px rgba(55, 38, 95, 0.25);
+  backdrop-filter: blur(22px);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #ec5ca8, #8d55f7, #28aee8, #ec5ca8);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+.soft-grid {
+  background-image: linear-gradient(rgba(144, 102, 210, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(144, 102, 210, 0.08) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(to bottom, black, transparent 75%);
+}
+
+.prose-sakura {
+  color: hsl(var(--foreground));
+}
+
+.prose-sakura h1,
+.prose-sakura h2,
+.prose-sakura h3,
+.prose-sakura h4 {
+  color: #50326f;
+  scroll-margin-top: 100px;
+}
+
+.prose-sakura a {
+  color: #d72b7f;
+  text-decoration: none;
+}
+
+.prose-sakura code:not(pre code) {
+  color: #d72b7f;
+  background: rgba(255, 228, 244, 0.9);
+  border-radius: 0.45rem;
+  padding: 0.15rem 0.35rem;
+}
+
+.prose-sakura pre {
+  background: rgba(55, 38, 95, 0.92);
+  color: #fff7fb;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1rem;
+  box-shadow: 0 20px 70px rgba(73, 48, 112, 0.18);
+}
+
+.admin-field {
+  @apply rounded-2xl border border-white/70 bg-white/55 px-4 py-3 text-sm outline-none backdrop-blur-xl transition focus:border-sakura-300 focus:ring-4 focus:ring-sakura-200/45;
+}
