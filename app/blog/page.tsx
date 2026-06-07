@@ -17,7 +17,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { tag?:
     where: { published: true },
     orderBy: { createdAt: 'desc' }
   })
-  const allTags = [...new Set(posts.flatMap((post) => parseTags(post.tagsJson)))]
+  const allTags = Array.from(new Set(posts.flatMap((post) => parseTags(post.tagsJson))))
   const activeTag = searchParams.tag
   const visiblePosts = activeTag ? posts.filter((post) => parseTags(post.tagsJson).includes(activeTag)) : posts
 
