@@ -7,25 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
-enum CtfCategory {
-  Web
-  Pwn
-  Crypto
-  Reverse
-  Misc
-}
-
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
   name         String
   passwordHash String
-  role         Role     @default(ADMIN)
+  role         String   @default("ADMIN")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
@@ -44,20 +31,20 @@ model Post {
 }
 
 model CtfTask {
-  id          String      @id @default(cuid())
-  slug        String      @unique
+  id          String   @id @default(cuid())
+  slug        String   @unique
   title       String
-  category    CtfCategory @default(Web)
-  difficulty  String      @default("Easy")
+  category    String   @default("Web")
+  difficulty  String   @default("Easy")
   description String
   analysis    String
   payload     String
   exp         String
   summary     String
-  tagsJson    String      @default("[]")
-  published   Boolean     @default(true)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  tagsJson    String   @default("[]")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Project {
