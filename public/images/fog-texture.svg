@@ -1,0 +1,7 @@
+<svg width="1600" height="1200" viewBox="0 0 1600 1200" xmlns="http://www.w3.org/2000/svg">
+<filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="4" seed="12"/><feColorMatrix type="matrix" values="0 0 0 0 0.45 0 0 0 0 0.58 0 0 0 0 0.44 0 0 0 .55 0"/></filter>
+<rect width="1600" height="1200" filter="url(#n)" opacity=".78"/>
+<path d="M-120 910C200 820 330 930 520 910c250-25 350-180 700-120 240 42 420-36 600-150v650H-120z" fill="rgba(218,230,195,.25)"/>
+<path d="M100 290c180-120 270-120 380-50 100 65 200 55 350-22 160-84 260-52 450 20" stroke="rgba(255,255,255,.18)" stroke-width="90" fill="none" stroke-linecap="round"/>
+<path d="M1120 900c120-140 260-180 480-110" stroke="rgba(255,255,255,.12)" stroke-width="80" fill="none" stroke-linecap="round"/>
+</svg>

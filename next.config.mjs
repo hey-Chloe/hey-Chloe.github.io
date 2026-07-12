@@ -1,25 +1,9 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    mdxRs: true
-  },
-
-  typescript: {
-    ignoreBuildErrors: true
-  },
-
-  eslint: {
-    ignoreDuringBuilds: true
-  },
-
+  output: 'export',
+  trailingSlash: true,
   images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'api.dicebear.com' },
-      { protocol: 'https', hostname: 'github.com' },
-      { protocol: 'https', hostname: 'avatars.githubusercontent.com' }
-    ]
+    unoptimized: true
   }
-}
+};
 
-export default nextConfig
+export default nextConfig;

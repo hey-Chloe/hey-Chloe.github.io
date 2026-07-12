@@ -1,56 +1,23 @@
-import type { Metadata, Viewport } from 'next'
-import './globals.css'
-import { Navbar } from '@/components/layout/navbar'
-import { Footer } from '@/components/layout/footer'
-import { SoftParticles } from '@/components/layout/soft-particles'
-import { siteConfig } from '@/lib/site'
+import type { Metadata } from 'next';
+import ClickFlowerEffect from '@/components/ClickFlowerEffect';
+import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL('https://hey-chloe.github.io'),
   title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.name}`
+    default: "Chloe's Archive",
+    template: "%s | Chloe's Archive"
   },
-  description: siteConfig.description,
-  keywords: ['CTF', 'Security Research', 'Next.js', 'MDX', 'Prisma', '少女风', '安全研究'],
-  authors: [{ name: 'SakuraSec' }],
-  creator: 'SakuraSec',
-  openGraph: {
-    type: 'website',
-    locale: 'zh_CN',
-    url: siteConfig.url,
-    title: siteConfig.title,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
-    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.title }]
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [siteConfig.ogImage]
-  },
-  alternates: {
-    canonical: siteConfig.url,
-    types: {
-      'application/rss+xml': `${siteConfig.url}/rss.xml`
-    }
-  }
-}
+  description: '一个档案桌风格的个人技术博客，记录 Java、Web 安全、CTF、计算机基础和自学成长。'
+};
 
-export const viewport: Viewport = {
-  themeColor: '#f9d8ef'
-}
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
-      <body className="font-soft antialiased">
-        <SoftParticles />
-        <Navbar />
+    <html lang="zh-CN">
+      <body>
+        <ClickFlowerEffect />
         {children}
-        <Footer />
       </body>
     </html>
-  )
+  );
 }

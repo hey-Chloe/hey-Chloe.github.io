@@ -1,0 +1,9 @@
+<svg width="500" height="720" viewBox="0 0 500 720" xmlns="http://www.w3.org/2000/svg">
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values=".15"/><feBlend mode="multiply"/></filter>
+<rect width="500" height="720" fill="#8aa06f"/>
+<rect width="500" height="720" filter="url(#grain)" opacity=".35"/>
+<path d="M0 520c110-70 210-85 300-40 80 40 132 37 200 10v230H0z" fill="#56794c" opacity=".65"/>
+<path d="M210 88c-50 43-80 116-88 218-6 76 4 180 13 294h183c23-156 32-287 9-392-14-62-51-106-117-120z" fill="#dfe7d2" opacity=".72"/>
+<path d="M245 100c52 51 81 142 89 273M163 153c-24 95-17 196 22 303" stroke="#eaf0da" stroke-width="22" opacity=".32" fill="none"/>
+<circle cx="250" cy="175" r="55" fill="#e9efd9" opacity=".48"/>
+</svg>

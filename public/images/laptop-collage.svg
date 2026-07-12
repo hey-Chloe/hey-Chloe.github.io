@@ -1,0 +1,15 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+<rect width="1200" height="675" fill="#050605"/>
+<rect x="385" y="120" width="430" height="430" fill="#cbd9bb" opacity=".96"/>
+<text x="450" y="420" fill="#7d3d31" font-family="Georgia" font-size="72" font-style="italic" opacity=".55">one archive</text>
+<rect x="130" y="170" width="245" height="350" fill="#f4f0e5" transform="rotate(-10 130 170)" opacity=".92"/>
+<text x="170" y="265" fill="#4d7a54" font-family="Georgia" font-size="48">CHLOE'S</text>
+<text x="175" y="330" fill="#4d7a54" font-family="Georgia" font-size="48">ARCHIVE</text>
+<rect x="685" y="170" width="300" height="160" fill="rgba(255,255,255,.72)" transform="rotate(12 685 170)"/>
+<text x="730" y="270" fill="#fff" font-family="Georgia" font-size="52">SECURITY</text>
+<rect x="150" y="440" width="300" height="150" fill="rgba(160,180,126,.65)"/>
+<rect x="610" y="410" width="250" height="170" fill="#f4f0e5" opacity=".95"/>
+<circle cx="700" cy="495" r="46" fill="#315b3c"/>
+<rect x="840" y="350" width="260" height="170" fill="rgba(255,255,255,.72)" transform="rotate(-9 840 350)"/>
+<text x="870" y="440" fill="#172118" font-family="Courier New" font-size="28">Java / CTF</text>
+</svg>

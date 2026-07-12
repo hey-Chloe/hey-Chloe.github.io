@@ -1,15 +1,13 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import Link from 'next/link';
+import Logo from '@/components/Logo';
 
 export default function NotFound() {
   return (
-    <main className="container flex min-h-[60vh] items-center justify-center py-16 text-center">
-      <div className="glass max-w-xl rounded-[2.5rem] p-10">
-        <p className="text-sm font-bold uppercase tracking-[0.3em] text-sakura-500">404</p>
-        <h1 className="mt-4 text-4xl font-black text-[#50326f]">这片花瓣飘走了</h1>
-        <p className="my-6 leading-8 text-muted-foreground">页面不存在或已被删除。返回首页继续探索 SakuraSec。</p>
-        <Button asChild><Link href="/">回到首页</Link></Button>
-      </div>
-    </main>
-  )
+    <div className="archive-page flex min-h-screen flex-col items-center justify-center px-5 text-center">
+      <Logo />
+      <h1 className="mt-12 font-mono text-5xl">404</h1>
+      <p className="mt-4 font-mono text-xl">This document is missing from the archive.</p>
+      <Link href="/" className="green-caption mt-8 text-xl no-underline">Back home</Link>
+    </div>
+  );
 }
