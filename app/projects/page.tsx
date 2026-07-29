@@ -8,6 +8,10 @@ export const metadata: Metadata = {
 
 const projects = [
   [
+    'Static Blog',
+    'Next.js + TypeScript + Tailwind CSS + Markdown，部署在 GitHub Pages。'
+  ],
+  [
     'RuleForge-SAST',
     '基于 Semgrep 的轻量级 SAST 代码安全扫描工具，实现漏洞检测、Git Diff 分析以及 Patch 修复验证。'
   ],
@@ -20,8 +24,8 @@ const projects = [
     'Web 方向题目的入口、payload、卡点和复盘。'
   ],
   [
-    'AI Security Lab',
-    '探索 AI 与网络安全结合方向，包括 LLM 安全、漏洞分析与自动化安全工具。'
+    'Java Practice Lab',
+    'Java 基础语法、面向对象、集合与异常处理练习。'
   ]
 ];
 
