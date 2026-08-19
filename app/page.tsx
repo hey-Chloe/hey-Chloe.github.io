@@ -1,6 +1,7 @@
 import ArchiveDesk from '@/components/ArchiveDesk';
 import LaptopPreview from '@/components/LaptopPreview';
 import Logo from '@/components/Logo';
+import ProjectGallery from '@/components/ProjectGallery';
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
           <ArchiveDesk />
         </div>
         <LaptopPreview />
+        <ProjectGallery />
       </main>
     </div>
   );
