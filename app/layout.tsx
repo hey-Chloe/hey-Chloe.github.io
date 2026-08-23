@@ -39,15 +39,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN" data-scroll-behavior="smooth">
-      <head>
-        <link
-          rel="preload"
-          href="/fonts/kaushan-script/KaushanScript-Regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body>
         <ClickFlowerEffect />
         {children}
