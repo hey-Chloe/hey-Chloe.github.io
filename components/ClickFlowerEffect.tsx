@@ -9,6 +9,8 @@ export default function ClickFlowerEffect() {
 
     const onDown = (event: PointerEvent) => {
       if (event.pointerType === 'mouse' && event.button !== 0) return;
+      const target = event.target instanceof Element ? event.target : null;
+      if (!target?.closest('.xiaoyue-home, .archive-world, .archive-page')) return;
       starts.set(event.pointerId, { x: event.clientX, y: event.clientY });
     };
 
