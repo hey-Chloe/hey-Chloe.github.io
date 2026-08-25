@@ -1,0 +1,397 @@
+.remindercat-demo {
+  --rc-ink: #172118;
+  --rc-paper: #f5efe1;
+  --rc-paper-deep: #e5e1d2;
+  --rc-moss: #315b3c;
+  --rc-moss-soft: #d9dfd0;
+  --rc-bloom: #f06f52;
+  --rc-line: rgba(23, 33, 24, .15);
+  width: min(100%, 1040px);
+  margin-inline: auto;
+  color: var(--rc-ink);
+  font-family: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+}
+
+.remindercat-demo__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin: 0 0 1rem;
+}
+
+.remindercat-demo__eyebrow,
+.remindercat-alert__eyebrow {
+  margin: 0 0 .65rem;
+  color: var(--rc-moss);
+  font: 700 .7rem/1.25 'Courier New', Courier, monospace;
+  letter-spacing: .13em;
+}
+
+.remindercat-demo h2 {
+  max-width: 18ch;
+  margin: 0;
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  font-weight: 540;
+  line-height: 1.12;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.remindercat-demo__runtime {
+  flex: 0 0 auto;
+  padding: .48rem .72rem;
+  border: 1px solid rgba(49, 91, 60, .28);
+  border-radius: 999px;
+  color: var(--rc-moss);
+  background: rgba(245, 239, 225, .72);
+  font: 700 .68rem/1 'Courier New', Courier, monospace;
+  letter-spacing: .08em;
+}
+
+.remindercat-demo__paper {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(260px, .82fr);
+  overflow: hidden;
+  border: 1px solid rgba(23, 33, 24, .12);
+  border-radius: 30px;
+  background:
+    linear-gradient(100deg, rgba(255, 255, 255, .22), transparent 46%),
+    var(--rc-paper);
+  box-shadow: 0 24px 70px rgba(35, 54, 39, .16);
+}
+
+.remindercat-demo__paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 3rem;
+  width: 6.5rem;
+  height: .38rem;
+  border-radius: 0 0 8px 8px;
+  background: var(--rc-bloom);
+}
+
+.remindercat-demo__form {
+  min-width: 0;
+  padding: clamp(2rem, 5vw, 4rem);
+}
+
+.remindercat-demo__form label {
+  display: block;
+  margin-bottom: .75rem;
+  color: var(--rc-moss);
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.remindercat-demo__command {
+  display: flex;
+  gap: .65rem;
+}
+
+.remindercat-demo__command input {
+  min-width: 0;
+  flex: 1;
+  height: 3.35rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(23, 33, 24, .22);
+  border-radius: 14px;
+  outline: none;
+  color: var(--rc-ink);
+  background: rgba(255, 255, 255, .48);
+  font: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6);
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.remindercat-demo__command input:hover {
+  background: rgba(255, 255, 255, .7);
+}
+
+.remindercat-demo__command input:focus-visible {
+  border-color: var(--rc-moss);
+  box-shadow: 0 0 0 4px rgba(49, 91, 60, .14);
+}
+
+.remindercat-demo button {
+  min-height: 44px;
+  border: 1px solid var(--rc-moss);
+  border-radius: 13px;
+  padding: .74rem 1rem;
+  color: #fff;
+  background: var(--rc-moss);
+  font: 700 .76rem/1.2 'Courier New', Courier, monospace;
+  letter-spacing: .045em;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.remindercat-demo button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #24492f;
+  box-shadow: 0 8px 20px rgba(49, 91, 60, .18);
+}
+
+.remindercat-demo button:focus-visible {
+  outline: 3px solid rgba(240, 111, 82, .55);
+  outline-offset: 3px;
+}
+
+.remindercat-demo button:disabled {
+  cursor: default;
+  opacity: .67;
+}
+
+.remindercat-demo__help,
+.remindercat-demo__error {
+  margin: .75rem 0 0;
+  font-size: .78rem;
+  line-height: 1.65;
+}
+
+.remindercat-demo__help {
+  color: rgba(23, 33, 24, .62);
+}
+
+.remindercat-demo__error {
+  min-height: 1.3em;
+  color: #8d3427;
+}
+
+.remindercat-demo__status {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  min-height: 330px;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  border-left: 1px solid var(--rc-line);
+  background:
+    radial-gradient(circle at 85% 14%, rgba(240, 111, 82, .14) 0 5px, transparent 6px),
+    var(--rc-moss-soft);
+}
+
+.remindercat-demo__cat {
+  width: fit-content;
+  margin: 0 0 1.4rem;
+  color: var(--rc-moss);
+  font: 700 .78rem/1 'Courier New', Courier, monospace;
+  letter-spacing: .08em;
+  transform: rotate(-2deg);
+}
+
+.remindercat-demo__active > p,
+.remindercat-demo__idle > p {
+  margin: 0 0 .55rem;
+  color: var(--rc-moss);
+  font: 700 .72rem/1.3 'Courier New', Courier, monospace;
+  letter-spacing: .08em;
+}
+
+.remindercat-demo__active strong {
+  display: block;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 600;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.remindercat-demo__active time {
+  display: block;
+  margin: .55rem 0 .8rem;
+  color: var(--rc-moss);
+  font: 400 clamp(2.5rem, 6vw, 4.4rem)/1 'Courier New', Courier, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.08em;
+}
+
+.remindercat-demo__active small,
+.remindercat-demo__idle small {
+  display: block;
+  color: rgba(23, 33, 24, .64);
+  font-size: .78rem;
+  line-height: 1.65;
+}
+
+.remindercat-demo .remindercat-demo__quiet-action {
+  margin-top: 1rem;
+  border-color: rgba(49, 91, 60, .28);
+  color: var(--rc-moss);
+  background: transparent;
+}
+
+.remindercat-demo .remindercat-demo__quiet-action:hover {
+  background: rgba(245, 239, 225, .45);
+  box-shadow: none;
+}
+
+.remindercat-demo__footer {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--rc-line);
+  background: rgba(229, 225, 210, .55);
+}
+
+.remindercat-demo__footer p {
+  margin: 0;
+  color: rgba(23, 33, 24, .68);
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+.remindercat-demo__footer p strong {
+  color: var(--rc-ink);
+}
+
+.remindercat-demo__footer button {
+  flex: 0 0 auto;
+  border-color: rgba(49, 91, 60, .25);
+  color: var(--rc-moss);
+  background: rgba(255, 255, 255, .32);
+}
+
+.remindercat-alert {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(15, 24, 17, .48);
+  backdrop-filter: blur(7px);
+  animation: remindercat-backdrop-in .18s ease-out both;
+}
+
+.remindercat-alert__paper {
+  position: relative;
+  width: min(100%, 480px);
+  padding: clamp(2rem, 7vw, 3.4rem);
+  border: 1px solid rgba(23, 33, 24, .15);
+  border-radius: 28px;
+  color: var(--rc-ink);
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, .3), transparent 50%),
+    var(--rc-paper);
+  box-shadow: 0 32px 100px rgba(12, 23, 14, .38);
+  animation: remindercat-paper-in .26s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.remindercat-alert__paper::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 2.5rem;
+  width: 86px;
+  height: 24px;
+  border-radius: 5px;
+  background: rgba(240, 111, 82, .72);
+  transform: rotate(-2deg);
+}
+
+.remindercat-alert h3 {
+  margin: 0;
+  font-size: clamp(2rem, 8vw, 3.6rem);
+  font-weight: 560;
+  letter-spacing: -.06em;
+}
+
+.remindercat-alert__paper > [role='alert'] {
+  margin: 1.2rem 0 .5rem;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.remindercat-alert__paper > small {
+  display: block;
+  color: rgba(23, 33, 24, .6);
+  line-height: 1.6;
+}
+
+.remindercat-alert__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .65rem;
+  margin-top: 1.8rem;
+}
+
+.remindercat-alert__actions button:first-child {
+  border-color: rgba(49, 91, 60, .28);
+  color: var(--rc-moss);
+  background: transparent;
+}
+
+@keyframes remindercat-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes remindercat-paper-in {
+  from { opacity: 0; transform: translateY(14px) rotate(1deg) scale(.98); }
+  to { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+}
+
+@media (max-width: 760px) {
+  .remindercat-demo__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .remindercat-demo__paper {
+    grid-template-columns: minmax(0, 1fr);
+    border-radius: 24px;
+  }
+
+  .remindercat-demo__form,
+  .remindercat-demo__status {
+    padding: 2rem 1.25rem;
+  }
+
+  .remindercat-demo__command {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .remindercat-demo__status {
+    min-height: 260px;
+    border-top: 1px solid var(--rc-line);
+    border-left: 0;
+  }
+
+  .remindercat-demo__footer {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 1.25rem;
+  }
+
+  .remindercat-demo__footer button,
+  .remindercat-demo__command button {
+    width: 100%;
+  }
+
+  .remindercat-alert__actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .remindercat-alert__actions button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .remindercat-demo *,
+  .remindercat-alert,
+  .remindercat-alert * {
+    scroll-behavior: auto !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}

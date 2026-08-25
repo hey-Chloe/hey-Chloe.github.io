@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f1ebdd">
+  <meta name="description" content="Zod 算力市场浏览器沙箱：筛选演示资源，或在内存中预览一台演示节点。">
+  <title>Zod · 浏览器手机沙箱</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="demo-stage">
+    <section class="phone" aria-label="Zod 浏览器手机沙箱">
+      <div class="phone-top" aria-hidden="true"><span>9:41</span><i></i><b>DEMO</b></div>
+      <header class="app-header">
+        <div class="brand-row">
+          <span class="brand-mark" aria-hidden="true"><i></i></span>
+          <div><strong>Zod</strong><small>算力市场 · 浏览器沙箱</small></div>
+          <span class="sandbox-chip">NO ORDER</span>
+        </div>
+        <div class="boundary" role="note">
+          <span>BROWSER SANDBOX</span><span>NOT THE NATIVE APP</span><span>DEMO INVENTORY</span>
+        </div>
+        <nav class="view-switch" aria-label="选择体验视角">
+          <button type="button" class="active" data-view="consumer" aria-pressed="true">使用算力</button>
+          <button type="button" data-view="provider" aria-pressed="false">提供算力</button>
+        </nav>
+      </header>
+      <div id="screen" class="screen" aria-live="polite"></div>
+      <footer class="app-foot">不登录 · 不充值 · 不购买 · 不连接真实节点</footer>
+      <section id="detail-sheet" class="detail-backdrop" hidden aria-hidden="true">
+        <div class="detail-sheet" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+          <div class="sheet-handle" aria-hidden="true"></div>
+          <div id="detail-content"></div>
+          <button class="secondary-button" type="button" data-close-detail>关闭详情</button>
+        </div>
+      </section>
+    </section>
+    <p class="stage-caption"><span>Z.01 / STATIC TRIAL</span> 原生产品流程的公开、安全切片</p>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

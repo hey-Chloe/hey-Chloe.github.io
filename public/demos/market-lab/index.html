@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="KAI Market Lab V2 只读公开演示：所有最终指标为空，密封测试未消费。">
+  <title>KAI Market Lab V2 · 只读公开演示</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="court-shell">
+    <a class="skip-link" href="#verdict">跳到裁决</a>
+    <aside class="rail" aria-label="审判台章节">
+      <a class="brand" href="#verdict"><span class="brand-mark">K</span><span class="brand-copy"><strong>KAI</strong><small>MARKET LAB V2</small></span></a>
+      <nav>
+        <a href="#verdict"><span>01</span>当前裁决</a><a href="#protocol"><span>02</span>协议门禁</a><a href="#models"><span>03</span>模型案卷</a><a href="#criteria"><span>04</span>GO 标准</a><a href="#provenance"><span>05</span>边界溯源</a>
+      </nav>
+      <div class="rail-foot"><i></i><div><strong>PUBLIC / READ ONLY</strong><small>无交易入口</small></div></div>
+    </aside>
+    <section class="workspace">
+      <header class="topbar"><div><p class="kicker">MODEL JUDGEMENT COURT / TARDIS V2</p><h1>模型审判台</h1></div><div class="topbar-status"><span id="contract-status">CHECKING CONTRACT</span><b>READ ONLY / NO PNL</b></div></header>
+      <div class="flow">
+        <section class="demo-banner" aria-label="聚合证据边界"><strong>STATIC_NO_MODEL_DEMO</strong><p>Tardis 训练/验证数据门禁和 CPU 基线复现已完成；CUDA FULL、实现闭环与正式评估集成仍被阻塞。所有最终指标保持空值，4 个 sealed test 日未消费。</p></section>
+        <section class="verdict-grid anchor" id="verdict">
+          <article class="panel verdict-panel"><div class="panel-head"><p class="kicker">FAIL-CLOSED RULING</p><span class="case-id">CASE / KML-TARDIS-V2</span></div><div class="verdict-code"><span>INVALID_OR_</span><span>BLOCKED</span></div><h2>实验无效或仍被门禁阻塞</h2><p class="lede">当前只公开已关闭与未关闭的门禁，不公开验证指标，也没有运行正式 test。页面不会用 CPU 验证结果代替最终 held-out 结果。</p><div class="ruling-strip"><span>当前效力</span><strong>NOT FINAL EVIDENCE</strong><small>已完成阶段只证明数据与 CPU 验证流程，不替代最终 held-out 裁决</small></div></article>
+          <aside class="panel blocker-panel"><div class="panel-head"><p class="kicker">ACTIVE BLOCKERS</p><span class="count">03</span></div><ol>
+            <li><span>01</span><div><strong>实现门禁未通过</strong><p>512 样本 overfit、五种子训练或 checkpoint 冻结证据仍不完整。</p><code>BLOCKED_IMPLEMENTATION_GATE</code></div></li>
+            <li><span>02</span><div><strong>无 CUDA FULL 证据</strong><p>三种神经网络的 CUDA FULL 五种子证据尚未完成。</p><code>BLOCKED_NO_CUDA</code></div></li>
+            <li><span>03</span><div><strong>正式评估集成未闭环</strong><p>外部防回滚权威、原子发布与最终授权尚未集成，sealed test 保持未消费。</p><code>BLOCKED_INTEGRATION_GATE</code></div></li>
+          </ol></aside>
+        </section>
+        <section class="anchor" id="protocol"><div class="section-title"><div><p class="kicker">FROZEN PROTOCOL</p><h2>24 日协议与单次测试门禁</h2></div><span>02</span></div>
+          <div class="split-ledger"><div><small>SELECTED</small><strong>24</strong><span>互不连续月首日</span></div><div><small>TRAIN</small><strong>16</strong><span>只拟合训练预处理</span></div><div><small>VALIDATION</small><strong>4</strong><span>选择配置与 checkpoint</span></div><div><small>SEALED TEST</small><strong>4</strong><span>冻结后最多消费一次</span></div></div>
+          <div class="gate-track"><article class="gate complete"><span>01</span><div><small>协议</small><strong>FROZEN</strong><p>先按整日分区，再生成窗口；不跨日、不跨 gap。</p></div></article><article class="gate ready"><span>02</span><div><small>数据门禁</small><strong>PASS_DATA_GATE</strong><p>这里只披露计数和门禁状态。</p></div></article><article class="gate ready"><span>03</span><div><small>CPU 基线</small><strong>REPRODUCED</strong><p>静态模式不展示验证指标或运行记录。</p></div></article><article class="gate blocked"><span>04</span><div><small>CUDA FULL</small><strong>BLOCKED</strong><p>三种神经候选尚未闭环。</p></div></article><article class="gate locked"><span>05</span><div><small>单次 test</small><strong>HELDOUT_UNCONSUMED</strong><p>4 个密封测试日保持未消费，页面不能触发访问。</p></div></article></div>
+        </section>
+        <section class="anchor" id="models"><div class="section-title"><div><p class="kicker">MODEL DOCKET</p><h2>四份模型案卷，无虚构指标</h2></div><span>03</span></div>
+          <div class="panel table-panel"><p class="scroll-hint">窄屏提示：左右滑动表格查看完整门禁。</p><div class="table-scroll" tabindex="0"><table><thead><tr><th>MODEL</th><th>ROLE</th><th>SEEDS</th><th>MACRO F1</th><th>BALANCED ACC.</th><th>Δ VS LIGHTGBM</th><th>CORRECTED 95% CI</th><th>SIGNIFICANT</th><th>DIRECTION</th><th>GATES</th></tr></thead><tbody id="model-rows"></tbody></table></div><p class="table-note">Seeds = 5 是冻结协议，不代表已完成五次神经训练。所有最终指标保持空值，不使用 Mock、插值或旧协议结果替代。</p></div>
+          <div class="evidence-empty"><article><span>AGGREGATE FIGURE</span><strong>混淆矩阵</strong><p>等待最终聚合导出</p></article><article><span>AGGREGATE FIGURE</span><strong>校准曲线</strong><p>等待最终聚合导出</p></article><article><span>AGGREGATE FIGURE</span><strong>延迟—准确率对比</strong><p>等待最终聚合导出</p></article><article><span>AGGREGATE FIGURE</span><strong>Walk-forward</strong><p>等待最终聚合导出</p></article></div>
+        </section>
+        <section class="criteria-grid anchor" id="criteria"><article class="panel criteria-panel"><div class="panel-head"><p class="kicker">GO_NEURAL STANDARD</p><span class="seal">ALL</span></div><h2>三个条件必须同时成立</h2><ol><li><span>01</span><div><strong>Macro F1 增益 ≥ 0.01</strong><p>相对同一 sealed test、同一 provenance 的 LightGBM。</p></div></li><li><span>02</span><div><strong>校正后置信区间下界 &gt; 0</strong><p>同时控制多模型比较，拒绝只看单点最好值。</p></div></li><li><span>03</span><div><strong>方向一致性达到冻结阈值</strong><p>五种子聚合、完整门禁与统一环境必须齐全。</p></div></li></ol></article><article class="panel anti-claim"><div class="panel-head"><p class="kicker">ANTI-CLAIM</p></div><h2>本页面不能证明</h2><ul><li>不能证明可交易或盈利</li><li>不能把分类指标解释为 PnL</li><li>不能证明神经模型已经跑完</li><li>不能读取或展示 sealed held-out 数据</li></ul></article></section>
+        <section class="anchor" id="provenance"><div class="section-title"><div><p class="kicker">PUBLIC PROVENANCE</p><h2>只读边界与摘要校验</h2></div><span>05</span></div><div class="provenance-grid"><article class="panel provenance-card"><dl><div><dt>RESULT SCOPE</dt><dd id="scope">—</dd></div><div><dt>SOURCE SCOPE</dt><dd id="source-scope">—</dd></div><div><dt>CODE COMMIT</dt><dd id="code-commit">—</dd></div><div><dt>SOURCE REPORT</dt><dd id="source-report">—</dd></div></dl></article><aside class="privacy-card"><div><span>公开允许</span><p>冻结协议计数、门禁状态、公开提交与配置哈希。</p></div><div><span>始终拒绝</span><p>逐样本结果、私有运行标识、checkpoint、原始数据与 sealed test 内容。</p></div></aside></div></section>
+        <footer><span>KAI MARKET LAB V2 · PUBLIC STATIC DEMO</span><span>NO TRADING · NO PNL CLAIM · HELDOUT UNCONSUMED</span></footer>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./demo.js"></script>
+</body>
+</html>

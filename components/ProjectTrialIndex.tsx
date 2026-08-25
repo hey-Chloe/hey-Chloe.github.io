@@ -1,6 +1,6 @@
 import type { EvidenceState } from '@/components/EvidenceBadge';
 
-export type ProjectAvailability = 'LIVE' | 'VIDEO' | 'LOCAL' | 'SOURCE' | 'FORK';
+export type ProjectAvailability = 'LIVE' | 'VIDEO' | 'LOCAL' | 'SOURCE' | 'FORK' | 'DEMO' | 'RESEARCH';
 
 export type ProjectEntry = {
   slug: string;
@@ -14,7 +14,9 @@ export type ProjectEntry = {
   evidenceNote: string;
   evidenceUrl?: string;
   availability: ProjectAvailability;
-  repoUrl: string;
+  repoUrl?: string;
+  trialUrl?: string;
+  trialLabel?: string;
   demoUrl?: string;
   demoLabel?: string;
   guideUrl?: string;
@@ -37,7 +39,7 @@ type ProjectAction = {
 
 type AvailabilityView = {
   status: string;
-  cardHref: string;
+  cardHref?: string;
   cardLabel: string;
   actions: ProjectAction[];
 };
@@ -52,130 +54,109 @@ function linkProps(url: string) {
     : {};
 }
 
-function availabilityView(project: ProjectEntry): AvailabilityView {
-  const sourceAction: ProjectAction = {
-    href: project.repoUrl,
-    label: '查看源码',
-    kind: 'secondary'
+function pushUniqueAction(actions: ProjectAction[], action: ProjectAction | null) {
+  if (action && !actions.some((candidate) => candidate.href === action.href)) {
+    actions.push(action);
+  }
+}
+
+function entryLabels(project: ProjectEntry) {
+  const labels: Record<ProjectAvailability, { caseLabel: string; demoLabel: string }> = {
+    LIVE: { caseLabel: '打开项目档案', demoLabel: '在线试用' },
+    VIDEO: { caseLabel: '打开项目档案', demoLabel: '观看演示' },
+    LOCAL: { caseLabel: '打开项目档案', demoLabel: '查看演示' },
+    SOURCE: { caseLabel: '打开项目档案', demoLabel: '查看演示' },
+    FORK: { caseLabel: '打开学习档案', demoLabel: '打开学习版本' },
+    DEMO: { caseLabel: '打开项目档案', demoLabel: '进入站内体验' },
+    RESEARCH: { caseLabel: '查看研究档案', demoLabel: '查看研究演示' }
   };
 
-  if (project.availability === 'LIVE' && project.demoUrl) {
-    const actions: ProjectAction[] = [
-      { href: project.demoUrl, label: '在线试用', kind: 'primary' }
-    ];
+  return {
+    trialLabel: project.trialLabel ?? (project.availability === 'RESEARCH' ? '进入研究实验' : '进入站内体验'),
+    ...labels[project.availability]
+  };
+}
 
-    if (project.guideUrl) {
-      actions.push({ href: project.guideUrl, label: '使用说明', kind: 'secondary' });
-    }
+function availabilityView(project: ProjectEntry): AvailabilityView {
+  const labels = entryLabels(project);
+  const primaryEntry = project.trialUrl
+    ? { href: project.trialUrl, label: labels.trialLabel }
+    : project.caseUrl
+      ? { href: project.caseUrl, label: labels.caseLabel }
+      : project.demoUrl
+        ? { href: project.demoUrl, label: project.demoLabel ?? labels.demoLabel }
+        : null;
+  const actions: ProjectAction[] = [];
 
-    actions.push(sourceAction);
-    return {
-      status: 'LIVE / 在线试用',
-      cardHref: project.caseUrl ?? project.demoUrl,
-      cardLabel: '打开在线试用',
-      actions
-    };
+  if (primaryEntry) {
+    pushUniqueAction(actions, { ...primaryEntry, kind: 'primary' });
   }
 
-  if (project.availability === 'VIDEO' && project.demoUrl) {
-    return {
-      status: 'VIDEO / 真实演示',
-      cardHref: project.caseUrl ?? project.demoUrl,
-      cardLabel: project.caseUrl ? '打开项目档案' : '观看项目演示',
-      actions: [
-        { href: project.demoUrl, label: project.demoLabel ?? '观看演示', kind: 'primary' },
-        ...(project.guideUrl ? [{ href: project.guideUrl, label: '本地运行', kind: 'secondary' as const }] : []),
-        sourceAction
-      ]
-    };
+  if (project.caseUrl) {
+    pushUniqueAction(actions, {
+      href: project.caseUrl,
+      label: labels.caseLabel,
+      kind: primaryEntry ? 'secondary' : 'primary'
+    });
   }
 
-  if (project.availability === 'LOCAL') {
-    if (project.guideUrl) {
-      return {
-        status: 'LOCAL / 本地运行',
-        cardHref: project.caseUrl ?? project.guideUrl,
-        cardLabel: project.caseUrl ? '打开项目档案' : '打开本地运行指南',
-        actions: [
-          { href: project.guideUrl, label: '本地运行', kind: 'primary' },
-          sourceAction
-        ]
-      };
-    }
-
-    return {
-      status: 'LOCAL / 本地运行',
-      cardHref: project.repoUrl,
-      cardLabel: '查看源码并在本地运行',
-      actions: [
-        {
-          href: project.repoUrl,
-          label: '本地运行 · 查看源码',
-          kind: 'primary'
-        }
-      ]
-    };
+  if (project.demoUrl) {
+    pushUniqueAction(actions, {
+      href: project.demoUrl,
+      label: project.demoLabel ?? labels.demoLabel,
+      kind: primaryEntry ? 'secondary' : 'primary'
+    });
   }
 
-  if (project.availability === 'FORK') {
-    if (project.demoUrl) {
-      return {
-        status: 'FORK / 学习版本',
-        cardHref: project.demoUrl,
-        cardLabel: '打开学习版本',
-        actions: [
-          { href: project.demoUrl, label: project.demoLabel ?? '打开学习版本', kind: 'primary' },
-          sourceAction
-        ]
-      };
-    }
+  const guideLabel = project.availability === 'LIVE'
+    ? '使用说明'
+    : project.availability === 'LOCAL' || project.availability === 'VIDEO'
+      ? '本地运行'
+      : project.availability === 'FORK'
+        ? 'Fork 后运行'
+        : '阅读说明';
 
-    if (project.guideUrl) {
-      return {
-        status: 'FORK / Fork 后运行',
-        cardHref: project.guideUrl,
-        cardLabel: '打开 Fork 运行指南',
-        actions: [
-          { href: project.guideUrl, label: 'Fork 后运行', kind: 'primary' },
-          sourceAction
-        ]
-      };
-    }
-
-    return {
-      status: 'FORK / Fork 后运行',
-      cardHref: project.repoUrl,
-      cardLabel: '查看源码并 Fork 运行',
-      actions: [
-        {
-          href: project.repoUrl,
-          label: 'Fork 后运行 · 查看源码',
-          kind: 'primary'
-        }
-      ]
-    };
-  }
-
-  const sourceActions: ProjectAction[] = [];
   if (project.guideUrl) {
-    sourceActions.push({ href: project.guideUrl, label: '阅读说明', kind: 'secondary' });
+    pushUniqueAction(actions, {
+      href: project.guideUrl,
+      label: guideLabel,
+      kind: primaryEntry ? 'secondary' : 'primary'
+    });
   }
-  sourceActions.push(sourceAction);
+
+  if (project.repoUrl) {
+    pushUniqueAction(actions, {
+      href: project.repoUrl,
+      label: '技术材料',
+      kind: 'secondary'
+    });
+  }
+
+  const fallbackEntry = primaryEntry
+    ?? (project.guideUrl ? { href: project.guideUrl, label: guideLabel } : null)
+    ?? (project.repoUrl ? { href: project.repoUrl, label: '技术材料' } : null);
+  const status: Record<ProjectAvailability, string> = {
+    LIVE: primaryEntry ? 'LIVE / 在线页面' : 'LIVE / 入口待补',
+    VIDEO: 'VIDEO / 真实演示',
+    LOCAL: 'LOCAL / 本地运行',
+    SOURCE: 'SOURCE / 项目材料',
+    FORK: project.demoUrl || project.trialUrl ? 'FORK / 学习版本' : 'FORK / Fork 后运行',
+    DEMO: 'DEMO / 站内体验',
+    RESEARCH: 'RESEARCH / 研究材料'
+  };
 
   return {
-    status: project.availability === 'LIVE'
-      ? 'LIVE / 试用入口待补'
-      : 'SOURCE / 查看源码',
-    cardHref: project.repoUrl,
-    cardLabel: '查看项目源码',
-    actions: sourceActions
+    status: status[project.availability],
+    cardHref: fallbackEntry?.href,
+    cardLabel: fallbackEntry?.label ?? '材料整理中',
+    actions
   };
 }
 
 export default function ProjectTrialIndex({
   projects,
-  heading = '打开项目，亲自试一试。',
-  intro = '能直接打开的作品标为在线试用；其余项目会明确提供本地运行方式或源码入口。'
+  heading = '项目与实验',
+  intro = '产品、系统与研究材料，按当前状态归档。'
 }: ProjectTrialIndexProps) {
   return (
     <section className="project-trial-index" aria-label="项目试用索引">
@@ -204,6 +185,52 @@ export default function ProjectTrialIndex({
                 ]
               : availability.actions;
             const summaryId = `project-trial-${project.slug}-summary`;
+            const bodyContent = (
+              <>
+                <div className="project-trial-card__folio">
+                  <span>{project.folio}</span>
+                  <small>{project.category}</small>
+                </div>
+
+                <div className="project-trial-card__content">
+                  <div className="project-trial-card__status-row">
+                    <span className="project-trial-card__availability">
+                      {availability.status}
+                    </span>
+                    {availability.cardHref && (
+                      <span className="project-trial-card__open">
+                        {availability.cardLabel}
+                        <span aria-hidden="true">
+                          {isExternalUrl(availability.cardHref) ? '↗' : '→'}
+                        </span>
+                      </span>
+                    )}
+                  </div>
+
+                  <h3>{project.titleZh}</h3>
+                  <p className="project-trial-card__name">{project.name}</p>
+                  <p className="project-trial-card__summary" id={summaryId}>
+                    {project.summary}
+                  </p>
+
+                  <ul className="project-trial-card__tags" aria-label="技术标签">
+                    {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
+                  </ul>
+
+                  <div className="project-trial-card__evidence">
+                    <span>{project.evidenceState}</span>
+                    <p>{project.evidenceNote}</p>
+                  </div>
+
+                  {project.provenance && (
+                    <div className="project-trial-card__provenance">
+                      <span>PROVENANCE</span>
+                      <p>{project.provenance}</p>
+                    </div>
+                  )}
+                </div>
+              </>
+            );
 
             return (
               <li
@@ -218,74 +245,43 @@ export default function ProjectTrialIndex({
                     {project.featured ? 'MAIN FILE' : project.category}
                   </span>
 
-                  <a
-                    className="project-trial-card__body"
-                    href={availability.cardHref}
-                    aria-label={`${project.titleZh}：${availability.cardLabel}${isExternalUrl(availability.cardHref) ? '（新标签页）' : ''}`}
-                    aria-describedby={summaryId}
-                    {...linkProps(availability.cardHref)}
-                  >
-                    <div className="project-trial-card__folio">
-                      <span>{project.folio}</span>
-                      <small>{project.category}</small>
+                  {availability.cardHref ? (
+                    <a
+                      className="project-trial-card__body"
+                      href={availability.cardHref}
+                      aria-label={`${project.titleZh}：${availability.cardLabel}${isExternalUrl(availability.cardHref) ? '（新标签页）' : ''}`}
+                      aria-describedby={summaryId}
+                      {...linkProps(availability.cardHref)}
+                    >
+                      {bodyContent}
+                    </a>
+                  ) : (
+                    <div className="project-trial-card__body project-trial-card__body--static" aria-describedby={summaryId}>
+                      {bodyContent}
                     </div>
+                  )}
 
-                    <div className="project-trial-card__content">
-                      <div className="project-trial-card__status-row">
-                        <span className="project-trial-card__availability">
-                          {availability.status}
-                        </span>
-                        <span className="project-trial-card__open">
-                          {availability.cardLabel}
+                  {actions.length > 0 && (
+                    <nav
+                      className="project-trial-card__actions"
+                      aria-label={`${project.name} 项目操作`}
+                    >
+                      {actions.map((action) => (
+                        <a
+                          className={`project-trial-card__action project-trial-card__action--${action.kind}`}
+                          href={action.href}
+                          key={`${action.label}-${action.href}`}
+                          aria-label={`${action.label}：${project.name}${isExternalUrl(action.href) ? '（新标签页）' : ''}`}
+                          {...linkProps(action.href)}
+                        >
+                          <span>{action.label}</span>
                           <span aria-hidden="true">
-                            {isExternalUrl(availability.cardHref) ? '↗' : '→'}
+                            {isExternalUrl(action.href) ? '↗' : '→'}
                           </span>
-                        </span>
-                      </div>
-
-                      <h3>{project.titleZh}</h3>
-                      <p className="project-trial-card__name">{project.name}</p>
-                      <p className="project-trial-card__summary" id={summaryId}>
-                        {project.summary}
-                      </p>
-
-                      <ul className="project-trial-card__tags" aria-label="技术标签">
-                        {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
-                      </ul>
-
-                      <div className="project-trial-card__evidence">
-                        <span>{project.evidenceState}</span>
-                        <p>{project.evidenceNote}</p>
-                      </div>
-
-                      {project.provenance && (
-                        <div className="project-trial-card__provenance">
-                          <span>PROVENANCE</span>
-                          <p>{project.provenance}</p>
-                        </div>
-                      )}
-                    </div>
-                  </a>
-
-                  <nav
-                    className="project-trial-card__actions"
-                    aria-label={`${project.name} 项目操作`}
-                  >
-                    {actions.map((action) => (
-                      <a
-                        className={`project-trial-card__action project-trial-card__action--${action.kind}`}
-                        href={action.href}
-                        key={`${action.label}-${action.href}`}
-                        aria-label={`${action.label}：${project.name}${isExternalUrl(action.href) ? '（新标签页）' : ''}`}
-                        {...linkProps(action.href)}
-                      >
-                        <span>{action.label}</span>
-                        <span aria-hidden="true">
-                          {isExternalUrl(action.href) ? '↗' : '→'}
-                        </span>
-                      </a>
-                    ))}
-                  </nav>
+                        </a>
+                      ))}
+                    </nav>
+                  )}
                 </article>
               </li>
             );

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "result_scope": "PUBLIC_AGGREGATE_ONLY",
+  "models": [
+    {"model_name":"lightgbm","seed_count":5,"aggregate_metrics":{"macro_f1_mean":null,"macro_f1_std":null,"balanced_accuracy_mean":null,"improvement_vs_lightgbm_mean":null,"corrected_ci_95_lower":null,"corrected_ci_95_upper":null,"multiplicity_corrected_significant":null},"direction_consistency_count":null,"gate_states":["PROTOCOL_FROZEN","PASS_DATA_GATE","PASS_CPU_REPRODUCIBILITY","HELDOUT_UNCONSUMED","BLOCKED_INTEGRATION_GATE"]},
+    {"model_name":"mlplob","seed_count":5,"aggregate_metrics":{"macro_f1_mean":null,"macro_f1_std":null,"balanced_accuracy_mean":null,"improvement_vs_lightgbm_mean":null,"corrected_ci_95_lower":null,"corrected_ci_95_upper":null,"multiplicity_corrected_significant":null},"direction_consistency_count":null,"gate_states":["PROTOCOL_FROZEN","PASS_DATA_GATE","PASS_CPU_REPRODUCIBILITY","HELDOUT_UNCONSUMED","BLOCKED_IMPLEMENTATION_GATE","BLOCKED_NO_CUDA","BLOCKED_INTEGRATION_GATE"]},
+    {"model_name":"deeplob","seed_count":5,"aggregate_metrics":{"macro_f1_mean":null,"macro_f1_std":null,"balanced_accuracy_mean":null,"improvement_vs_lightgbm_mean":null,"corrected_ci_95_lower":null,"corrected_ci_95_upper":null,"multiplicity_corrected_significant":null},"direction_consistency_count":null,"gate_states":["PROTOCOL_FROZEN","PASS_DATA_GATE","PASS_CPU_REPRODUCIBILITY","HELDOUT_UNCONSUMED","BLOCKED_IMPLEMENTATION_GATE","BLOCKED_NO_CUDA","BLOCKED_INTEGRATION_GATE"]},
+    {"model_name":"tlob","seed_count":5,"aggregate_metrics":{"macro_f1_mean":null,"macro_f1_std":null,"balanced_accuracy_mean":null,"improvement_vs_lightgbm_mean":null,"corrected_ci_95_lower":null,"corrected_ci_95_upper":null,"multiplicity_corrected_significant":null},"direction_consistency_count":null,"gate_states":["PROTOCOL_FROZEN","PASS_DATA_GATE","PASS_CPU_REPRODUCIBILITY","HELDOUT_UNCONSUMED","BLOCKED_IMPLEMENTATION_GATE","BLOCKED_NO_CUDA","BLOCKED_INTEGRATION_GATE"]}
+  ],
+  "final_verdict": "INVALID_OR_BLOCKED",
+  "blocker_codes": ["BLOCKED_IMPLEMENTATION_GATE", "BLOCKED_NO_CUDA", "BLOCKED_INTEGRATION_GATE"],
+  "provenance": {
+    "code_commit": "ab1e2144a363cba577778bf339d2a3a8db34f604",
+    "protocol_commit": "ab1e2144a363cba577778bf339d2a3a8db34f604",
+    "protocol_hash": "ec680ccc00d50d361a38b74b2adff6cc6bafac64c3addb7d12745452b16f001e",
+    "configuration_hash": "8f021356c017cd8de7cd52b76979662d937bde077b742d831fa8459c8c0e845f",
+    "source_report_sha256": null,
+    "source_scope": "STATIC_NO_MODEL_DEMO"
+  }
+}
