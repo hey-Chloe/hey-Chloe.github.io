@@ -262,81 +262,148 @@ export default function ReminderCatDemo() {
 
   return (
     <section className="remindercat-demo" aria-labelledby="remindercat-demo-title">
-      <header className="remindercat-demo__header">
-        <div>
-          <p className="remindercat-demo__eyebrow">W.01 / REMINDERCAT</p>
-          <h2 id="remindercat-demo-title">提醒喵</h2>
-        </div>
-        <span className="remindercat-demo__runtime">浏览器沙箱</span>
-      </header>
-
-      <div className="remindercat-demo__paper">
-        <form className="remindercat-demo__form" onSubmit={submitReminder}>
-          <label htmlFor="remindercat-command">告诉提醒喵</label>
-          <div className="remindercat-demo__command">
-            <input
-              id="remindercat-command"
-              name="reminder"
-              value={input}
-              onChange={(event) => {
-                setInput(event.target.value);
-                setError(null);
-              }}
-              autoComplete="off"
-              aria-describedby="remindercat-help remindercat-error"
-            />
-            <button type="submit">{activeReminder ? '重新设置' : '设置提醒'}</button>
+      <div className="remindercat-demo__window">
+        <header className="remindercat-demo__appbar">
+          <div className="remindercat-demo__identity">
+            <span className="remindercat-demo__avatar" aria-hidden="true">喵</span>
+            <div>
+              <h2 id="remindercat-demo-title">提醒喵</h2>
+              <p><span aria-hidden="true" />浏览器中在线</p>
+            </div>
           </div>
-          <p id="remindercat-help" className="remindercat-demo__help">
-            支持中文或数字的秒、分钟，例如“5秒后提醒我伸个懒腰”。
-          </p>
-          <p id="remindercat-error" className="remindercat-demo__error" role={error ? 'alert' : undefined}>
-            {error}
-          </p>
-        </form>
+          <span className="remindercat-demo__runtime">本机试用</span>
+        </header>
 
-        <div className="remindercat-demo__status" aria-live="polite">
-          <div className="remindercat-demo__cat" aria-hidden="true">= ^ · ω · ^ =</div>
-          {activeReminder ? (
-            <div className="remindercat-demo__active">
-              <p>提醒事项</p>
-              <strong>{activeReminder.task}</strong>
-              <time dateTime={new Date(activeReminder.dueAt).toISOString()}>
-                {formatCountdown(remaining)}
-              </time>
-              <small>到时会在当前页面弹出提醒。刷新页面也会保留未过期计时。</small>
-              <button type="button" className="remindercat-demo__quiet-action" onClick={cancelReminder}>取消这次提醒</button>
+        <div className="remindercat-demo__workspace">
+          <div className="remindercat-demo__chat">
+            <div className="remindercat-demo__messages">
+              <span className="remindercat-demo__day">今天</span>
+              <div className="remindercat-demo__message remindercat-demo__message--cat">
+                <span className="remindercat-demo__mini-avatar" aria-hidden="true">喵</span>
+                <p>在吗？想让我什么时候叫你？</p>
+              </div>
+
+              {activeReminder ? (
+                <>
+                  <div className="remindercat-demo__message remindercat-demo__message--you">
+                    <p>{activeReminder.source}</p>
+                  </div>
+                  <div className="remindercat-demo__message remindercat-demo__message--cat remindercat-demo__message--reminder">
+                    <span className="remindercat-demo__mini-avatar" aria-hidden="true">喵</span>
+                    <div className="remindercat-demo__active">
+                      <div className="remindercat-demo__active-heading">
+                        <span>提醒已设置</span>
+                        <time dateTime={new Date(activeReminder.dueAt).toISOString()}>
+                          {new Date(activeReminder.dueAt).toLocaleTimeString('zh-CN', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </time>
+                      </div>
+                      <strong>{activeReminder.task}</strong>
+                      <div className="remindercat-demo__countdown">
+                        <span>剩余</span>
+                        <time dateTime={`PT${Math.max(0, Math.ceil(remaining / 1_000))}S`}>
+                          {formatCountdown(remaining)}
+                        </time>
+                      </div>
+                      <button type="button" className="remindercat-demo__quiet-action" onClick={cancelReminder}>
+                        取消提醒
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="remindercat-demo__empty" aria-hidden="true">
+                  <span>= ^ · ω · ^ =</span>
+                </div>
+              )}
+
+              {error && (
+                <div className="remindercat-demo__message remindercat-demo__message--cat remindercat-demo__message--error" role="alert">
+                  <span className="remindercat-demo__mini-avatar" aria-hidden="true">喵</span>
+                  <p>{error}</p>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="remindercat-demo__idle">
-              <p>等你留下一句话。</p>
-              <small>设置后，这里会显示提取的事项和实时倒计时。</small>
+
+            <form className="remindercat-demo__composer" onSubmit={submitReminder}>
+              <label className="remindercat-demo__sr-only" htmlFor="remindercat-command">输入提醒</label>
+              <div className="remindercat-demo__command">
+                <input
+                  id="remindercat-command"
+                  name="reminder"
+                  value={input}
+                  onChange={(event) => {
+                    setInput(event.target.value);
+                    setError(null);
+                  }}
+                  autoComplete="off"
+                  placeholder="例如：一分钟后提醒我喝水"
+                  aria-describedby="remindercat-help"
+                />
+                <button type="submit" aria-label={activeReminder ? '重新设置提醒' : '发送并设置提醒'}>
+                  <span>{activeReminder ? '更新' : '发送'}</span>
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="m3.4 3.6 13.4 5.7c.6.25.6 1.1 0 1.36L3.4 16.4c-.53.23-1.08-.25-.9-.8l1.52-4.5 6.72-1.1-6.72-1.1L2.5 4.4c-.18-.55.37-1.03.9-.8Z" />
+                  </svg>
+                </button>
+              </div>
+              <p id="remindercat-help">可识别中文或数字的秒、分钟</p>
+            </form>
+          </div>
+
+          <aside className="remindercat-demo__settings" aria-label="提醒设置与状态">
+            <div className="remindercat-demo__settings-heading">
+              <div>
+                <span className="remindercat-demo__settings-kicker">提醒状态</span>
+                <strong aria-live="polite" aria-atomic="true">{activeReminder ? '正在计时' : '暂无提醒'}</strong>
+              </div>
+              <span className={activeReminder ? 'is-active' : undefined} aria-hidden="true" />
             </div>
-          )}
+
+            <dl className="remindercat-demo__facts">
+              <div>
+                <dt>页面提醒</dt>
+                <dd>已开启</dd>
+              </div>
+              <div>
+                <dt>刷新后保留</dt>
+                <dd>本机存储</dd>
+              </div>
+              <div>
+                <dt>系统通知</dt>
+                <dd>{notificationPermission === 'granted' ? '已开启' : '未开启'}</dd>
+              </div>
+            </dl>
+
+            <button
+              className="remindercat-demo__notification-action"
+              type="button"
+              onClick={requestNotificationPermission}
+              disabled={notificationPermission !== 'default'}
+            >
+              <span aria-hidden="true">◌</span>
+              {notificationLabel}
+            </button>
+
+            <p className="remindercat-demo__boundary">
+              计时在此浏览器运行；页面提醒始终可用，系统通知取决于浏览器权限。不连接企业微信。
+            </p>
+          </aside>
         </div>
-
-        <footer className="remindercat-demo__footer">
-          <p><strong>边界说明：</strong>这是浏览器内演示，不会向企业微信发送消息。</p>
-          <button
-            type="button"
-            onClick={requestNotificationPermission}
-            disabled={notificationPermission !== 'default'}
-          >
-            {notificationLabel}
-          </button>
-        </footer>
       </div>
 
       {firedReminder && (
         <div className="remindercat-alert" role="presentation">
           <section
-            className="remindercat-alert__paper"
+            className="remindercat-alert__dialog"
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="remindercat-alert-title"
             aria-describedby="remindercat-alert-task"
           >
-            <p className="remindercat-alert__eyebrow">提醒喵 / TIME’S UP</p>
+            <span className="remindercat-alert__icon" aria-hidden="true">喵</span>
             <h3 id="remindercat-alert-title">时间到了</h3>
             <p id="remindercat-alert-task" role="alert">{firedReminder.task}</p>
             {firedReminder.recovered && <small>这条提醒在页面关闭期间到时。</small>}

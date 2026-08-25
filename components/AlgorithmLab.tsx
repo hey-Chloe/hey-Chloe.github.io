@@ -361,7 +361,7 @@ const ragCorpus: readonly RagDocument[] = [
   {
     id: 'R-10',
     title: '当前站内交互',
-    excerpt: '这张材料盘只在浏览器里做 BM25-like 关键词检索和引用高亮，不连接 Milvus、bge embedding、reranker 或 LLM。',
+    excerpt: '当前模块只在浏览器里做 BM25-like 关键词检索和引用高亮，不连接 Milvus、bge embedding、reranker 或 LLM。',
     source: 'PROTOTYPE fixture'
   }
 ];
@@ -684,49 +684,83 @@ export default function AlgorithmLab() {
   }
 
   return (
-    <section className="algorithm-lab-desk" aria-label="算法实验桌">
-      <div className="algorithm-lab-desk__back-sheet" aria-hidden="true" />
-      <div className="algorithm-tabs" role="tablist" aria-label="选择实验材料">
-        {labs.map((lab, index) => (
-          <button
-            type="button"
-            role="tab"
-            id={`algorithm-tab-${lab.key}`}
-            aria-controls={`algorithm-panel-${lab.key}`}
-            aria-selected={active === lab.key}
-            tabIndex={active === lab.key ? 0 : -1}
-            key={lab.key}
-            ref={(node) => { tabRefs.current[index] = node; }}
-            onClick={() => setActive(lab.key)}
-            onKeyDown={(event) => handleTabKeyDown(event, index)}
-          >
-            <span>{lab.folio}</span>
-            <b>{lab.title}</b>
-            <small>{lab.kind}</small>
-          </button>
-        ))}
-      </div>
+    <section className="algorithm-lab-desk" aria-label="算法实验控制台">
+      <header className="algorithm-console__topbar">
+        <div className="algorithm-console__identity">
+          <span className="algorithm-console__signal" aria-hidden="true" />
+          <div>
+            <small>XIAOYUE / ALGORITHM LAB</small>
+            <strong>本地实验控制台</strong>
+          </div>
+        </div>
+        <div className="algorithm-console__runtime" aria-label="当前运行状态">
+          <span><small>RUNTIME</small><b>BROWSER / LOCAL</b></span>
+          <span><small>MODULES</small><b>4 AVAILABLE</b></span>
+          <span className="algorithm-console__runtime-status"><small>MODE</small><b>DETERMINISTIC</b></span>
+        </div>
+      </header>
 
-      {labs.map((lab) => {
-        const Panel = panels[lab.key];
-        return (
-          <article
-            className="algorithm-panel"
-            role="tabpanel"
-            id={`algorithm-panel-${lab.key}`}
-            aria-labelledby={`algorithm-tab-${lab.key}`}
-            hidden={active !== lab.key}
-            key={lab.key}
-          >
-            <header className="algorithm-panel__header">
-              <span>FILE {lab.folio}</span>
-              <p>{lab.title}</p>
-              <b>LOCAL / DETERMINISTIC</b>
-            </header>
-            <Panel />
-          </article>
-        );
-      })}
+      <div className="algorithm-console__body">
+        <aside className="algorithm-console__rail">
+          <p className="algorithm-console__rail-label">实验模块</p>
+          <div className="algorithm-tabs" role="tablist" aria-label="选择实验模块" aria-orientation="vertical">
+            {labs.map((lab, index) => (
+              <button
+                type="button"
+                role="tab"
+                id={`algorithm-tab-${lab.key}`}
+                aria-controls={`algorithm-panel-${lab.key}`}
+                aria-selected={active === lab.key}
+                tabIndex={active === lab.key ? 0 : -1}
+                key={lab.key}
+                ref={(node) => { tabRefs.current[index] = node; }}
+                onClick={() => setActive(lab.key)}
+                onKeyDown={(event) => handleTabKeyDown(event, index)}
+              >
+                <span>{lab.folio}</span>
+                <span className="algorithm-tabs__copy">
+                  <b>{lab.title}</b>
+                  <small>{lab.kind}</small>
+                </span>
+                <i aria-hidden="true">›</i>
+              </button>
+            ))}
+          </div>
+          <div className="algorithm-console__rail-note">
+            <span>EVIDENCE MODE</span>
+            <b>BOUNDARIES VISIBLE</b>
+            <p>原型与仓库报告分开显示。</p>
+          </div>
+        </aside>
+
+        <div className="algorithm-console__workspace">
+          {labs.map((lab) => {
+            const Panel = panels[lab.key];
+            return (
+              <article
+                className="algorithm-panel"
+                role="tabpanel"
+                id={`algorithm-panel-${lab.key}`}
+                aria-labelledby={`algorithm-tab-${lab.key}`}
+                hidden={active !== lab.key}
+                key={lab.key}
+              >
+                <header className="algorithm-panel__header">
+                  <div>
+                    <span>MODULE {lab.folio}</span>
+                    <p>{lab.title}</p>
+                  </div>
+                  <div>
+                    <span>EXECUTION</span>
+                    <b>LOCAL / DETERMINISTIC</b>
+                  </div>
+                </header>
+                <Panel />
+              </article>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }
