@@ -1,4 +1,5 @@
 import type { EvidenceState } from '@/components/EvidenceBadge';
+import type { ArchiveActionKind, ArchiveObjectKind } from '@/components/ArchiveObjectLanguage';
 
 export type ProjectAvailability = 'LIVE' | 'VIDEO' | 'LOCAL' | 'SOURCE' | 'FORK' | 'DEMO' | 'RESEARCH';
 
@@ -14,6 +15,8 @@ export type ProjectEntry = {
   evidenceNote: string;
   evidenceUrl?: string;
   availability: ProjectAvailability;
+  objectKind: ArchiveObjectKind;
+  actionKind: ArchiveActionKind;
   repoUrl?: string;
   trialUrl?: string;
   trialLabel?: string;

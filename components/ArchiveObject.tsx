@@ -2,21 +2,9 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-
-type Obj = {
-  id: string;
-  label: string;
-  href: string;
-  type: string;
-  x: string;
-  y: string;
-  w: string;
-  rotate: string;
-  z: number;
-  title: string;
-  subtitle: string;
-  lines: string[];
-};
+import { archiveActionLabels } from '@/components/ArchiveObjectLanguage';
+import type { ArchiveDeskObject } from '@/components/ArchiveData';
+import XiaoyueMark from '@/components/XiaoyueMark';
 
 type Offset = { x: number; y: number };
 
@@ -28,7 +16,7 @@ export default function ArchiveObject({
   zIndex,
   onBringToFront
 }: {
-  object: Obj;
+  object: ArchiveDeskObject;
   active: boolean;
   onHover: (id: string | null) => void;
   containerRef: React.RefObject<HTMLDivElement | null>;
@@ -45,6 +33,7 @@ export default function ArchiveObject({
     containerRect: DOMRect;
   } | null>(null);
   const movedRef = useRef(false);
+  const latestOffsetRef = useRef<Offset>({ x: 0, y: 0 });
   const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
 
@@ -54,10 +43,11 @@ export default function ArchiveObject({
       if (!raw) return;
       const saved = JSON.parse(raw) as Record<string, Offset>;
       if (saved?.[object.id] && Number.isFinite(saved[object.id].x) && Number.isFinite(saved[object.id].y)) {
+        latestOffsetRef.current = saved[object.id];
         setOffset(saved[object.id]);
       }
     } catch {
-      // Ignore malformed or unavailable storage.
+      // The desk remains usable when local storage is unavailable.
     }
   }, [object.id]);
 
@@ -83,7 +73,7 @@ export default function ArchiveObject({
       id: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
-      startOffset: offset,
+      startOffset: latestOffsetRef.current,
       startRect: item.getBoundingClientRect(),
       containerRect: container.getBoundingClientRect()
     };
@@ -107,14 +97,16 @@ export default function ArchiveObject({
     dx = Math.min(maxDx, Math.max(minDx, dx));
     dy = Math.min(maxDy, Math.max(minDy, dy));
 
-    setOffset({ x: drag.startOffset.x + dx, y: drag.startOffset.y + dy });
+    const next = { x: drag.startOffset.x + dx, y: drag.startOffset.y + dy };
+    latestOffsetRef.current = next;
+    setOffset(next);
   };
 
   const finishDrag = (event: React.PointerEvent<HTMLAnchorElement>) => {
     if (!pointerRef.current || pointerRef.current.id !== event.pointerId) return;
     pointerRef.current = null;
     setDragging(false);
-    persist(offset);
+    persist(latestOffsetRef.current);
     try {
       itemRef.current?.releasePointerCapture(event.pointerId);
     } catch {
@@ -122,21 +114,77 @@ export default function ArchiveObject({
     }
   };
 
-  const baseClass =
-    object.type === 'folder'
-      ? 'folder'
-      : object.type === 'photo'
-        ? 'photo'
-        : object.type === 'glass'
-          ? 'glass-card'
-          : 'paper';
+  const renderContents = () => {
+    if (object.kind === 'dossier') {
+      return (
+        <div className="archive-artifact archive-artifact--dossier">
+          <span className="archive-artifact__folio">{object.folio}</span>
+          <span className="archive-artifact__binder" aria-hidden="true" />
+          <p>{object.subtitle}</p>
+          <h3>{object.title}</h3>
+          <ol>{object.lines.map((line) => <li key={line}>{line}</li>)}</ol>
+          <i>{archiveActionLabels[object.actionKind]} ↗</i>
+        </div>
+      );
+    }
+
+    if (object.kind === 'newspaper') {
+      return (
+        <div className="archive-artifact archive-artifact--newspaper">
+          <div className="archive-newspaper__masthead">
+            <span>{object.folio}</span><b>{object.title}</b><span>2026</span>
+          </div>
+          <p>{object.subtitle}</p>
+          <h3>正在研究什么？</h3>
+          <div className="archive-newspaper__columns">
+            {object.lines.map((line) => <span key={line}>{line}</span>)}
+          </div>
+          <i>{archiveActionLabels[object.actionKind]} ↗</i>
+        </div>
+      );
+    }
+
+    if (object.kind === 'booklet') {
+      return (
+        <div className="archive-artifact archive-artifact--booklet">
+          <span className="archive-booklet__spine" aria-hidden="true" />
+          <p>{object.folio} / {object.subtitle}</p>
+          <h3>{object.title}</h3>
+          <div>{object.lines.map((line, index) => <span key={line}>{index + 1}. {line}</span>)}</div>
+          <i>{archiveActionLabels[object.actionKind]} ↗</i>
+        </div>
+      );
+    }
+
+    if (object.kind === 'polaroid') {
+      return (
+        <div className="archive-artifact archive-artifact--polaroid">
+          <div className="archive-polaroid__image">
+            <img draggable={false} src="/images/green-photo.svg" alt="" />
+          </div>
+          <p>{object.subtitle}</p>
+          <h3>{object.title}</h3>
+        </div>
+      );
+    }
+
+    return (
+      <div className="archive-artifact archive-artifact--seeds">
+        <span>{object.folio}</span>
+        <XiaoyueMark />
+        <p>{object.subtitle}</p>
+        <h3>{object.title}</h3>
+        <small>OPEN · PLANT · GROW</small>
+      </div>
+    );
+  };
 
   return (
     <Link
       ref={itemRef}
       href={object.href}
-      aria-label={object.label}
-      className={`archive-object archive-object--${object.id} ${baseClass} ${active ? 'active' : ''} ${dragging ? 'is-dragging' : ''} no-underline`}
+      aria-label={`${object.label}：${object.description}`}
+      className={`archive-object archive-object--${object.id} archive-object--kind-${object.kind} ${active ? 'active' : ''} ${dragging ? 'is-dragging' : ''} no-underline`}
       style={{
         left: object.x,
         top: object.y,
@@ -163,36 +211,7 @@ export default function ArchiveObject({
       onFocus={() => onHover(object.id)}
       onBlur={() => onHover(null)}
     >
-      <div className="archive-object__inner p-[7%]">
-        {object.type === 'photo' ? (
-          <div className="aspect-[3/4] overflow-hidden bg-moss">
-            <img draggable={false} src="/images/green-photo.svg" alt="" className="h-full w-full object-cover opacity-80 mix-blend-screen" />
-          </div>
-        ) : object.type === 'folder' ? (
-          <div>
-            <div className="mb-8 flex justify-end">
-              <div className="h-10 w-10 rounded-full bg-[#3d241d] shadow-inner" />
-            </div>
-            <p className="font-mono text-xs uppercase tracking-[0.18em]">{object.subtitle}</p>
-            <h3 className="mt-8 text-[clamp(1.2rem,2.2vw,2.2rem)] font-normal uppercase leading-none tracking-[0.08em] text-[#5a6949]">
-              {object.title}
-            </h3>
-          </div>
-        ) : (
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.16em] opacity-70">{object.subtitle}</p>
-            <h3 className="paper-title mt-4 text-[clamp(1rem,2vw,2rem)] font-semibold leading-tight">{object.title}</h3>
-            <div className="paper-lines mt-5 space-y-1.5 text-[clamp(.5rem,.72vw,.8rem)] leading-relaxed opacity-80">
-              {object.lines.map((line, index) => (
-                <p key={line}>
-                  <span className="mr-2 opacity-60">{String(index + 1).padStart(2, '0')}</span>
-                  {line}
-                </p>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      <div className="archive-object__inner">{renderContents()}</div>
     </Link>
   );
 }

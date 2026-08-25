@@ -1,122 +1,115 @@
-export const archiveObjects = [
+import type { ArchiveActionKind, ArchiveObjectKind } from '@/components/ArchiveObjectLanguage';
+
+export type ArchiveDeskObject = {
+  id: 'work' | 'lab' | 'notes' | 'about' | 'garden';
+  folio: string;
+  label: string;
+  zh: string;
+  description: string;
+  href: string;
+  kind: ArchiveObjectKind;
+  actionKind: ArchiveActionKind;
+  x: string;
+  y: string;
+  w: string;
+  rotate: string;
+  z: number;
+  title: string;
+  subtitle: string;
+  lines: string[];
+};
+
+/** Five world entrances, each expressed as a different found object. */
+export const archiveObjects: ArchiveDeskObject[] = [
   {
-    id: 'about',
-    folio: 'A.01',
-    label: 'About Chloe',
-    zh: '关于小悦',
-    description: '身份、方向与一份持续修改的自述。',
-    href: '/about',
-    type: 'paper',
-    x: '35%',
-    y: '14%',
-    w: '28%',
-    rotate: '1.8deg',
-    z: 8,
-    title: '小悦 / CHLOE',
-    subtitle: 'WHO I AM / 关于我',
-    lines: ['小悦 / Chloe', 'Products · Systems · Models', 'Learning in public', 'Independent web']
-  },
-  {
-    id: 'blog',
-    folio: 'N.001',
-    label: 'Notes',
-    zh: '学习笔记',
-    description: '把学习过程写成以后仍能查阅的材料。',
-    href: '/blog',
-    type: 'paper',
-    x: '13%',
-    y: '38%',
-    w: '31%',
-    rotate: '-3.8deg',
-    z: 7,
-    title: 'NOTES / 笔记',
-    subtitle: 'WRITTEN ARCHIVE',
-    lines: ['Java Notes', 'HTTP Basics', 'SQL Injection', 'XSS', 'Deserialization']
-  },
-  {
-    id: 'projects',
+    id: 'work',
     folio: 'W.01',
-    label: 'Work Index',
-    zh: '作品索引',
-    description: '产品、系统与真实输出的入口。',
+    label: '打开作品档案',
+    zh: '作品',
+    description: '做成的产品、系统与真实输出。',
     href: '/work',
-    type: 'folder',
-    x: '48%',
-    y: '26%',
-    w: '35%',
-    rotate: '-1.5deg',
-    z: 4,
-    title: 'WORK INDEX',
-    subtitle: 'PRODUCTS / SYSTEMS',
-    lines: ['Enterprise RAG', 'Agent Runtime', 'Product experiments', 'Evidence files']
-  },
-  {
-    id: 'garden',
-    folio: 'A.02',
-    label: 'Digital Garden',
-    zh: '数字花园',
-    description: '主题之间的连接，以及仍在生长的知识。',
-    href: '/digital-garden',
-    type: 'glass',
-    x: '58%',
-    y: '49%',
-    w: '29%',
-    rotate: '4.5deg',
-    z: 9,
-    title: 'DIGITAL GARDEN',
-    subtitle: 'GROWING INDEX / 生长中',
-    lines: ['Computer Network', 'Database', 'Operating System', 'Algorithms']
-  },
-  {
-    id: 'media',
-    folio: 'A.03',
-    label: 'Media Diary',
-    zh: '阅读与观看',
-    description: '书、课程、影像和参考资料留下的索引。',
-    href: '/media-diary',
-    type: 'photo',
-    x: '7%',
-    y: '12%',
-    w: '25%',
-    rotate: '-2deg',
+    kind: 'dossier',
+    actionKind: 'view-project',
+    x: '8%',
+    y: '21%',
+    w: '37%',
+    rotate: '-3.2deg',
     z: 5,
-    title: 'MEDIA DIARY',
-    subtitle: 'READING / WATCHING',
-    lines: ['Courses', 'Books', 'Videos', 'References']
-  },
-  {
-    id: 'sketchbook',
-    folio: 'A.04',
-    label: 'Sketchbook',
-    zh: '草图本',
-    description: '没有被包装成结论的小想法与视觉草稿。',
-    href: '/sketchbook',
-    type: 'small',
-    x: '69%',
-    y: '70%',
-    w: '19%',
-    rotate: '-3deg',
-    z: 11,
-    title: 'SKETCHBOOK',
-    subtitle: 'VISUAL NOTES / 草图',
-    lines: ['Tiny ideas', 'Drafts', 'Screenshots']
+    title: 'WORK DOSSIER',
+    subtitle: '做成了什么',
+    lines: ['产品与系统', '真实试用与演示', '过程、证据与边界']
   },
   {
     id: 'lab',
     folio: 'L.01',
-    label: 'Experiment Desk',
-    zh: '实验桌',
-    description: '模型、运行、评测和失败材料。',
+    label: '打开小悦的实验桌',
+    zh: '实验',
+    description: '研究中的问题、运行材料与失败记录。',
     href: '/lab',
-    type: 'paper',
-    x: '34%',
-    y: '62%',
-    w: '25%',
-    rotate: '2.8deg',
+    kind: 'newspaper',
+    actionKind: 'view-experiment',
+    x: '49%',
+    y: '14%',
+    w: '39%',
+    rotate: '2.4deg',
+    z: 4,
+    title: 'THE XIAOYUE LAB',
+    subtitle: '小悦实验报',
+    lines: ['模型与系统的边界', 'Retrieval / Ranking', '失败也留在桌上']
+  },
+  {
+    id: 'notes',
+    folio: 'N.001',
+    label: '翻开学习笔记',
+    zh: '笔记',
+    description: '学习、复现与阶段记录。',
+    href: '/blog',
+    kind: 'booklet',
+    actionKind: 'read-research',
+    x: '35%',
+    y: '49%',
+    w: '29%',
+    rotate: '-1.1deg',
+    z: 8,
+    title: 'FIELD NOTES',
+    subtitle: '笔记 / NOTES',
+    lines: ['学习', '实验', '复现', '随手记']
+  },
+  {
+    id: 'about',
+    folio: 'A.01',
+    label: '打开关于小悦',
+    zh: '关于小悦',
+    description: '一张关于身份、方向与成长的照片注记。',
+    href: '/about',
+    kind: 'polaroid',
+    actionKind: 'view-project',
+    x: '7%',
+    y: '52%',
+    w: '22%',
+    rotate: '4deg',
+    z: 9,
+    title: 'CHLOE / 小悦',
+    subtitle: 'ABOUT / 2026',
+    lines: ['Products', 'Systems', 'Models']
+  },
+  {
+    id: 'garden',
+    folio: 'A.02',
+    label: '打开数字花园',
+    zh: '数字花园',
+    description: '仍在发芽的知识索引。',
+    href: '/digital-garden',
+    kind: 'paper',
+    actionKind: 'view-project',
+    x: '72%',
+    y: '58%',
+    w: '20%',
+    rotate: '-5deg',
     z: 10,
-    title: '实验桌 / LAB',
-    subtitle: 'MODELS / EVALUATION',
-    lines: ['Agent runtime', 'Retrieval', 'Failure notes', 'Next experiment']
+    title: 'GARDEN SEEDS',
+    subtitle: '数字花园',
+    lines: ['NETWORK', 'DATABASE', 'ALGORITHMS']
   }
 ];
 

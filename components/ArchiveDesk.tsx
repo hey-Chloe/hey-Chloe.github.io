@@ -38,7 +38,7 @@ export default function ArchiveDesk() {
       <h2 id="archive-desk-title" className="archive-desk-section__title">打开一份档案</h2>
 
       <div className="archive-desk-frame">
-        <div ref={deskRef} className="black-desk">
+        <div ref={deskRef} className="black-desk archive-felt-desk">
           <div className="archive-desk__bar">
             <Link href="/" className="archive-desk__signature" aria-label="返回小悦首页">
               <ChloesArchiveWordmark decorative />
@@ -51,12 +51,12 @@ export default function ArchiveDesk() {
             <details className="archive-desk__more">
               <summary aria-label="档案桌设置"><span aria-hidden="true">···</span></summary>
               <div>
-                <button type="button" onClick={resetLayout}>Reset layout</button>
+                <Link href="/media-diary">阅读与观看</Link>
+                <Link href="/sketchbook">草图本</Link>
+                <button type="button" onClick={resetLayout}>恢复桌面位置</button>
               </div>
             </details>
           </div>
-
-          <span className="archive-desk__hint" aria-hidden="true">DRAG / OPEN</span>
 
           {archiveObjects.map((object) => (
             <ArchiveObject
@@ -71,8 +71,8 @@ export default function ArchiveDesk() {
           ))}
 
           <div className="archive-desk__baseline" aria-hidden="true">
-            <span>ABOUT / NOTES / GARDEN / WORK / LAB</span>
-            <span>PERSONAL ARCHIVE / 2026</span>
+            <span>WORK / LAB / NOTES / ABOUT / GARDEN</span>
+            <span>CHLOE’S ARCHIVE · 2026</span>
           </div>
         </div>
       </div>

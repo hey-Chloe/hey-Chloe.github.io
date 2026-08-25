@@ -57,13 +57,13 @@ export default function WorkIndexPage() {
         <section className="work-index-masthead" aria-labelledby="work-title">
           <div className="work-index-masthead__meta">
             <XiaoyueMark />
-            <p>W.00 / WORK / 2026</p>
+            <p>W.00 / WORK = BUILD / 2026</p>
           </div>
           <div className="work-index-masthead__title-row">
-            <h1 id="work-title">小悦的作品桌</h1>
+            <h1 id="work-title">作品收藏</h1>
             <ChloesArchiveWordmark as="p" className="work-index-masthead__signature" prefix="from" decorative />
           </div>
-          <p className="work-index-masthead__note">一些在做、在用，也在继续长大的东西。</p>
+          <p className="work-index-masthead__note">做成的产品、系统和研究原型，按真实状态留在桌面上。</p>
         </section>
 
         <ProjectDesk groups={projectDeskGroups} />

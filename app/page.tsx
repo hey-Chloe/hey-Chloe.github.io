@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import ArchiveDesk from '@/components/ArchiveDesk';
 import ChloesArchiveWordmark from '@/components/ChloesArchiveWordmark';
 import WorldNav from '@/components/WorldNav';
@@ -30,33 +29,13 @@ export default function HomePage() {
             />
             <div className="soft-home__copy">
               <p>小悦的数字收藏室。</p>
-              <p>把做过、试过，以及仍在生长的东西，留在这里。</p>
+              <p>做过的、试过的，以及仍在生长的，都散在桌上。</p>
             </div>
           </header>
 
           <ArchiveDesk />
         </section>
 
-        <section className="soft-worlds" aria-labelledby="soft-worlds-title">
-          <div className="soft-worlds__heading">
-            <p className="world-folio">W / L — FROM THE ARCHIVE</p>
-            <h2 id="soft-worlds-title">纸张打开以后，<br />作品和实验自己说话。</h2>
-          </div>
-          <div className="soft-worlds__sheets">
-            <Link href="/work" className="soft-world-sheet soft-world-sheet--work">
-              <span>01 / WORK</span>
-              <h3>作品</h3>
-              <p>产品、系统与真实输出。中文讲故事，技术标签保留原名。</p>
-              <i>打开作品 ↗</i>
-            </Link>
-            <Link href="/lab" className="soft-world-sheet soft-world-sheet--lab">
-              <span>02 / LAB</span>
-              <h3>实验桌</h3>
-              <p>模型、Prompt、评测与失败材料，一份份摊开检查。</p>
-              <i>查看实验 ↗</i>
-            </Link>
-          </div>
-        </section>
       </main>
 
       <footer className="xiaoyue-footer xiaoyue-footer--soft">

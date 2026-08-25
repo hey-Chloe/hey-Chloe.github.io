@@ -23,7 +23,7 @@ export default function ArchivePage() {
           <ChloesArchiveWordmark as="h1" stacked />
           <div className="archive-soft-intro__copy">
             <p>私人档案</p>
-            <p>一些关于我、学习、作品与好奇心的纸张。移开一张，看看下面藏着什么。</p>
+            <p>作品、实验、笔记和仍在发芽的好奇心，都留在这张桌上。</p>
           </div>
         </header>
 

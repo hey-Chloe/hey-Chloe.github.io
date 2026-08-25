@@ -8,6 +8,10 @@ import {
   useRef,
   useState
 } from 'react';
+import {
+  archiveActionLabels,
+  archiveObjectKindNames
+} from '@/components/ArchiveObjectLanguage';
 import type { ProjectEntry } from '@/components/ProjectTrialIndex';
 
 type ProjectDeskGroup = {
@@ -31,12 +35,20 @@ type PointerSession = {
   moved: boolean;
 };
 
+type ArtifactLayout = {
+  left: number;
+  top: number;
+  rotation: number;
+  scale?: number;
+};
+
 type DeskStyle = CSSProperties & {
   '--desk-left': string;
   '--desk-top': string;
   '--desk-x': string;
   '--desk-y': string;
   '--desk-rotate': string;
+  '--desk-scale': number;
 };
 
 type ProjectAction = {
@@ -45,11 +57,38 @@ type ProjectAction = {
   kind: 'primary' | 'secondary';
 };
 
-const GROUP_ORIGINS = {
-  product: { left: 18, top: 29, rotation: -2.2 },
-  research: { left: 49, top: 23, rotation: 1.4 },
-  systems: { left: 78, top: 27, rotation: -1.1 }
-} as const;
+/* A composed desktop, not three generated stacks. Positions preserve visible edges. */
+const ARTIFACT_LAYOUT: Record<string, ArtifactLayout> = {
+  'kai-commerce-studio': { left: 13, top: 17, rotation: -3.2, scale: 1.04 },
+  remindercat: { left: 32, top: 14, rotation: 3.6, scale: .94 },
+  'kai-creator-voting': { left: 47, top: 18, rotation: -1.2 },
+  'kai-play': { left: 65, top: 13, rotation: 2.4, scale: .96 },
+  'kai-cloudpay-mobile': { left: 82, top: 17, rotation: 2.8 },
+  zod: { left: 94, top: 24, rotation: -3.8, scale: .84 },
+  'kai-admin-console': { left: 15, top: 40, rotation: 1.1 },
+  'compute-intelligence': { left: 34, top: 40, rotation: -2.2 },
+  'kai-market-lab': { left: 55, top: 39, rotation: 1.4 },
+  'enterprise-agentic-rag': { left: 77, top: 41, rotation: -1.6 },
+  'xiaoyue-ai-portfolio': { left: 94, top: 46, rotation: 4.1, scale: .84 },
+  budgetagent: { left: 11, top: 66, rotation: -2.9, scale: .95 },
+  'vlm-data-selection': { left: 28, top: 65, rotation: 1.8 },
+  'thesis-prestudy': { left: 45, top: 65, rotation: -1.1, scale: .96 },
+  'ruleforge-sast': { left: 62, top: 66, rotation: 3 },
+  miniclaudecode: { left: 82, top: 65, rotation: -1.9 },
+  'all-in-rag': { left: 95, top: 70, rotation: 2.7, scale: .82 },
+  'mini-runtime-agent': { left: 13, top: 88, rotation: 2.6, scale: .9 },
+  'ctf-agent': { left: 30, top: 87, rotation: -2.1, scale: .94 },
+  'okr-agent-platform': { left: 47, top: 87, rotation: 2.8, scale: .92 },
+  'smartcs-rag': { left: 64, top: 87, rotation: -1.4, scale: .9 },
+  'chloe-notebook': { left: 83, top: 87, rotation: 2.2, scale: .9 }
+};
+
+const EVIDENCE_LABELS: Record<ProjectEntry['evidenceState'], string> = {
+  VERIFIED: '已核验',
+  'REPOSITORY REPORTED': '仓库记录',
+  PROTOTYPE: '原型',
+  WIP: '进行中'
+};
 
 function isExternalUrl(url: string) {
   return /^(?:https?:)?\/\//.test(url);
@@ -67,48 +106,188 @@ function addAction(actions: ProjectAction[], href: string | undefined, label: st
   }
 }
 
+function primaryUrl(project: ProjectEntry) {
+  return project.trialUrl
+    ?? project.caseUrl
+    ?? project.demoUrl
+    ?? project.guideUrl
+    ?? project.evidenceUrl
+    ?? project.repoUrl;
+}
+
 function projectActions(project: ProjectEntry) {
   const actions: ProjectAction[] = [];
-  const trialLabel = project.trialLabel
-    ?? (project.availability === 'RESEARCH' ? '进入研究实验' : '进入站内体验');
+  const primary = primaryUrl(project);
 
-  addAction(actions, project.trialUrl, trialLabel, 'primary');
-  addAction(
-    actions,
-    project.demoUrl,
-    project.demoLabel ?? (project.availability === 'VIDEO' ? '观看真实演示' : '打开项目'),
-    actions.length === 0 ? 'primary' : 'secondary'
-  );
-  addAction(
-    actions,
-    project.caseUrl,
-    project.availability === 'RESEARCH' ? '查看研究档案' : '打开项目档案',
-    actions.length === 0 ? 'primary' : 'secondary'
-  );
-  addAction(
-    actions,
-    project.guideUrl,
-    project.availability === 'LOCAL' ? '本地运行说明' : '阅读使用说明',
-    actions.length === 0 ? 'primary' : 'secondary'
-  );
-  addAction(actions, project.evidenceUrl, '查看证据记录', actions.length === 0 ? 'primary' : 'secondary');
-  addAction(actions, project.repoUrl, '源码与技术材料', actions.length === 0 ? 'primary' : 'secondary');
+  addAction(actions, primary, archiveActionLabels[project.actionKind], 'primary');
+  addAction(actions, project.trialUrl, '站内入口', 'secondary');
+  addAction(actions, project.demoUrl, project.availability === 'VIDEO' ? '真实演示' : '公开页面', 'secondary');
+  addAction(actions, project.caseUrl, '完整档案', 'secondary');
+  addAction(actions, project.guideUrl, project.availability === 'LOCAL' ? '运行说明' : '使用说明', 'secondary');
+  addAction(actions, project.evidenceUrl, '证据记录', 'secondary');
+  addAction(actions, project.repoUrl, '源码与材料', 'secondary');
 
   return actions;
 }
 
 function availabilityLabel(project: ProjectEntry) {
   const labels: Record<ProjectEntry['availability'], string> = {
-    LIVE: 'LIVE / 在线页面',
-    VIDEO: 'VIDEO / 真实演示',
-    LOCAL: 'LOCAL / 本地运行',
-    SOURCE: 'SOURCE / 技术材料',
-    FORK: 'FORK / 学习记录',
-    DEMO: 'DEMO / 站内体验',
-    RESEARCH: 'RESEARCH / 研究材料'
+    LIVE: '在线页面',
+    VIDEO: '真实演示',
+    LOCAL: '本地运行',
+    SOURCE: '技术材料',
+    FORK: '学习记录',
+    DEMO: '站内体验',
+    RESEARCH: '研究材料'
   };
 
   return labels[project.availability];
+}
+
+function ProjectArtifactFace({ project }: { project: ProjectEntry }) {
+  const action = archiveActionLabels[project.actionKind];
+  const tags = project.tags.slice(0, 3);
+
+  if (project.objectKind === 'booklet') {
+    return (
+      <>
+        <span className="project-artifact__spine" aria-hidden="true" />
+        <span className="project-artifact__overline">{project.folio} · COLLECTION</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__edition">{project.name}</span>
+        <span className="project-artifact__plates" aria-hidden="true"><i /><i /><i /></span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'newspaper') {
+    return (
+      <>
+        <span className="project-artifact__masthead">THE XIAOYUE LAB</span>
+        <span className="project-artifact__dateline">{project.folio} · TRAIN / VALIDATION</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__deck">NO PNL · 不发送订单</span>
+        <span className="project-artifact__columns" aria-hidden="true"><i /><i /><i /></span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'dossier') {
+    return (
+      <>
+        <span className="project-artifact__folder-tab">{project.folio}</span>
+        <span className="project-artifact__overline">TECHNICAL DOSSIER</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__fields">
+          {tags.map((tag, index) => <i key={tag}><small>0{index + 1}</small>{tag}</i>)}
+        </span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'polaroid') {
+    const isMobile = project.slug === 'kai-cloudpay-mobile' || project.slug === 'zod';
+    return (
+      <>
+        <span className={`project-artifact__photo${isMobile ? ' project-artifact__photo--device' : ''}`} aria-hidden="true">
+          {isMobile ? <i className="project-artifact__device"><b /><b /><b /></i> : <i className="project-artifact__play">▶</i>}
+          <small>{isMobile ? 'BROWSER SANDBOX' : project.availability === 'VIDEO' ? 'VIDEO RECORD' : 'ITERATION RECORD'}</small>
+        </span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__scribble">{project.folio} · {action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'ticket') {
+    return (
+      <>
+        <span className="project-artifact__ticket-code">{project.folio}</span>
+        <span className="project-artifact__ticket-admit">{project.availability === 'LOCAL' ? 'AUTHORIZED LAB' : 'PLAY PASS'}</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__ticket-detail">{tags.join(' · ')}</span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'lab-sheet') {
+    return (
+      <>
+        <span className="project-artifact__overline">{project.folio} / LAB SHEET</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__rule"><small>观察对象</small>{tags[0]}</span>
+        <span className="project-artifact__rule"><small>方法</small>{tags.slice(1).join(' + ')}</span>
+        <span className="project-artifact__graph" aria-hidden="true"><i /><i /><i /><i /><i /></span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'receipt') {
+    return (
+      <>
+        <span className="project-artifact__receipt-head">TRACE RECEIPT · {project.folio}</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__receipt-lines">
+          {tags.map((tag) => <i key={tag}><small>›</small>{tag}</i>)}
+        </span>
+        <span className="project-artifact__receipt-state">state: {EVIDENCE_LABELS[project.evidenceState]}</span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'letter') {
+    return (
+      <>
+        <span className="project-artifact__letter-date">INVITATION · {project.folio}</span>
+        <span className="project-artifact__letter-to">TO / CREATOR</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__letter-copy">发布活动 · 投稿 · 浏览 · 投票</span>
+        <span className="project-artifact__seal" aria-hidden="true">✿</span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'sticky-note') {
+    return (
+      <>
+        <span className="project-artifact__pin" aria-hidden="true" />
+        <span className="project-artifact__overline">{project.folio} / {EVIDENCE_LABELS[project.evidenceState]}</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__note">{project.slug === 'remindercat' ? '一分钟后，回来提醒我喝水。' : '权限节点仍在占位，先把边界写清楚。'}</span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  if (project.objectKind === 'blueprint') {
+    return (
+      <>
+        <span className="project-artifact__overline">{project.folio} / SYSTEM BLUEPRINT</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__nodes" aria-hidden="true">
+          {tags.map((tag) => <i key={tag}>{tag}</i>)}
+        </span>
+        <span className="project-artifact__action">{action} →</span>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <span className="project-artifact__paper-head">{project.folio} · RESEARCH PRINT</span>
+      <strong>{project.titleZh}</strong>
+      <span className="project-artifact__abstract"><small>摘要</small>{project.summary}</span>
+      <span className="project-artifact__footnote">{project.name}</span>
+      <span className="project-artifact__action">{action} →</span>
+    </>
+  );
 }
 
 export default function ProjectDesk({ groups }: ProjectDeskProps) {
@@ -124,7 +303,7 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
   const nextZRef = useRef(80);
 
   const flatProjects = useMemo(
-    () => groups.flatMap((group) => group.projects.map((project, index) => ({ project, group, index }))),
+    () => groups.flatMap((group) => group.projects.map((project) => ({ project, group }))),
     [groups]
   );
   const selectedProject = flatProjects.find(({ project }) => project.slug === selectedSlug)?.project ?? null;
@@ -193,7 +372,7 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
     if (stageRect) {
       const nextLeft = cardRect.left + (x - (positions[slug]?.x ?? 0));
       const nextTop = cardRect.top + (y - (positions[slug]?.y ?? 0));
-      const margin = 34;
+      const margin = 30;
       if (nextLeft + cardRect.width < stageRect.left + margin) x += stageRect.left + margin - (nextLeft + cardRect.width);
       if (nextLeft > stageRect.right - margin) x -= nextLeft - (stageRect.right - margin);
       if (nextTop + cardRect.height < stageRect.top + margin) y += stageRect.top + margin - (nextTop + cardRect.height);
@@ -239,54 +418,50 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
     <section className="project-desk" id="project-trials" aria-labelledby="project-desk-title">
       <header className="project-desk__header">
         <div>
-          <p className="project-desk__eyebrow">W.01—W.19 / PROJECT DESK</p>
-          <h2 id="project-desk-title">项目卡片桌</h2>
+          <p className="project-desk__eyebrow">W.01—W.19 / WORK = BUILD</p>
+          <h2 id="project-desk-title">收藏桌</h2>
         </div>
-        <div className="project-desk__utilities">
-          <span className="project-desk__hint" aria-hidden="true">DRAG / OPEN</span>
-          <details className="project-desk__menu">
-            <summary aria-label="打开卡片桌选项">···</summary>
-            <div>
-              <button type="button" onClick={resetDesk}>恢复卡片位置</button>
-            </div>
-          </details>
-        </div>
+        <details className="project-desk__menu">
+          <summary aria-label="打开收藏桌选项">···</summary>
+          <div>
+            <button type="button" onClick={resetDesk}>恢复物件位置</button>
+          </div>
+        </details>
       </header>
 
       <div className="project-desk__stage" ref={stageRef}>
         <div className="project-desk__surface" aria-hidden="true" />
-        {groups.map((group) => (
-          <span className={`project-desk__group-label project-desk__group-label--${group.id}`} key={group.id}>
-            {group.label} / {group.projects.length.toString().padStart(2, '0')}
-          </span>
-        ))}
-
-        <ol className="project-desk__cards" aria-label="全部项目卡片">
-          {flatProjects.map(({ project, group, index }, flatIndex) => {
-            const origin = GROUP_ORIGINS[group.id];
+        <ol className="project-desk__objects" aria-label="全部项目收藏物件">
+          {flatProjects.map(({ project }, flatIndex) => {
+            const layout = ARTIFACT_LAYOUT[project.slug] ?? {
+              left: 12 + (flatIndex % 5) * 19,
+              top: 16 + Math.floor(flatIndex / 5) * 20,
+              rotation: ((flatIndex % 5) - 2) * 1.2
+            };
             const offset = positions[project.slug] ?? { x: 0, y: 0 };
-            const stackStep = group.id === 'systems' ? 18 : 23;
-            const lateralStep = ((index % 3) - 1) * 6;
-            const rotation = origin.rotation + ((index % 5) - 2) * .42;
             const style: DeskStyle = {
-              '--desk-left': `${origin.left}%`,
-              '--desk-top': `${origin.top}%`,
-              '--desk-x': `${offset.x + lateralStep}px`,
-              '--desk-y': `${offset.y + index * stackStep}px`,
-              '--desk-rotate': `${rotation}deg`,
+              '--desk-left': `${layout.left}%`,
+              '--desk-top': `${layout.top}%`,
+              '--desk-x': `${offset.x}px`,
+              '--desk-y': `${offset.y}px`,
+              '--desk-rotate': `${layout.rotation}deg`,
+              '--desk-scale': layout.scale ?? 1,
               zIndex: zIndexes[project.slug] ?? (10 + flatIndex)
             };
             const isSelected = selectedSlug === project.slug;
 
             return (
-              <li className={`project-desk__card-slot project-desk__card-slot--${group.id}`} key={project.slug}>
+              <li
+                className={`project-desk__object-slot project-desk__object-slot--${project.objectKind}`}
+                key={project.slug}
+              >
                 <button
                   type="button"
-                  className={`project-desk-card${isSelected ? ' project-desk-card--selected' : ''}${draggingSlug === project.slug ? ' project-desk-card--dragging' : ''}`}
+                  className={`project-artifact project-artifact--${project.objectKind}${isSelected ? ' project-artifact--selected' : ''}${draggingSlug === project.slug ? ' project-artifact--dragging' : ''}`}
                   data-availability={project.availability.toLowerCase()}
-                  data-folio={project.folio}
+                  data-project={project.slug}
                   style={style}
-                  aria-label={`打开 ${project.titleZh} 项目卡`}
+                  aria-label={`${archiveActionLabels[project.actionKind]}：${project.titleZh}`}
                   aria-pressed={isSelected}
                   ref={(node) => {
                     if (node) cardRefs.current.set(project.slug, node);
@@ -298,14 +473,8 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
                   onPointerCancel={(event) => finishPointer(event, project.slug)}
                   onClick={() => openProject(project.slug)}
                 >
-                  <span className="project-desk-card__edge" aria-hidden="true" />
-                  <span className="project-desk-card__meta">
-                    <span>{project.folio}</span>
-                    <small>{project.availability}</small>
-                  </span>
-                  <strong>{project.titleZh}</strong>
-                  <span className="project-desk-card__name">{project.name}</span>
-                  <span className="project-desk-card__open" aria-hidden="true">OPEN ↗</span>
+                  <span className="project-artifact__kind">{archiveObjectKindNames[project.objectKind]}</span>
+                  <ProjectArtifactFace project={project} />
                 </button>
               </li>
             );
@@ -334,6 +503,7 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
             <div className="project-desk__dossier-scroll">
               <p className="project-desk__dossier-meta">
                 <span>{selectedProject.folio}</span>
+                <span>{archiveObjectKindNames[selectedProject.objectKind]}</span>
                 <span>{availabilityLabel(selectedProject)}</span>
               </p>
               <h3 id={`project-desk-${selectedProject.slug}-title`}>{selectedProject.titleZh}</h3>
@@ -345,7 +515,7 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
               </ul>
 
               <div className="project-desk__evidence">
-                <span>{selectedProject.evidenceState}</span>
+                <span>证据状态 · {EVIDENCE_LABELS[selectedProject.evidenceState]}</span>
                 <p>{selectedProject.evidenceNote}</p>
               </div>
 
@@ -371,7 +541,7 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
                   ))}
                 </nav>
               ) : (
-                <p className="project-desk__pending">公开入口仍在整理，先保留真实状态。</p>
+                <p className="project-desk__pending">这份预研目前只在本页开放，先保留真实状态。</p>
               )}
             </div>
           </aside>
