@@ -4,8 +4,30 @@ import PageIntro from '@/components/PageIntro';
 import { formatDate, getAllPosts } from '@/lib/posts';
 
 export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Chloe 的学习笔记归档。'
+  title: '学习笔记',
+  description: 'Chloe 的学习笔记归档：学习过程、漏洞复盘与阶段总结。',
+  alternates: { canonical: '/blog/' },
+  openGraph: {
+    type: 'website',
+    url: '/blog/',
+    siteName: 'Chloe’s Archive',
+    title: '学习笔记 — Chloe’s Archive',
+    description: 'Chloe 的学习笔记归档：学习过程、漏洞复盘与阶段总结。',
+    images: [
+      {
+        url: '/og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Chloe’s Archive — 小悦的数字收藏室'
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '学习笔记 — Chloe’s Archive',
+    description: 'Chloe 的学习笔记归档：学习过程、漏洞复盘与阶段总结。',
+    images: ['/og.jpg']
+  }
 };
 
 export default function BlogPage() {
@@ -18,7 +40,7 @@ export default function BlogPage() {
         <div className="mt-8 overflow-hidden border border-white/20 bg-black/35">
           {posts.map((post, index) => (
             <article key={post.slug} className="grid gap-4 border-b border-white/15 p-5 font-mono text-fog last:border-b-0 md:grid-cols-[120px_1fr]">
-              <time className="text-sm opacity-75">{formatDate(post.date)}</time>
+              <time className="text-sm opacity-75" dateTime={post.date}>{formatDate(post.date)}</time>
               <div>
                 <h2 className="text-2xl font-bold">
                   <Link href={`/blog/${post.slug}`} className="text-white">{post.title}</Link>

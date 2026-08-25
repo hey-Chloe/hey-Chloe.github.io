@@ -17,15 +17,35 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = await getPostBySlug(slug);
   if (!post) return { title: '文章未找到' };
 
+  const canonical = `/blog/${slug}/`;
+  const socialTitle = `${post.title} — Chloe’s Archive`;
+
   return {
     title: post.title,
     description: post.description,
+    alternates: { canonical },
     openGraph: {
-      title: post.title,
+      title: socialTitle,
       description: post.description,
       type: 'article',
+      url: canonical,
+      siteName: 'Chloe’s Archive',
       publishedTime: post.date,
-      tags: post.tags
+      tags: post.tags,
+      images: [
+        {
+          url: '/og.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Chloe’s Archive — 小悦的数字收藏室'
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: socialTitle,
+      description: post.description,
+      images: ['/og.jpg']
     }
   };
 }
@@ -40,7 +60,9 @@ export default async function BlogDetailPage({ params }: PageProps) {
       <ArchiveNav compact />
       <article className="blog-detail mx-auto max-w-[1050px] px-5 pb-28 pt-10">
         <Link href="/blog" className="menu-link">← Back to blog</Link>
-        <p className="blog-detail-date mt-8 text-center text-lg text-fog/80">{formatDate(post.date)}</p>
+        <time className="blog-detail-date mt-8 block text-center text-lg text-fog/80" dateTime={post.date}>
+          {formatDate(post.date)}
+        </time>
         <h1 className="blog-detail-title mx-auto mt-3 text-center font-normal text-white">
           {post.title}
         </h1>

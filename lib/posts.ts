@@ -20,10 +20,12 @@ export type Post = PostMeta & {
 
 type RawFrontmatter = {
   title?: string;
-  date?: string;
+  date?: string | Date;
   description?: string;
   tags?: string[];
 };
+
+const fallbackPostDate = '1970-01-01T00:00:00.000Z';
 
 function isMarkdownFile(fileName: string) {
   return fileName.endsWith('.md') || fileName.endsWith('.mdx');
@@ -48,11 +50,20 @@ function getFileNameBySlug(slug: string) {
   return null;
 }
 
+function normalizeDate(value: RawFrontmatter['date']): string {
+  if (!value) {
+    return fallbackPostDate;
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? fallbackPostDate : date.toISOString();
+}
+
 function normalizeFrontmatter(data: RawFrontmatter, slug: string): PostMeta {
   return {
     slug,
     title: data.title ?? slug,
-    date: data.date ?? '1970-01-01',
+    date: normalizeDate(data.date),
     description: data.description ?? '',
     tags: Array.isArray(data.tags) ? data.tags : []
   };
@@ -108,6 +119,7 @@ export function formatDate(date: string) {
   return new Intl.DateTimeFormat('zh-CN', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
+    timeZone: 'UTC'
   }).format(new Date(date));
 }

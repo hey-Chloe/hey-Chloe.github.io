@@ -1,220 +1,96 @@
 import type { Metadata } from 'next';
-import EvidenceBadge from '@/components/EvidenceBadge';
 import ChloesArchiveWordmark from '@/components/ChloesArchiveWordmark';
+import { learningForks, originalProjects } from '@/components/ProjectData';
+import ProjectTrialIndex from '@/components/ProjectTrialIndex';
 import WorldNav from '@/components/WorldNav';
+import XiaoyueMark from '@/components/XiaoyueMark';
 import '../work-soft.css';
+import '../project-trial-index.css';
 
 export const metadata: Metadata = {
-  title: 'Work — 企业级 RAG',
-  description: '从 216 份文档到可追溯回答：Enterprise Agentic RAG 的证据型作品入口。',
-  alternates: { canonical: '/work/' }
+  title: 'Work — 项目试用索引',
+  description: '打开小悦的真实项目：在线页面、演示视频、本地运行说明、源码与证据边界。',
+  alternates: { canonical: '/work/' },
+  openGraph: {
+    title: 'Work — 小悦的项目试用索引',
+    description: '在线页面、真实演示、本地运行说明和源码，各自标清边界。',
+    url: '/work/'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Work — 小悦的项目试用索引',
+    description: '在线页面、真实演示、本地运行说明和源码，各自标清边界。'
+  }
 };
 
-const source = 'https://github.com/hey-Chloe/enterprise-agentic-rag';
-const retrievalReport = 'https://github.com/hey-Chloe/enterprise-agentic-rag/blob/f5947c7/benchmarks/retrieval_20260814_133802.json';
-
-const pipeline = [
-  {
-    index: '01',
-    label: '文档进入',
-    primary: '216 份文档',
-    detail: '54 家虚构企业 × 4 类文档',
-    note: '仓库报告语料'
-  },
-  {
-    index: '02',
-    label: 'Retrieval',
-    primary: 'Dense + BM25',
-    detail: 'Milvus 混合候选召回',
-    note: '仓库结构'
-  },
-  {
-    index: '03',
-    label: '融合',
-    primary: 'RRF',
-    detail: '合并多路排序证据',
-    note: '仓库结构'
-  },
-  {
-    index: '04',
-    label: '重排',
-    primary: 'CrossEncoder',
-    detail: '选取 top-5 证据集',
-    note: '仓库结构'
-  },
-  {
-    index: '05',
-    label: '回答',
-    primary: 'Citation',
-    detail: '携带来源与页码引用',
-    note: '预期输出结构'
-  }
-];
-
-const metrics = [
-  {
-    value: '10,368',
-    name: '生成的检索问题',
-    direction: '描述性数据集规模',
-    sample: '完整确定性合成问题集；不是基准抽样数量',
-    method: '语料生成器 / seed 42',
-    source: 'README 数据集生成输出'
-  },
-  {
-    value: '97.92%',
-    name: '文档召回率',
-    direction: '越高越好',
-    sample: '240 条分层抽样 / seed 7',
-    method: 'Fusion top-10 / CPU benchmark',
-    source: 'retrieval_20260814_133802.json / commit f5947c7'
-  },
-  {
-    value: '90.83%',
-    name: '证据命中率',
-    direction: '越高越好',
-    sample: '240 条分层抽样 / seed 7',
-    method: 'Fusion top-10 / CPU benchmark',
-    source: 'retrieval_20260814_133802.json / commit f5947c7'
-  }
-];
-
-export default function WorkPage() {
+export default function WorkIndexPage() {
   return (
-    <div className="work-world work-soft-world">
+    <div className="work-world work-soft-world work-index-world">
       <WorldNav active="work" />
 
-      <main className="work-main">
-        <section className="work-hero" aria-labelledby="work-title">
-          <div className="work-hero__copy">
-            <div className="work-hero__meta">
-              <p>W.01 / RAG / CASE FILE</p>
-              <EvidenceBadge state="REPOSITORY REPORTED" detail="本次未复跑" />
+      <main className="work-index-main">
+        <section className="work-index-hero" aria-labelledby="work-title">
+          <header className="work-index-hero__copy">
+            <div className="work-index-hero__meta">
+              <XiaoyueMark />
+              <p>W.00 / PROJECT TRIAL SHELF / 2026</p>
             </div>
-
-            <div className="work-hero__title-wrap">
-              <span className="work-hero__tab" aria-hidden="true">FROM ARCHIVE</span>
-              <h1 id="work-title">
-                从 216 份文档，
-                <span>到可追溯的回答。</span>
-              </h1>
-            </div>
-
-            <p className="work-hero__lede">
-              多格式文档经过层级切块、混合检索、融合与重排，最后把答案重新连回来源。这里不做一张想象中的产品截图，而是打开系统，让每一步都能被检查。
+            <h1 id="work-title">项目不只陈列，<br /><span>打开就能继续。</span></h1>
+            <p className="work-index-hero__lede">
+              能在网页里直接操作的，就标成在线试用；有真实录屏的，就打开视频；需要环境和凭据的项目，把本地运行说明与源码放在一起。
             </p>
-
-            <div className="work-hero__actions">
-              <a href={source} target="_blank" rel="noreferrer" className="work-source">
-                查看源代码 <span aria-hidden="true">↗</span>
-              </a>
-              <p><b>证据边界</b>系统结构与数字来自固定仓库材料；本次网站构建没有重新运行评测。</p>
-            </div>
-          </div>
-
-          <figure className="product-stage" aria-labelledby="rag-flow-title">
-            <div className="product-stage__paper" aria-hidden="true">
-              <span>W.01</span>
-            </div>
-
-            <figcaption className="product-stage__caption">
-              <span>系统剖面 / STATIC CUTAWAY</span>
-              <strong>REPOSITORY-LED RECONSTRUCTION</strong>
-              <em>NOT PRODUCT UI</em>
-            </figcaption>
-
-            <div className="product-stage__screen">
-              <header>
-                <div>
-                  <span>enterprise-agentic-rag</span>
-                  <small>检索链路 / 静态视图</small>
-                </div>
-                <span className="product-stage__state">来源已连接</span>
-              </header>
-
-              <div className="product-stage__title">
-                <p>输入 → 系统 → 输出</p>
-                <h2 id="rag-flow-title">一次查询，经过五段可检查链路。</h2>
-              </div>
-
-              <ol className="rag-flow">
-                {pipeline.map((stage) => (
-                  <li key={stage.index}>
-                    <div className="rag-flow__index"><span>{stage.index}</span><i aria-hidden="true" /></div>
-                    <p>{stage.label}</p>
-                    <b>{stage.primary}</b>
-                    <small>{stage.detail}</small>
-                    <em>{stage.note}</em>
-                  </li>
-                ))}
-              </ol>
-
-              <footer>
-                <span>输出结构</span>
-                <b>top-5 证据集 → 带引用回答</b>
-                <small>只展示仓库结构，不虚构查询或回答。</small>
-              </footer>
-            </div>
-
-            <ChloesArchiveWordmark
-              as="p"
-              className="product-stage__signature"
-              prefix="from"
-              decorative
-            />
-          </figure>
-        </section>
-
-        <section className="work-evidence" aria-labelledby="work-evidence-title">
-          <header className="work-section-heading">
-            <p>02 / EVALUATION</p>
-            <h2 id="work-evidence-title">数字不离开它的上下文。</h2>
-            <span>仓库报告 / 2026-08-14 13:38:02 / commit f5947c7</span>
+            <a className="work-index-hero__jump" href="#project-trials">
+              打开项目索引 <span aria-hidden="true">↓</span>
+            </a>
           </header>
 
-          <div className="work-metrics">
-            {metrics.map((metric, index) => (
-              <article className="metric-proof" key={metric.name}>
-                <header>
-                  <span>指标 {String(index + 1).padStart(2, '0')}</span>
-                  <EvidenceBadge state="REPOSITORY REPORTED" detail="本次未复跑" />
-                </header>
-                <strong>{metric.value}</strong>
-                <h3>{metric.name}</h3>
-                <dl>
-                  <div><dt>方向</dt><dd>{metric.direction}</dd></div>
-                  <div><dt>数据 / 样本</dt><dd>{metric.sample}</dd></div>
-                  <div><dt>方法 / 环境</dt><dd>{metric.method}</dd></div>
-                  <div><dt>来源材料</dt><dd>{metric.source}</dd></div>
-                  <div><dt>复跑状态</dt><dd>本次网站构建未复跑</dd></div>
-                </dl>
-              </article>
-            ))}
-          </div>
-
-          <p className="work-evidence__note">
-            <b>证据边界。</b>以上数值原样呈现为 <span>REPOSITORY REPORTED</span>，不是本次新运行或独立验证的结果。
-            两个百分比来自 10,368 条生成问题中的 240 条分层抽样。{' '}
-            <a href={retrievalReport} target="_blank" rel="noreferrer">查看固定报告 ↗</a>
-          </p>
+          <aside className="work-index-hero__folder" aria-label="项目入口分类">
+            <span className="work-index-hero__tab">OPEN / TRY / INSPECT</span>
+            <div className="work-index-hero__folder-sheet">
+              <p>真实入口分成四种</p>
+              <ol>
+                <li><b>LIVE</b><span>直接打开网页</span></li>
+                <li><b>VIDEO</b><span>观看真实演示</span></li>
+                <li><b>LOCAL</b><span>按说明本地运行</span></li>
+                <li><b>SOURCE</b><span>检查源码与材料</span></li>
+              </ol>
+              <small>Fork 与学习材料会单独披露上游，不混进原创项目。</small>
+            </div>
+            <ChloesArchiveWordmark as="p" className="work-index-hero__signature" prefix="from" decorative />
+          </aside>
         </section>
 
-        <section className="work-media-request" aria-labelledby="work-media-title">
+        <div id="project-trials">
+          <ProjectTrialIndex
+            projects={originalProjects}
+            heading="九份公开项目材料。"
+            intro="每张纸都可以打开。入口状态来自 2026-08-25 的仓库与 HTTP 核验；没有公开服务的项目不会被写成在线 Demo。"
+          />
+        </div>
+
+        <section className="work-index-featured" aria-labelledby="featured-case-title">
           <div>
-            <p>03 / MEDIA REQUEST</p>
-            <h2 id="work-media-title">下一份证明，应该来自真实交互。</h2>
+            <p>FEATURED CASE / W.01</p>
+            <h2 id="featured-case-title">想看完整证据链，<br />从企业级 RAG 开始。</h2>
           </div>
-          <dl>
-            <div><dt>素材</dt><dd>真实产品屏幕录制</dd></div>
-            <div><dt>过程</dt><dd>Query → retrieval trace → cited answer</dd></div>
-            <div><dt>位置</dt><dd>完整案例中替换当前静态系统剖面</dd></div>
-            <div><dt>验收</dt><dd>引用可读、界面稳定，不把预置或虚构输出伪装成实时结果</dd></div>
-          </dl>
-          <p>素材到位以前，这里保持为 evidence-led 作品入口，不生成假的产品电影。</p>
-          <a className="work-back-file" href="/archive">
-            <span>收回档案</span>
-            <b>A.00 / ARCHIVE</b>
-          </a>
+          <div>
+            <p>从 216 份文档、混合检索与重排，到带引用的回答。指标保留运行上下文，报告文件与 Benchmark code commit 分开标注。</p>
+            <a href="/work/enterprise-agentic-rag/">打开完整案例 <span aria-hidden="true">→</span></a>
+          </div>
         </section>
+
+        <details className="work-index-forks">
+          <summary>
+            <span>F.01—F.03 / LEARNING FORKS</span>
+            <strong>查看学习、镜像与模板改造</strong>
+            <i aria-hidden="true">＋</i>
+          </summary>
+          <ProjectTrialIndex
+            projects={learningForks}
+            heading="这些不是原创 Work。"
+            intro="保留它们是为了记录学习路径。每项都写明上游、个人改动与真实归属。"
+          />
+        </details>
       </main>
     </div>
   );

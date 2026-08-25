@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description: '柔软、可玩的个人档案，以及真实的 AI 作品与实验。',
     images: [
       {
-        url: '/og.png',
+        url: '/og.jpg',
         width: 1200,
         height: 630,
         alt: 'Chloe’s Archive — 小悦的数字收藏室'
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '小悦的数字收藏室 — Chloe’s Archive',
     description: '柔软、可玩的个人档案，以及真实的 AI 作品与实验。',
-    images: ['/og.png']
+    images: ['/og.jpg']
   }
 };
 

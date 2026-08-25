@@ -5,7 +5,28 @@ import WorldNav from '@/components/WorldNav';
 export const metadata: Metadata = {
   title: 'Lab — 小悦的 Agent Runtime 实验桌',
   description: '在小悦的实验桌上拆开 Agent Runtime：模型决策、工具策略、checkpoint 与证据边界。',
-  alternates: { canonical: '/lab/' }
+  alternates: { canonical: '/lab/' },
+  openGraph: {
+    type: 'website',
+    url: '/lab/',
+    siteName: 'Chloe’s Archive',
+    title: 'Lab — 小悦的 Agent Runtime 实验桌',
+    description: '在小悦的实验桌上拆开 Agent Runtime：模型决策、工具策略、checkpoint 与证据边界。',
+    images: [
+      {
+        url: '/og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Lab — 小悦的 Agent Runtime 实验桌'
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Lab — 小悦的 Agent Runtime 实验桌',
+    description: '在小悦的实验桌上拆开 Agent Runtime：模型决策、工具策略、checkpoint 与证据边界。',
+    images: ['/og.jpg']
+  }
 };
 
 const commit = '1790a0d2386eaa70801ded6dfd52249055b4c723';
