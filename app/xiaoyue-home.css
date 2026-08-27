@@ -8,7 +8,9 @@
   --xy-bloom-soft: #f4b69f;
   --xy-signal: #c9f36a;
   --xy-serif: "Iowan Old Style", "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
-  --xy-sans: Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  --xy-display: "Lantinghei SC", "PingFang SC", "Noto Sans SC", sans-serif;
+  --xy-sans: "PingFang SC", "Noto Sans SC", Inter, "Microsoft YaHei", Arial, sans-serif;
+  --xy-human: "Hiragino Sans GB", "PingFang SC", "Noto Sans SC", sans-serif;
   --xy-mono: "IBM Plex Mono", "SFMono-Regular", "Cascadia Code", "Liberation Mono", monospace;
   --xy-signature: var(--font-signature);
   --xy-ease: cubic-bezier(.2, .72, .2, 1);
@@ -22,6 +24,7 @@
   color: var(--xy-ink);
   background: var(--xy-paper);
   font-family: var(--xy-sans);
+  font-synthesis: none;
   isolation: isolate;
 }
 
@@ -2255,9 +2258,9 @@
 }
 
 .notes-world .world-nav {
-  --nav-bg: rgba(47, 84, 58, .96);
-  --nav-fg: #f5f0e4;
-  --nav-line: rgba(245, 240, 228, .16);
+  --nav-bg: rgba(244, 241, 233, .96);
+  --nav-fg: #234630;
+  --nav-line: rgba(35, 70, 48, .14);
 }
 
 .notes-world a { color: inherit; text-decoration: none; }
@@ -2274,17 +2277,17 @@
   gap: 1.25rem;
   overflow: hidden;
   padding: clamp(3.5rem, 7vw, 7rem) clamp(1.25rem, 5vw, 5rem) clamp(4rem, 7vw, 7rem);
-  color: #f6f0e4;
+  color: var(--notes-ink);
   background:
-    radial-gradient(circle at 82% 22%, rgba(231, 239, 216, .15), transparent 22%),
-    linear-gradient(145deg, #456c4d, #284c34);
+    radial-gradient(circle at 82% 22%, rgba(74, 108, 81, .11), transparent 23%),
+    linear-gradient(145deg, #eef0e9, #dbe2d9 58%, #e8e5dc);
 }
 
 .notes-hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: .2;
+  opacity: .08;
   background: url('/images/fog-texture.svg') center / cover;
   pointer-events: none;
 }
@@ -2305,7 +2308,7 @@
 .notes-hero__signature {
   grid-column: 1 / 8;
   align-self: end;
-  color: #f6f0e4;
+  color: #2c5238;
   font-size: clamp(3rem, 6vw, 6.1rem);
   transform: rotate(-1deg);
 }
@@ -2317,8 +2320,9 @@
 
 .notes-hero__title h1 {
   margin: 0;
+  font-family: var(--xy-display);
   font-size: clamp(2.3rem, 4vw, 4.4rem);
-  font-weight: 560;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -.055em;
 }
@@ -2334,7 +2338,7 @@
   align-self: end;
   margin: 0;
   padding: 1.2rem 0 0 1.25rem;
-  border-top: 1px solid rgba(246, 240, 228, .3);
+  border-top: 1px solid rgba(35, 70, 48, .2);
   font-size: clamp(.96rem, 1.1vw, 1.08rem);
   line-height: 1.8;
   opacity: .76;
@@ -2363,8 +2367,9 @@
 
 .notes-section-label h2 {
   margin: 1rem 0 0;
+  font-family: var(--xy-display);
   font-size: clamp(2rem, 4vw, 4.4rem);
-  font-weight: 560;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -.055em;
 }
@@ -2497,11 +2502,11 @@
 }
 
 .notes-systems {
-  color: #f3eddf;
-  background: #284a33;
+  color: var(--notes-ink);
+  background: #d9dfd5;
 }
 
-.notes-section-label--dark { color: #f3eddf; }
+.notes-section-label--dark { color: var(--notes-ink); }
 
 .notes-loose-stack {
   display: grid;
@@ -2575,51 +2580,166 @@
 .notes-early {
   color: var(--notes-ink);
   background:
-    radial-gradient(circle at 84% 24%, rgba(81, 110, 82, .08), transparent 24%),
-    #e7dfcf;
+    radial-gradient(circle at 80% 14%, rgba(94, 122, 101, .09), transparent 27%),
+    #ebe7dd;
 }
 
-.notes-notebook {
-  display: grid;
+.notes-early__context {
+  display: flex;
   max-width: 1120px;
-  grid-template-columns: .72fr 1.28fr;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
   margin-inline: auto;
-  overflow: hidden;
-  border-radius: 30px 20px 26px 34px;
-  background: #f4efe4;
-  box-shadow: 0 30px 70px rgba(39, 59, 43, .17);
 }
 
-.notes-notebook__cover {
-  padding: clamp(2rem, 4vw, 4rem);
-  color: #eef2e5;
-  background: #54705a;
-}
-
-.notes-notebook__cover > span {
+.notes-early__context > span,
+.notes-early-notebook__pages > div > span {
   font: 700 .61rem/1 var(--xy-mono);
-  letter-spacing: .12em;
+  letter-spacing: .1em;
 }
 
-.notes-notebook__cover h2 {
-  max-width: 5em;
-  margin: clamp(4rem, 9vw, 8rem) 0 0;
-  font-size: clamp(2rem, 3.5vw, 3.8rem);
-  font-weight: 560;
-  line-height: 1.02;
-  letter-spacing: -.055em;
-}
-
-.notes-notebook__cover p {
-  margin: 1.3rem 0 0;
-  font-size: .95rem;
+.notes-early__context p {
+  max-width: 31em;
+  margin: 0;
+  font-size: .94rem;
   line-height: 1.75;
-  opacity: .76;
+  opacity: .68;
+}
+
+.notes-early-notebook {
+  max-width: 1120px;
+  margin: 2.5rem auto 0;
+}
+
+.notes-early-notebook > summary {
+  position: relative;
+  display: block;
+  width: 250px;
+  height: 360px;
+  margin-left: 7%;
+  cursor: pointer;
+  list-style: none;
+  transform: rotate(-2.2deg);
+  transform-origin: 50% 92%;
+  transition: transform 240ms var(--xy-ease), filter 240ms var(--xy-ease);
+}
+
+.notes-early-notebook > summary::-webkit-details-marker { display: none; }
+
+.notes-early-notebook > summary:hover,
+.notes-early-notebook > summary:focus-visible {
+  filter: drop-shadow(0 24px 24px rgba(39, 59, 43, .18));
+  outline: none;
+  transform: translateY(-7px) rotate(-.7deg);
+}
+
+.notes-early-notebook > summary:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: 7% 4% 4%;
+  z-index: 4;
+  border: 3px solid var(--xy-bloom);
+  border-radius: 25px;
+}
+
+.notes-early-notebook__object,
+.notes-early-notebook__object img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.notes-early-notebook__object img {
+  object-fit: contain;
+  filter: drop-shadow(0 18px 21px rgba(39, 59, 43, .2));
+}
+
+.notes-early-notebook__cover-copy {
+  position: absolute;
+  inset: 17% 15% 14% 19%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  color: #eef2e7;
+}
+
+.notes-early-notebook__cover-copy small {
+  font: 700 .55rem/1 var(--xy-mono);
+  letter-spacing: .1em;
+  opacity: .72;
+}
+
+.notes-early-notebook__cover-copy h2 {
+  max-width: 5em;
+  margin: 3.8rem 0 0;
+  font-family: var(--xy-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.notes-early-notebook__cover-copy p {
+  margin: .9rem 0 0;
+  font-size: .76rem;
+  line-height: 1.65;
+  opacity: .72;
+}
+
+.notes-early-notebook__cover-copy i {
+  margin-top: auto;
+  font: 700 0/1 var(--xy-mono);
+  font-style: normal;
+  letter-spacing: .08em;
+}
+
+.notes-early-notebook__cover-copy i::before {
+  content: "展开目录  +";
+  font-size: .56rem;
+}
+
+.notes-early-notebook[open] {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.notes-early-notebook[open] > summary {
+  margin-left: 0;
+  transform: rotate(-1deg);
+}
+
+.notes-early-notebook[open] .notes-early-notebook__cover-copy i::before { content: "收起目录  −"; }
+
+.notes-early-notebook__pages {
+  min-height: 360px;
+  overflow: hidden;
+  border-radius: 24px 18px 28px 20px;
+  background: #f4efe4;
+  box-shadow: 0 26px 60px rgba(39, 59, 43, .14);
+}
+
+.notes-early-notebook__pages > div {
+  display: grid;
+  grid-template-columns: .7fr 1.3fr;
+  gap: 1rem;
+  padding: 1.5rem clamp(1.25rem, 3vw, 2.4rem) 1rem;
+  border-bottom: 1px solid rgba(48, 77, 55, .13);
+}
+
+.notes-early-notebook__pages > div p {
+  margin: 0;
+  font-size: .83rem;
+  line-height: 1.65;
+  opacity: .67;
 }
 
 .notes-notebook__index {
   margin: 0;
-  padding: 2.2rem clamp(1.4rem, 3.5vw, 3.2rem);
+  padding: 1rem clamp(1.25rem, 3vw, 2.4rem) 1.5rem;
   list-style: none;
   background:
     linear-gradient(90deg, transparent 44px, rgba(225, 131, 109, .26) 45px, transparent 46px),
@@ -2809,8 +2929,13 @@
     transform: none;
   }
 
-  .notes-notebook { grid-template-columns: 1fr; }
-  .notes-notebook__cover h2 { margin-top: 4rem; }
+  .notes-early__context { display: block; }
+  .notes-early__context p { margin-top: 1rem; }
+  .notes-early-notebook > summary { width: 220px; height: 330px; margin-inline: auto; }
+  .notes-early-notebook[open] { grid-template-columns: 1fr; }
+  .notes-early-notebook[open] > summary { margin-inline: auto; }
+  .notes-early-notebook__pages > div { display: block; }
+  .notes-early-notebook__pages > div p { margin-top: .7rem; }
   .notes-notebook__index { padding-inline: 1rem; }
   .notes-notebook__index li { grid-template-columns: 32px 1fr; gap: .5rem; }
   .notes-notebook__index li div { grid-template-columns: 1fr; gap: .25rem; }
@@ -4065,5 +4190,41 @@
   .archive-soft-intro__copy {
     width: 82%;
     margin: 2.4rem 0 0 auto;
+  }
+}
+
+/* Archive one-screen router: light spatial shell only. */
+.archive-router.archive-world--soft {
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #ebe9e2;
+}
+
+.archive-router.archive-world--soft .world-nav {
+  --nav-bg: rgba(246, 242, 233, .94);
+  --nav-fg: #193e30;
+  --nav-line: rgba(25, 62, 48, .13);
+  background: var(--nav-bg);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .62);
+  backdrop-filter: blur(14px) saturate(.8);
+}
+
+.archive-router.archive-world--soft .world-nav__links a::after {
+  background: #e9785e;
+}
+
+.archive-router.archive-world--soft .xiaoyue-mark__center {
+  fill: #e9785e;
+}
+
+@media (max-width: 720px) {
+  .archive-router.archive-world--soft {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .archive-router.archive-world--soft .world-nav {
+    --nav-bg: rgba(246, 242, 233, .97);
+    background: var(--nav-bg);
   }
 }

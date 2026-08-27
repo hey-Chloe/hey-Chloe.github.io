@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "dataBoundary": "public-offline-reports-plus-synthetic-interaction-fixture",
+  "productionClaim": false,
+  "generatedWithoutTraining": true,
+  "amazon": {
+    "origin": "synthetic",
+    "dataset": "Synthetic catalog histories for UI demonstration",
+    "derivation": "Purpose-built concept histories; not derived from Amazon user or item rows and not model output.",
+    "limitations": "The interactive lists explain retrieval behavior only. Aggregate offline metrics remain separately attributed to the frozen public-data report.",
+    "histories": [
+      {
+        "id": "synthetic-history-1",
+        "userAlias": "合成用户 A",
+        "history": [
+          "精密螺丝套装",
+          "数显游标卡尺",
+          "防静电镊子",
+          "微型轴承",
+          "工具收纳盒"
+        ],
+        "actualNextItem": "扭矩螺丝刀",
+        "recommendations": {
+          "popularity": [
+            "通用工具箱",
+            "测量直尺",
+            "工作手套",
+            "标签纸",
+            "扎带组合",
+            "安全护目镜",
+            "零件收纳盒",
+            "六角扳手",
+            "胶带套装",
+            "清洁布"
+          ],
+          "itemKnn": [
+            "扭矩螺丝刀",
+            "螺纹规",
+            "磁性零件盘",
+            "精密钳套装",
+            "螺丝分类盒",
+            "深度测量尺",
+            "轴承润滑脂",
+            "防静电垫",
+            "微型夹具",
+            "工具校准块"
+          ],
+          "bprMf": null,
+          "twoTower": null
+        }
+      },
+      {
+        "id": "synthetic-history-2",
+        "userAlias": "合成用户 B",
+        "history": [
+          "植物补光灯",
+          "土壤湿度计",
+          "育苗盘",
+          "园艺喷壶",
+          "种子收纳盒"
+        ],
+        "actualNextItem": "恒温育苗垫",
+        "recommendations": {
+          "popularity": [
+            "通用工具箱",
+            "测量直尺",
+            "工作手套",
+            "标签纸",
+            "扎带组合",
+            "安全护目镜",
+            "零件收纳盒",
+            "六角扳手",
+            "胶带套装",
+            "清洁布"
+          ],
+          "itemKnn": [
+            "恒温育苗垫",
+            "育苗罩",
+            "滴灌套件",
+            "植物标签",
+            "椰糠育苗块",
+            "定时插座",
+            "营养液量杯",
+            "修枝剪",
+            "种植温度计",
+            "花盆托盘"
+          ],
+          "bprMf": null,
+          "twoTower": null
+        }
+      },
+      {
+        "id": "synthetic-history-3",
+        "userAlias": "合成用户 C",
+        "history": [
+          "焊接练习板",
+          "无铅焊锡丝",
+          "烙铁头套装",
+          "元件分类盒",
+          "防静电腕带"
+        ],
+        "actualNextItem": "焊接烟雾净化器",
+        "recommendations": {
+          "popularity": [
+            "通用工具箱",
+            "测量直尺",
+            "工作手套",
+            "标签纸",
+            "扎带组合",
+            "安全护目镜",
+            "零件收纳盒",
+            "六角扳手",
+            "胶带套装",
+            "清洁布"
+          ],
+          "itemKnn": [
+            "焊接烟雾净化器",
+            "可调温焊台",
+            "吸锡器",
+            "助焊剂笔",
+            "热缩管套装",
+            "PCB 固定架",
+            "放大工作灯",
+            "元件剪脚钳",
+            "绝缘硅胶垫",
+            "万用表表笔"
+          ],
+          "bprMf": null,
+          "twoTower": null
+        }
+      }
+    ]
+  },
+  "criteo": {
+    "origin": "public",
+    "dataset": "Criteo 1TB Click Logs fixed-subset V1",
+    "split": "test",
+    "rowAlias": "TEST-ROW-00001",
+    "features": [
+      {
+        "name": "I1",
+        "value": "8.0"
+      },
+      {
+        "name": "I2",
+        "value": "98.0"
+      },
+      {
+        "name": "I3",
+        "value": "2.0"
+      },
+      {
+        "name": "I4",
+        "value": "2.0"
+      },
+      {
+        "name": "I5",
+        "value": "18.0"
+      },
+      {
+        "name": "I6",
+        "value": "1.0"
+      },
+      {
+        "name": "C1",
+        "value": "HASH-86FAFC9C"
+      },
+      {
+        "name": "C2",
+        "value": "HASH-9D3D7F87"
+      },
+      {
+        "name": "C3",
+        "value": "HASH-F24BD865"
+      },
+      {
+        "name": "C4",
+        "value": "HASH-3A546AC5"
+      },
+      {
+        "name": "C5",
+        "value": "HASH-BA494C1A"
+      },
+      {
+        "name": "C6",
+        "value": "HASH-FF31C069"
+      }
+    ],
+    "individualPredictionPersisted": false,
+    "limitation": "This frozen artifact did not persist row-level predictions or checkpoints. The UI therefore shows real aggregate metrics and calibration-bin means only."
+  }
+}

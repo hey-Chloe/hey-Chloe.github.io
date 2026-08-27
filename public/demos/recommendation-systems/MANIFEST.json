@@ -1,0 +1,45 @@
+{
+  "name": "推荐算法互动实验室 · 可迁移版",
+  "dataOrigin": "public",
+  "generatedWithoutTraining": true,
+  "productionClaim": false,
+  "externalNetworkRequired": false,
+  "files": {
+    "ATTRIBUTION.md": {
+      "sha256": "bc48c6f73ac18d657f13bbc82c2b34e83a5a0eba183d2df822793231b0696782",
+      "bytes": 1867
+    },
+    "README.md": {
+      "sha256": "d2c7a3a81b3fefeb26845394a155dc61c201eff5e8a9cd223b86f6b140a49da4",
+      "bytes": 2280
+    },
+    "app.js": {
+      "sha256": "5fa00738e52fc8fbbca2f153f6125619594358bff3d1d4f6b89ea4553662c357",
+      "bytes": 13773
+    },
+    "data/amazon-retrieval-v1-results.json": {
+      "sha256": "91d4abfe2beb33e413ccd326ed40820ce9a998312ff2f84d85ae61ad79ef9ab1",
+      "bytes": 23265
+    },
+    "data/criteo-ctr-v1-results.json": {
+      "sha256": "db7b918f0781f4ba67391ae6f57405bbcecf87d8d90eeb4ef2f0f53746256751",
+      "bytes": 34592
+    },
+    "data/demo-fixtures.json": {
+      "sha256": "317423772912a83384c9a6ed421cd2bc7295be8807ae173eb23b20b356175c2c",
+      "bytes": 4962
+    },
+    "data/position-bias-open-bandit-full-ope-v1.json": {
+      "sha256": "87cc5fe3d41a7219c918890716b95c5e0a0bbdcba988b2b8089454c6ad13a750",
+      "bytes": 20548
+    },
+    "index.html": {
+      "sha256": "355128d3b35d3d2b8a751e98419753ec0da6878f15d00eb6062ee92a025cdea0",
+      "bytes": 14335
+    },
+    "styles.css": {
+      "sha256": "7ef8375847f9d1d07c06fd1350c6189fcf27acfda49c8d699d451e142c1a3b98",
+      "bytes": 26631
+    }
+  }
+}

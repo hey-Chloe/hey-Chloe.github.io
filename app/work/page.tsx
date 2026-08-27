@@ -27,7 +27,7 @@ const projectDeskGroups = [
   },
   {
     id: 'systems',
-    label: '系统、早期作品与学习 Fork',
+    label: '系统、早期作品与学习分支',
     projects: [...systemProjects, ...learningForks]
   }
 ] as const;
@@ -57,7 +57,7 @@ export default function WorkIndexPage() {
         <section className="work-index-masthead" aria-labelledby="work-title">
           <div className="work-index-masthead__meta">
             <XiaoyueMark />
-            <p>W.00 / WORK = BUILD / 2026</p>
+            <p>W.00 / 作品与实验 / 2026</p>
           </div>
           <div className="work-index-masthead__title-row">
             <h1 id="work-title">作品收藏</h1>

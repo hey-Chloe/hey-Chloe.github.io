@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { archiveActionLabels } from '@/components/ArchiveObjectLanguage';
 import ChloesArchiveWordmark from '@/components/ChloesArchiveWordmark';
@@ -125,24 +126,46 @@ export default function BlogPage() {
         </section>
 
         <section className="notes-early" aria-labelledby="early-notes-title">
-          <div className="notes-notebook">
-            <div className="notes-notebook__cover">
-              <span>EARLY NOTES</span>
-              <h2 id="early-notes-title">Java 学习本</h2>
-              <p>基础语法、类与对象、方法，以及一次 3×3 幻方练习。</p>
-            </div>
-            <ol className="notes-notebook__index">
-              {javaPosts.map((post, index) => (
-                <li key={post.slug}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <div>
-                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                    <time dateTime={post.date}>{formatDate(post.date)}</time>
-                  </div>
-                </li>
-              ))}
-            </ol>
+          <div className="notes-early__context">
+            <span>EARLY NOTES / 早期记录</span>
+            <p>最早写下来的学习痕迹仍然留在档案里，但不占据现在的作品位置。</p>
           </div>
+          <details className="notes-early-notebook">
+            <summary>
+              <span className="notes-early-notebook__object" aria-hidden="true">
+                <Image
+                  src="/archive/phase-1/r3-field-notebook.webp"
+                  alt=""
+                  width={713}
+                  height={1120}
+                  sizes="(max-width: 720px) 46vw, 240px"
+                />
+              </span>
+              <span className="notes-early-notebook__cover-copy">
+                <small>EARLY NOTES · 05</small>
+                <h2 id="early-notes-title">Java 学习本</h2>
+                <p>基础语法、类与对象、方法，以及一次 3×3 幻方练习。</p>
+                <i aria-hidden="true">展开目录</i>
+              </span>
+            </summary>
+            <div className="notes-early-notebook__pages">
+              <div>
+                <span>早期学习索引</span>
+                <p>这些内容按原始时间保留，用来记录从基础学习到今天的成长路径。</p>
+              </div>
+              <ol className="notes-notebook__index">
+                {javaPosts.map((post, index) => (
+                  <li key={post.slug}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <div>
+                      <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                      <time dateTime={post.date}>{formatDate(post.date)}</time>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </details>
         </section>
       </main>
       <footer className="notes-footer">

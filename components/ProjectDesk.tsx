@@ -8,10 +8,7 @@ import {
   useRef,
   useState
 } from 'react';
-import {
-  archiveActionLabels,
-  archiveObjectKindNames
-} from '@/components/ArchiveObjectLanguage';
+import { archiveActionLabels } from '@/components/ArchiveObjectLanguage';
 import type { ProjectEntry } from '@/components/ProjectTrialIndex';
 
 type ProjectDeskGroup = {
@@ -57,30 +54,157 @@ type ProjectAction = {
   kind: 'primary' | 'secondary';
 };
 
-/* A composed desktop, not three generated stacks. Positions preserve visible edges. */
+type CarrierId =
+  | 'booklet'
+  | 'dossier'
+  | 'invitation'
+  | 'ticket'
+  | 'clipboard'
+  | 'research-sheet'
+  | 'technical-sheet'
+  | 'trace-receipt'
+  | 'terminal-slip'
+  | 'patch-slip'
+  | 'diff-sheet'
+  | 'data-card';
+
+type Carrier = {
+  id: CarrierId;
+  asset: string;
+  label: string;
+  source: string;
+  dark?: boolean;
+};
+
+const CARRIERS: Record<CarrierId, Carrier> = {
+  booklet: {
+    id: 'booklet',
+    asset: '/work/physical/CS-01-product-booklet.png',
+    label: '产品册',
+    source: 'CS-01 Product Booklet'
+  },
+  dossier: {
+    id: 'dossier',
+    asset: '/work/physical/folder.png',
+    label: '项目卷宗',
+    source: 'Work Dossier',
+    dark: true
+  },
+  invitation: {
+    id: 'invitation',
+    asset: '/work/physical/FN-03-folded-letter.png',
+    label: '邀请函',
+    source: 'FN-03 Folded Letter'
+  },
+  ticket: {
+    id: 'ticket',
+    asset: '/work/physical/DD-03-patch-slip.png',
+    label: '体验票券',
+    source: 'DD-03 Patch Slip'
+  },
+  clipboard: {
+    id: 'clipboard',
+    asset: '/work/physical/01-experiment-record-clipboard.png',
+    label: '实验夹板',
+    source: '01 Experiment Record Clipboard',
+    dark: true
+  },
+  'research-sheet': {
+    id: 'research-sheet',
+    asset: '/work/physical/02-punched-lab-paper.png',
+    label: '研究单',
+    source: '02 Punched Lab Paper'
+  },
+  'technical-sheet': {
+    id: 'technical-sheet',
+    asset: '/work/physical/03-coordinate-paper.png',
+    label: '技术图纸',
+    source: '03 Coordinate Paper'
+  },
+  'trace-receipt': {
+    id: 'trace-receipt',
+    asset: '/work/physical/04-black-trace-ticket-shell.png',
+    label: '追踪回执',
+    source: '04 Black Trace Ticket Shell',
+    dark: true
+  },
+  'terminal-slip': {
+    id: 'terminal-slip',
+    asset: '/work/physical/DD-01-terminal-slip.png',
+    label: '终端记录',
+    source: 'DD-01 Terminal Slip',
+    dark: true
+  },
+  'patch-slip': {
+    id: 'patch-slip',
+    asset: '/work/physical/DD-03-patch-slip.png',
+    label: '补丁记录',
+    source: 'DD-03 Patch Slip'
+  },
+  'diff-sheet': {
+    id: 'diff-sheet',
+    asset: '/work/physical/DD-04-git-diff-paper.png',
+    label: '变更记录',
+    source: 'DD-04 Git Diff Paper'
+  },
+  'data-card': {
+    id: 'data-card',
+    asset: '/work/physical/DD-07-data-card.png',
+    label: '系统资料卡',
+    source: 'DD-07 Data Card'
+  }
+};
+
+/* The mapping is curatorial: every project gets one carrier that matches its actual nature. */
+const PROJECT_CARRIERS: Record<string, CarrierId> = {
+  remindercat: 'booklet',
+  'kai-cloudpay-mobile': 'data-card',
+  'kai-admin-console': 'dossier',
+  'kai-creator-voting': 'invitation',
+  'kai-commerce-studio': 'booklet',
+  'kai-play': 'ticket',
+  'compute-intelligence': 'technical-sheet',
+  'kai-market-lab': 'clipboard',
+  budgetagent: 'trace-receipt',
+  'enterprise-agentic-rag': 'dossier',
+  'vlm-data-selection': 'research-sheet',
+  'thesis-prestudy': 'research-sheet',
+  'ruleforge-sast': 'patch-slip',
+  miniclaudecode: 'terminal-slip',
+  'mini-runtime-agent': 'trace-receipt',
+  'ctf-agent': 'ticket',
+  'okr-agent-platform': 'patch-slip',
+  'smartcs-rag': 'data-card',
+  'chloe-notebook': 'booklet',
+  'xiaoyue-ai-portfolio': 'invitation',
+  'all-in-rag': 'diff-sheet',
+  zod: 'data-card'
+};
+
+/* An editorial table composition, not generated rows or an equal card grid. */
 const ARTIFACT_LAYOUT: Record<string, ArtifactLayout> = {
-  'kai-commerce-studio': { left: 13, top: 17, rotation: -3.2, scale: 1.04 },
-  remindercat: { left: 32, top: 14, rotation: 3.6, scale: .94 },
-  'kai-creator-voting': { left: 47, top: 18, rotation: -1.2 },
-  'kai-play': { left: 65, top: 13, rotation: 2.4, scale: .96 },
-  'kai-cloudpay-mobile': { left: 82, top: 17, rotation: 2.8 },
-  zod: { left: 94, top: 24, rotation: -3.8, scale: .84 },
-  'kai-admin-console': { left: 15, top: 40, rotation: 1.1 },
-  'compute-intelligence': { left: 34, top: 40, rotation: -2.2 },
-  'kai-market-lab': { left: 55, top: 39, rotation: 1.4 },
-  'enterprise-agentic-rag': { left: 77, top: 41, rotation: -1.6 },
-  'xiaoyue-ai-portfolio': { left: 94, top: 46, rotation: 4.1, scale: .84 },
-  budgetagent: { left: 11, top: 66, rotation: -2.9, scale: .95 },
-  'vlm-data-selection': { left: 28, top: 65, rotation: 1.8 },
-  'thesis-prestudy': { left: 45, top: 65, rotation: -1.1, scale: .96 },
-  'ruleforge-sast': { left: 62, top: 66, rotation: 3 },
-  miniclaudecode: { left: 82, top: 65, rotation: -1.9 },
-  'all-in-rag': { left: 95, top: 70, rotation: 2.7, scale: .82 },
-  'mini-runtime-agent': { left: 13, top: 88, rotation: 2.6, scale: .9 },
-  'ctf-agent': { left: 30, top: 87, rotation: -2.1, scale: .94 },
-  'okr-agent-platform': { left: 47, top: 87, rotation: 2.8, scale: .92 },
-  'smartcs-rag': { left: 64, top: 87, rotation: -1.4, scale: .9 },
-  'chloe-notebook': { left: 83, top: 87, rotation: 2.2, scale: .9 }
+  'kai-commerce-studio': { left: 15, top: 13, rotation: -3.3, scale: 1.16 },
+  remindercat: { left: 36, top: 12, rotation: 4.2, scale: .78 },
+  'kai-creator-voting': { left: 55, top: 14, rotation: -1.7, scale: .94 },
+  'kai-play': { left: 74, top: 11, rotation: 3.5, scale: .9 },
+  'kai-cloudpay-mobile': { left: 89, top: 16, rotation: -2.4, scale: .88 },
+  'kai-admin-console': { left: 17, top: 34, rotation: 2.1, scale: .97 },
+  'compute-intelligence': { left: 40, top: 34, rotation: -3.2, scale: 1.04 },
+  'kai-market-lab': { left: 62, top: 34, rotation: 1.5, scale: 1.03 },
+  'enterprise-agentic-rag': { left: 84, top: 35, rotation: -1.6, scale: 1.08 },
+  budgetagent: { left: 10, top: 55, rotation: -4.2, scale: .88 },
+  'vlm-data-selection': { left: 29, top: 55, rotation: 2.3, scale: 1.02 },
+  'thesis-prestudy': { left: 47, top: 57, rotation: -1.8, scale: .87 },
+  'ruleforge-sast': { left: 66, top: 55, rotation: 3.2, scale: 1 },
+  miniclaudecode: { left: 86, top: 55, rotation: -2.5, scale: .98 },
+  'mini-runtime-agent': { left: 12, top: 76, rotation: 2.7, scale: .84 },
+  'ctf-agent': { left: 30, top: 75, rotation: -3.1, scale: .86 },
+  'okr-agent-platform': { left: 49, top: 76, rotation: 2.4, scale: .91 },
+  'smartcs-rag': { left: 69, top: 76, rotation: -1.8, scale: .9 },
+  'chloe-notebook': { left: 88, top: 75, rotation: 3.4, scale: .82 },
+  'xiaoyue-ai-portfolio': { left: 20, top: 94, rotation: -2.8, scale: .8 },
+  'all-in-rag': { left: 49, top: 93, rotation: 1.8, scale: .84 },
+  zod: { left: 79, top: 94, rotation: -2.2, scale: .82 }
 };
 
 const EVIDENCE_LABELS: Record<ProjectEntry['evidenceState'], string> = {
@@ -144,148 +268,62 @@ function availabilityLabel(project: ProjectEntry) {
   return labels[project.availability];
 }
 
-function ProjectArtifactFace({ project }: { project: ProjectEntry }) {
-  const action = archiveActionLabels[project.actionKind];
-  const tags = project.tags.slice(0, 3);
+function fallbackCarrier(project: ProjectEntry): CarrierId {
+  const byObjectKind: Record<ProjectEntry['objectKind'], CarrierId> = {
+    booklet: 'booklet',
+    dossier: 'dossier',
+    letter: 'invitation',
+    ticket: 'ticket',
+    newspaper: 'clipboard',
+    'lab-sheet': 'technical-sheet',
+    receipt: 'trace-receipt',
+    blueprint: 'data-card',
+    polaroid: 'data-card',
+    paper: 'research-sheet',
+    'sticky-note': 'patch-slip'
+  };
 
-  if (project.objectKind === 'booklet') {
-    return (
-      <>
-        <span className="project-artifact__spine" aria-hidden="true" />
-        <span className="project-artifact__overline">{project.folio} · COLLECTION</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__edition">{project.name}</span>
-        <span className="project-artifact__plates" aria-hidden="true"><i /><i /><i /></span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
+  return byObjectKind[project.objectKind];
+}
 
-  if (project.objectKind === 'newspaper') {
-    return (
-      <>
-        <span className="project-artifact__masthead">THE XIAOYUE LAB</span>
-        <span className="project-artifact__dateline">{project.folio} · TRAIN / VALIDATION</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__deck">NO PNL · 不发送订单</span>
-        <span className="project-artifact__columns" aria-hidden="true"><i /><i /><i /></span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
+function carrierFor(project: ProjectEntry) {
+  return CARRIERS[PROJECT_CARRIERS[project.slug] ?? fallbackCarrier(project)];
+}
 
-  if (project.objectKind === 'dossier') {
-    return (
-      <>
-        <span className="project-artifact__folder-tab">{project.folio}</span>
-        <span className="project-artifact__overline">TECHNICAL DOSSIER</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__fields">
-          {tags.map((tag, index) => <i key={tag}><small>0{index + 1}</small>{tag}</i>)}
-        </span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
-
-  if (project.objectKind === 'polaroid') {
-    const isMobile = project.slug === 'kai-cloudpay-mobile' || project.slug === 'zod';
-    return (
-      <>
-        <span className={`project-artifact__photo${isMobile ? ' project-artifact__photo--device' : ''}`} aria-hidden="true">
-          {isMobile ? <i className="project-artifact__device"><b /><b /><b /></i> : <i className="project-artifact__play">▶</i>}
-          <small>{isMobile ? 'BROWSER SANDBOX' : project.availability === 'VIDEO' ? 'VIDEO RECORD' : 'ITERATION RECORD'}</small>
-        </span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__scribble">{project.folio} · {action} →</span>
-      </>
-    );
-  }
-
-  if (project.objectKind === 'ticket') {
-    return (
-      <>
-        <span className="project-artifact__ticket-code">{project.folio}</span>
-        <span className="project-artifact__ticket-admit">{project.availability === 'LOCAL' ? 'AUTHORIZED LAB' : 'PLAY PASS'}</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__ticket-detail">{tags.join(' · ')}</span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
-
-  if (project.objectKind === 'lab-sheet') {
-    return (
-      <>
-        <span className="project-artifact__overline">{project.folio} / LAB SHEET</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__rule"><small>观察对象</small>{tags[0]}</span>
-        <span className="project-artifact__rule"><small>方法</small>{tags.slice(1).join(' + ')}</span>
-        <span className="project-artifact__graph" aria-hidden="true"><i /><i /><i /><i /><i /></span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
-
-  if (project.objectKind === 'receipt') {
-    return (
-      <>
-        <span className="project-artifact__receipt-head">TRACE RECEIPT · {project.folio}</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__receipt-lines">
-          {tags.map((tag) => <i key={tag}><small>›</small>{tag}</i>)}
-        </span>
-        <span className="project-artifact__receipt-state">state: {EVIDENCE_LABELS[project.evidenceState]}</span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
-
-  if (project.objectKind === 'letter') {
-    return (
-      <>
-        <span className="project-artifact__letter-date">INVITATION · {project.folio}</span>
-        <span className="project-artifact__letter-to">TO / CREATOR</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__letter-copy">发布活动 · 投稿 · 浏览 · 投票</span>
-        <span className="project-artifact__seal" aria-hidden="true">✿</span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
-
-  if (project.objectKind === 'sticky-note') {
-    return (
-      <>
-        <span className="project-artifact__pin" aria-hidden="true" />
-        <span className="project-artifact__overline">{project.folio} / {EVIDENCE_LABELS[project.evidenceState]}</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__note">{project.slug === 'remindercat' ? '一分钟后，回来提醒我喝水。' : '权限节点仍在占位，先把边界写清楚。'}</span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
-
-  if (project.objectKind === 'blueprint') {
-    return (
-      <>
-        <span className="project-artifact__overline">{project.folio} / SYSTEM BLUEPRINT</span>
-        <strong>{project.titleZh}</strong>
-        <span className="project-artifact__nodes" aria-hidden="true">
-          {tags.map((tag) => <i key={tag}>{tag}</i>)}
-        </span>
-        <span className="project-artifact__action">{action} →</span>
-      </>
-    );
-  }
-
+function ProjectArtifactFace({ project, carrier }: { project: ProjectEntry; carrier: Carrier }) {
   return (
     <>
-      <span className="project-artifact__paper-head">{project.folio} · RESEARCH PRINT</span>
-      <strong>{project.titleZh}</strong>
-      <span className="project-artifact__abstract"><small>摘要</small>{project.summary}</span>
-      <span className="project-artifact__footnote">{project.name}</span>
-      <span className="project-artifact__action">{action} →</span>
+      <img
+        className="project-artifact__shell"
+        src={carrier.asset}
+        alt=""
+        draggable={false}
+        decoding="async"
+      />
+      {project.slug === 'enterprise-agentic-rag' && (
+        <img
+          className="project-artifact__clip"
+          src="/work/physical/binder-clip-brass.png"
+          alt=""
+          draggable={false}
+          decoding="async"
+        />
+      )}
+      <span className="project-artifact__face">
+        <span className="project-artifact__overline">{project.folio} · {carrier.label}</span>
+        <strong>{project.titleZh}</strong>
+        <span className="project-artifact__name">{project.name}</span>
+        <span className="project-artifact__tags" aria-hidden="true">
+          {project.tags.slice(0, carrier.id === 'trace-receipt' || carrier.id === 'terminal-slip' ? 3 : 2).map((tag) => (
+            <i key={tag}>{tag}</i>
+          ))}
+        </span>
+        <span className="project-artifact__open">{archiveActionLabels[project.actionKind]} <b aria-hidden="true">→</b></span>
+      </span>
+      <span className="project-artifact__reveal" aria-hidden="true">
+        <span>{EVIDENCE_LABELS[project.evidenceState]}</span>
+        <span>{availabilityLabel(project)}</span>
+      </span>
     </>
   );
 }
@@ -306,7 +344,12 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
     () => groups.flatMap((group) => group.projects.map((project) => ({ project, group }))),
     [groups]
   );
+  const projectIndex = useMemo(
+    () => new Map(flatProjects.map(({ project }, index) => [project.slug, index])),
+    [flatProjects]
+  );
   const selectedProject = flatProjects.find(({ project }) => project.slug === selectedSlug)?.project ?? null;
+  const selectedCarrier = selectedProject ? carrierFor(selectedProject) : null;
   const selectedActions = selectedProject ? projectActions(selectedProject) : [];
 
   useEffect(() => {
@@ -323,7 +366,13 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
 
   useEffect(() => {
     if (!selectedSlug) return;
+    const previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
     window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    return () => {
+      document.documentElement.style.overflow = previousOverflow;
+    };
   }, [selectedSlug]);
 
   function bringToFront(slug: string) {
@@ -370,9 +419,10 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
     let y = session.originY + deltaY;
 
     if (stageRect) {
-      const nextLeft = cardRect.left + (x - (positions[slug]?.x ?? 0));
-      const nextTop = cardRect.top + (y - (positions[slug]?.y ?? 0));
-      const margin = 30;
+      const previous = positions[slug] ?? { x: 0, y: 0 };
+      const nextLeft = cardRect.left + (x - previous.x);
+      const nextTop = cardRect.top + (y - previous.y);
+      const margin = 36;
       if (nextLeft + cardRect.width < stageRect.left + margin) x += stageRect.left + margin - (nextLeft + cardRect.width);
       if (nextLeft > stageRect.right - margin) x -= nextLeft - (stageRect.right - margin);
       if (nextTop + cardRect.height < stageRect.top + margin) y += stageRect.top + margin - (nextTop + cardRect.height);
@@ -407,6 +457,13 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
     setSelectedSlug(slug);
   }
 
+  function closeProject() {
+    if (!selectedProject) return;
+    const slug = selectedProject.slug;
+    setSelectedSlug(null);
+    window.requestAnimationFrame(() => cardRefs.current.get(slug)?.focus());
+  }
+
   function resetDesk() {
     setPositions({});
     setZIndexes({});
@@ -418,8 +475,8 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
     <section className="project-desk" id="project-trials" aria-labelledby="project-desk-title">
       <header className="project-desk__header">
         <div>
-          <p className="project-desk__eyebrow">W.01—W.19 / WORK = BUILD</p>
-          <h2 id="project-desk-title">收藏桌</h2>
+          <p className="project-desk__eyebrow">W.01—W.19 / F.01—F.03 · 物理作品收藏</p>
+          <h2 id="project-desk-title" className="project-desk__title">作品收藏</h2>
         </div>
         <details className="project-desk__menu">
           <summary aria-label="打开收藏桌选项">···</summary>
@@ -431,120 +488,132 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
 
       <div className="project-desk__stage" ref={stageRef}>
         <div className="project-desk__surface" aria-hidden="true" />
-        <ol className="project-desk__objects" aria-label="全部项目收藏物件">
-          {flatProjects.map(({ project }, flatIndex) => {
-            const layout = ARTIFACT_LAYOUT[project.slug] ?? {
-              left: 12 + (flatIndex % 5) * 19,
-              top: 16 + Math.floor(flatIndex / 5) * 20,
-              rotation: ((flatIndex % 5) - 2) * 1.2
-            };
-            const offset = positions[project.slug] ?? { x: 0, y: 0 };
-            const style: DeskStyle = {
-              '--desk-left': `${layout.left}%`,
-              '--desk-top': `${layout.top}%`,
-              '--desk-x': `${offset.x}px`,
-              '--desk-y': `${offset.y}px`,
-              '--desk-rotate': `${layout.rotation}deg`,
-              '--desk-scale': layout.scale ?? 1,
-              zIndex: zIndexes[project.slug] ?? (10 + flatIndex)
-            };
-            const isSelected = selectedSlug === project.slug;
+        <div className="project-desk__collection">
+          {groups.map((group, groupIndex) => (
+            <section className="project-desk__group" data-group={group.id} key={group.id} aria-labelledby={`project-desk-group-${group.id}`}>
+              <header className="project-desk__group-header">
+                <span>0{groupIndex + 1}</span>
+                <h3 id={`project-desk-group-${group.id}`}>{group.label}</h3>
+              </header>
+              <ol className="project-desk__objects" aria-label={`${group.label}收藏物件`}>
+                {group.projects.map((project) => {
+                  const flatIndex = projectIndex.get(project.slug) ?? 0;
+                  const layout = ARTIFACT_LAYOUT[project.slug] ?? {
+                    left: 14 + (flatIndex % 5) * 19,
+                    top: 14 + Math.floor(flatIndex / 5) * 20,
+                    rotation: ((flatIndex % 5) - 2) * 1.2
+                  };
+                  const offset = positions[project.slug] ?? { x: 0, y: 0 };
+                  const style: DeskStyle = {
+                    '--desk-left': `${layout.left}%`,
+                    '--desk-top': `${layout.top}%`,
+                    '--desk-x': `${offset.x}px`,
+                    '--desk-y': `${offset.y}px`,
+                    '--desk-rotate': `${layout.rotation}deg`,
+                    '--desk-scale': layout.scale ?? 1,
+                    zIndex: zIndexes[project.slug] ?? (10 + flatIndex)
+                  };
+                  const isSelected = selectedSlug === project.slug;
+                  const carrier = carrierFor(project);
 
-            return (
-              <li
-                className={`project-desk__object-slot project-desk__object-slot--${project.objectKind}`}
-                key={project.slug}
-              >
-                <button
-                  type="button"
-                  className={`project-artifact project-artifact--${project.objectKind}${isSelected ? ' project-artifact--selected' : ''}${draggingSlug === project.slug ? ' project-artifact--dragging' : ''}`}
-                  data-availability={project.availability.toLowerCase()}
-                  data-project={project.slug}
-                  style={style}
-                  aria-label={`${archiveActionLabels[project.actionKind]}：${project.titleZh}`}
-                  aria-pressed={isSelected}
-                  ref={(node) => {
-                    if (node) cardRefs.current.set(project.slug, node);
-                    else cardRefs.current.delete(project.slug);
-                  }}
-                  onPointerDown={(event) => handlePointerDown(event, project.slug)}
-                  onPointerMove={(event) => handlePointerMove(event, project.slug)}
-                  onPointerUp={(event) => finishPointer(event, project.slug)}
-                  onPointerCancel={(event) => finishPointer(event, project.slug)}
-                  onClick={() => openProject(project.slug)}
-                >
-                  <span className="project-artifact__kind">{archiveObjectKindNames[project.objectKind]}</span>
-                  <ProjectArtifactFace project={project} />
-                </button>
-              </li>
-            );
-          })}
-        </ol>
+                  return (
+                    <li className="project-desk__object-slot" key={project.slug}>
+                      <button
+                        type="button"
+                        className={`project-artifact project-artifact--${carrier.id}${carrier.dark ? ' project-artifact--dark' : ''}${isSelected ? ' project-artifact--selected' : ''}${draggingSlug === project.slug ? ' project-artifact--dragging' : ''}`}
+                        data-availability={project.availability.toLowerCase()}
+                        data-project={project.slug}
+                        data-shell={carrier.source}
+                        style={style}
+                        aria-label={`${archiveActionLabels[project.actionKind]}：${project.titleZh}，${carrier.label}`}
+                        aria-haspopup="dialog"
+                        aria-pressed={isSelected}
+                        ref={(node) => {
+                          if (node) cardRefs.current.set(project.slug, node);
+                          else cardRefs.current.delete(project.slug);
+                        }}
+                        onPointerDown={(event) => handlePointerDown(event, project.slug)}
+                        onPointerMove={(event) => handlePointerMove(event, project.slug)}
+                        onPointerUp={(event) => finishPointer(event, project.slug)}
+                        onPointerCancel={(event) => finishPointer(event, project.slug)}
+                        onClick={() => openProject(project.slug)}
+                      >
+                        <ProjectArtifactFace project={project} carrier={carrier} />
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          ))}
+        </div>
 
-        {selectedProject && (
-          <aside
-            className="project-desk__dossier"
-            role="dialog"
-            aria-labelledby={`project-desk-${selectedProject.slug}-title`}
-          >
-            <button
-              type="button"
-              className="project-desk__close"
-              ref={closeButtonRef}
-              onClick={() => {
-                setSelectedSlug(null);
-                window.requestAnimationFrame(() => cardRefs.current.get(selectedProject.slug)?.focus());
-              }}
-              aria-label="关闭项目详情"
+        {selectedProject && selectedCarrier && (
+          <>
+            <button className="project-desk__scrim" type="button" onClick={closeProject} aria-label="关闭项目档案" />
+            <aside
+              className="project-desk__dossier"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={`project-desk-${selectedProject.slug}-title`}
             >
-              <span aria-hidden="true">×</span>
-            </button>
+              <button
+                type="button"
+                className="project-desk__close"
+                ref={closeButtonRef}
+                onClick={closeProject}
+                aria-label="关闭项目详情"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
 
-            <div className="project-desk__dossier-scroll">
-              <p className="project-desk__dossier-meta">
-                <span>{selectedProject.folio}</span>
-                <span>{archiveObjectKindNames[selectedProject.objectKind]}</span>
-                <span>{availabilityLabel(selectedProject)}</span>
-              </p>
-              <h3 id={`project-desk-${selectedProject.slug}-title`}>{selectedProject.titleZh}</h3>
-              <p className="project-desk__dossier-name">{selectedProject.name}</p>
-              <p className="project-desk__dossier-summary">{selectedProject.summary}</p>
+              <div className="project-desk__dossier-scroll">
+                <p className="project-desk__dossier-meta">
+                  <span>{selectedProject.folio}</span>
+                  <span>{selectedCarrier.label}</span>
+                  <span>{availabilityLabel(selectedProject)}</span>
+                </p>
+                <h3 id={`project-desk-${selectedProject.slug}-title`}>{selectedProject.titleZh}</h3>
+                <p className="project-desk__dossier-name">{selectedProject.name}</p>
+                <p className="project-desk__dossier-summary">{selectedProject.summary}</p>
 
-              <ul className="project-desk__tags" aria-label="技术标签">
-                {selectedProject.tags.map((tag) => <li key={tag}>{tag}</li>)}
-              </ul>
+                <ul className="project-desk__tags-list" aria-label="技术标签">
+                  {selectedProject.tags.map((tag) => <li key={tag}>{tag}</li>)}
+                </ul>
 
-              <div className="project-desk__evidence">
-                <span>证据状态 · {EVIDENCE_LABELS[selectedProject.evidenceState]}</span>
-                <p>{selectedProject.evidenceNote}</p>
-              </div>
-
-              {selectedProject.provenance && (
-                <div className="project-desk__provenance">
-                  <span>真实边界</span>
-                  <p>{selectedProject.provenance}</p>
+                <div className="project-desk__evidence">
+                  <span>证据状态 · {EVIDENCE_LABELS[selectedProject.evidenceState]}</span>
+                  <p>{selectedProject.evidenceNote}</p>
                 </div>
-              )}
 
-              {selectedActions.length > 0 ? (
-                <nav className="project-desk__actions" aria-label={`${selectedProject.name} 可用入口`}>
-                  {selectedActions.map((action) => (
-                    <a
-                      className={`project-desk__action project-desk__action--${action.kind}`}
-                      href={action.href}
-                      key={`${action.label}-${action.href}`}
-                      {...linkProps(action.href)}
-                    >
-                      <span>{action.label}</span>
-                      <span aria-hidden="true">{isExternalUrl(action.href) ? '↗' : '→'}</span>
-                    </a>
-                  ))}
-                </nav>
-              ) : (
-                <p className="project-desk__pending">这份预研目前只在本页开放，先保留真实状态。</p>
-              )}
-            </div>
-          </aside>
+                {selectedProject.provenance && (
+                  <div className="project-desk__provenance">
+                    <span>真实边界</span>
+                    <p>{selectedProject.provenance}</p>
+                  </div>
+                )}
+
+                {selectedActions.length > 0 ? (
+                  <nav className="project-desk__actions" aria-label={`${selectedProject.name} 可用入口`}>
+                    {selectedActions.map((action) => (
+                      <a
+                        className={`project-desk__action project-desk__action--${action.kind}`}
+                        href={action.href}
+                        key={`${action.label}-${action.href}`}
+                        onClick={() => setSelectedSlug(null)}
+                        {...linkProps(action.href)}
+                      >
+                        <span>{action.label}</span>
+                        <span aria-hidden="true">{isExternalUrl(action.href) ? '↗' : '→'}</span>
+                      </a>
+                    ))}
+                  </nav>
+                ) : (
+                  <p className="project-desk__pending">这份预研目前只在本页开放，先保留真实状态。</p>
+                )}
+              </div>
+            </aside>
+          </>
         )}
       </div>
     </section>

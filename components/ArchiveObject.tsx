@@ -1,94 +1,245 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { archiveActionLabels } from '@/components/ArchiveObjectLanguage';
-import type { ArchiveDeskObject } from '@/components/ArchiveData';
-import XiaoyueMark from '@/components/XiaoyueMark';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  type RefObject
+} from 'react';
+import type { ArchiveDeskObject, ArchiveObjectId } from '@/components/ArchiveData';
+import styles from './ArchiveDesk.module.css';
 
 type Offset = { x: number; y: number };
+type InteractionPhase = 'idle' | 'pressing' | 'dragging' | 'settling';
+
+type StoredLayout = {
+  version: 1;
+  positions: Partial<Record<ArchiveObjectId, Offset>>;
+};
+
+type PointerSession = {
+  id: number;
+  startX: number;
+  startY: number;
+  startOffset: Offset;
+  startRect: DOMRect;
+  containerRect: DOMRect;
+  threshold: number;
+};
+
+export const ARCHIVE_LAYOUT_STORAGE_KEY = 'xiaoyue-archive-layout:v1:desktop';
+
+const DESKTOP_QUERY = '(min-width: 721px)';
+const SETTLE_DURATION_MS = 240;
+const ZERO_OFFSET: Offset = { x: 0, y: 0 };
+
+function isOffset(value: unknown): value is Offset {
+  if (!value || typeof value !== 'object') return false;
+  const candidate = value as Offset;
+  return Number.isFinite(candidate.x) && Number.isFinite(candidate.y);
+}
+
+function readStoredOffset(id: ArchiveObjectId): Offset | null {
+  try {
+    const raw = localStorage.getItem(ARCHIVE_LAYOUT_STORAGE_KEY);
+    if (!raw) return null;
+    const saved = JSON.parse(raw) as StoredLayout;
+    if (saved?.version !== 1) return null;
+    const position = saved.positions?.[id];
+    return isOffset(position) ? position : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStoredOffset(id: ArchiveObjectId, next: Offset) {
+  try {
+    const raw = localStorage.getItem(ARCHIVE_LAYOUT_STORAGE_KEY);
+    const parsed = raw ? (JSON.parse(raw) as StoredLayout) : null;
+    const positions = parsed?.version === 1 && parsed.positions ? parsed.positions : {};
+    const saved: StoredLayout = {
+      version: 1,
+      positions: { ...positions, [id]: next }
+    };
+    localStorage.setItem(ARCHIVE_LAYOUT_STORAGE_KEY, JSON.stringify(saved));
+  } catch {
+    // Direct manipulation still works when storage is blocked or malformed.
+  }
+}
+
+function classNames(...values: Array<string | false | null | undefined>) {
+  return values.filter(Boolean).join(' ');
+}
 
 export default function ArchiveObject({
   object,
-  active,
-  onHover,
   containerRef,
   zIndex,
   onBringToFront
 }: {
   object: ArchiveDeskObject;
-  active: boolean;
-  onHover: (id: string | null) => void;
-  containerRef: React.RefObject<HTMLDivElement | null>;
+  containerRef: RefObject<HTMLDivElement | null>;
   zIndex: number;
-  onBringToFront: (id: string) => void;
+  onBringToFront: (id: ArchiveObjectId) => void;
 }) {
   const itemRef = useRef<HTMLAnchorElement>(null);
-  const pointerRef = useRef<{
-    id: number;
-    startX: number;
-    startY: number;
-    startOffset: Offset;
-    startRect: DOMRect;
-    containerRect: DOMRect;
-  } | null>(null);
-  const movedRef = useRef(false);
-  const latestOffsetRef = useRef<Offset>({ x: 0, y: 0 });
-  const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
+  const pointerRef = useRef<PointerSession | null>(null);
+  const latestOffsetRef = useRef<Offset>(ZERO_OFFSET);
+  const draggedThisGestureRef = useRef(false);
+  const suppressClickRef = useRef(false);
+  const desktopRef = useRef(false);
+  const settleTimerRef = useRef<number | null>(null);
+  const reclampFrameRef = useRef<number | null>(null);
+  const [offset, setOffset] = useState<Offset>(ZERO_OFFSET);
+  const [phase, setPhase] = useState<InteractionPhase>('idle');
+  const [dragEnabled, setDragEnabled] = useState(false);
+  const [assetMissing, setAssetMissing] = useState(false);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem('chloe-archive-layout');
-      if (!raw) return;
-      const saved = JSON.parse(raw) as Record<string, Offset>;
-      if (saved?.[object.id] && Number.isFinite(saved[object.id].x) && Number.isFinite(saved[object.id].y)) {
-        latestOffsetRef.current = saved[object.id];
-        setOffset(saved[object.id]);
-      }
-    } catch {
-      // The desk remains usable when local storage is unavailable.
-    }
-  }, [object.id]);
+  const applyOffset = useCallback((next: Offset) => {
+    latestOffsetRef.current = next;
+    setOffset(next);
+  }, []);
 
-  const persist = (next: Offset) => {
-    try {
-      const raw = localStorage.getItem('chloe-archive-layout');
-      const saved = raw ? (JSON.parse(raw) as Record<string, Offset>) : {};
-      saved[object.id] = next;
-      localStorage.setItem('chloe-archive-layout', JSON.stringify(saved));
-    } catch {
-      // The interaction should still work when storage is unavailable.
-    }
-  };
-
-  const onPointerDown = (event: React.PointerEvent<HTMLAnchorElement>) => {
-    if (event.pointerType === 'mouse' && event.button !== 0) return;
+  const reclamp = useCallback((persistCorrection = true) => {
+    if (!desktopRef.current || pointerRef.current) return;
     const item = itemRef.current;
     const container = containerRef.current;
     if (!item || !container) return;
 
-    movedRef.current = false;
+    const itemRect = item.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    let correctionX = 0;
+    let correctionY = 0;
+
+    if (itemRect.left < containerRect.left) correctionX = containerRect.left - itemRect.left;
+    else if (itemRect.right > containerRect.right) correctionX = containerRect.right - itemRect.right;
+
+    if (itemRect.top < containerRect.top) correctionY = containerRect.top - itemRect.top;
+    else if (itemRect.bottom > containerRect.bottom) correctionY = containerRect.bottom - itemRect.bottom;
+
+    if (Math.abs(correctionX) < .5 && Math.abs(correctionY) < .5) return;
+    const current = latestOffsetRef.current;
+    const next = { x: current.x + correctionX, y: current.y + correctionY };
+    applyOffset(next);
+    if (persistCorrection) writeStoredOffset(object.id, next);
+  }, [applyOffset, containerRef, object.id]);
+
+  const scheduleReclamp = useCallback((persistCorrection = true) => {
+    if (reclampFrameRef.current !== null) cancelAnimationFrame(reclampFrameRef.current);
+    reclampFrameRef.current = requestAnimationFrame(() => {
+      reclampFrameRef.current = null;
+      reclamp(persistCorrection);
+    });
+  }, [reclamp]);
+
+  useEffect(() => {
+    const media = window.matchMedia(DESKTOP_QUERY);
+
+    const applyViewportMode = () => {
+      desktopRef.current = media.matches;
+      setDragEnabled(media.matches);
+
+      if (!media.matches) {
+        const pointer = pointerRef.current;
+        if (pointer) {
+          try {
+            itemRef.current?.releasePointerCapture(pointer.id);
+          } catch {
+            // The active capture may already have been released.
+          }
+        }
+        applyOffset(ZERO_OFFSET);
+        setPhase('idle');
+        pointerRef.current = null;
+        draggedThisGestureRef.current = false;
+        return;
+      }
+
+      applyOffset(readStoredOffset(object.id) ?? ZERO_OFFSET);
+      scheduleReclamp(true);
+    };
+
+    applyViewportMode();
+    media.addEventListener?.('change', applyViewportMode);
+    return () => media.removeEventListener?.('change', applyViewportMode);
+  }, [applyOffset, object.id, scheduleReclamp]);
+
+  useEffect(() => {
+    const item = itemRef.current;
+    const container = containerRef.current;
+    if (!item || !container) return;
+
+    const onResize = () => scheduleReclamp(true);
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(onResize);
+    observer?.observe(item);
+    observer?.observe(container);
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', onResize);
+    };
+  }, [containerRef, scheduleReclamp]);
+
+  useEffect(() => () => {
+    if (settleTimerRef.current !== null) window.clearTimeout(settleTimerRef.current);
+    if (reclampFrameRef.current !== null) cancelAnimationFrame(reclampFrameRef.current);
+  }, []);
+
+  const beginSettling = () => {
+    if (settleTimerRef.current !== null) window.clearTimeout(settleTimerRef.current);
+    setPhase('settling');
+    settleTimerRef.current = window.setTimeout(() => {
+      settleTimerRef.current = null;
+      setPhase('idle');
+      scheduleReclamp(true);
+    }, SETTLE_DURATION_MS);
+  };
+
+  const onPointerDown = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+    if (!desktopRef.current) return;
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+
+    const item = itemRef.current;
+    const container = containerRef.current;
+    if (!item || !container) return;
+
+    if (settleTimerRef.current !== null) window.clearTimeout(settleTimerRef.current);
+    draggedThisGestureRef.current = false;
+    suppressClickRef.current = false;
     pointerRef.current = {
       id: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
       startOffset: latestOffsetRef.current,
       startRect: item.getBoundingClientRect(),
-      containerRect: container.getBoundingClientRect()
+      containerRect: container.getBoundingClientRect(),
+      threshold: event.pointerType === 'touch' ? 10 : 6
     };
+
     item.setPointerCapture(event.pointerId);
     onBringToFront(object.id);
-    setDragging(true);
+    setPhase('pressing');
   };
 
-  const onPointerMove = (event: React.PointerEvent<HTMLAnchorElement>) => {
+  const onPointerMove = (event: ReactPointerEvent<HTMLAnchorElement>) => {
     const drag = pointerRef.current;
     if (!drag || drag.id !== event.pointerId) return;
 
     let dx = event.clientX - drag.startX;
     let dy = event.clientY - drag.startY;
-    if (Math.hypot(dx, dy) > 6) movedRef.current = true;
+    const distance = Math.hypot(dx, dy);
+
+    if (!draggedThisGestureRef.current && distance < drag.threshold) return;
+    if (!draggedThisGestureRef.current) {
+      draggedThisGestureRef.current = true;
+      setPhase('dragging');
+    }
+    event.preventDefault();
 
     const minDx = drag.containerRect.left - drag.startRect.left;
     const maxDx = drag.containerRect.right - drag.startRect.right;
@@ -97,121 +248,128 @@ export default function ArchiveObject({
     dx = Math.min(maxDx, Math.max(minDx, dx));
     dy = Math.min(maxDy, Math.max(minDy, dy));
 
-    const next = { x: drag.startOffset.x + dx, y: drag.startOffset.y + dy };
-    latestOffsetRef.current = next;
-    setOffset(next);
+    applyOffset({ x: drag.startOffset.x + dx, y: drag.startOffset.y + dy });
   };
 
-  const finishDrag = (event: React.PointerEvent<HTMLAnchorElement>) => {
-    if (!pointerRef.current || pointerRef.current.id !== event.pointerId) return;
+  const finishInteraction = (event: ReactPointerEvent<HTMLAnchorElement>, releaseCapture: boolean) => {
+    const drag = pointerRef.current;
+    if (!drag || drag.id !== event.pointerId) return;
+
+    const didDrag = draggedThisGestureRef.current;
     pointerRef.current = null;
-    setDragging(false);
-    persist(latestOffsetRef.current);
-    try {
-      itemRef.current?.releasePointerCapture(event.pointerId);
-    } catch {
-      // Pointer capture may already have been released.
+    suppressClickRef.current = didDrag;
+
+    if (didDrag) {
+      writeStoredOffset(object.id, latestOffsetRef.current);
+      beginSettling();
+    } else {
+      setPhase('idle');
     }
+
+    if (releaseCapture) {
+      try {
+        itemRef.current?.releasePointerCapture(event.pointerId);
+      } catch {
+        // Pointer capture can already be gone after cancellation.
+      }
+    }
+
+    window.setTimeout(() => {
+      suppressClickRef.current = false;
+    }, 0);
   };
 
-  const renderContents = () => {
-    if (object.kind === 'dossier') {
-      return (
-        <div className="archive-artifact archive-artifact--dossier">
-          <span className="archive-artifact__folio">{object.folio}</span>
-          <span className="archive-artifact__binder" aria-hidden="true" />
-          <p>{object.subtitle}</p>
-          <h3>{object.title}</h3>
-          <ol>{object.lines.map((line) => <li key={line}>{line}</li>)}</ol>
-          <i>{archiveActionLabels[object.actionKind]} ↗</i>
-        </div>
-      );
-    }
-
-    if (object.kind === 'newspaper') {
-      return (
-        <div className="archive-artifact archive-artifact--newspaper">
-          <div className="archive-newspaper__masthead">
-            <span>{object.folio}</span><b>{object.title}</b><span>2026</span>
-          </div>
-          <p>{object.subtitle}</p>
-          <h3>正在研究什么？</h3>
-          <div className="archive-newspaper__columns">
-            {object.lines.map((line) => <span key={line}>{line}</span>)}
-          </div>
-          <i>{archiveActionLabels[object.actionKind]} ↗</i>
-        </div>
-      );
-    }
-
-    if (object.kind === 'booklet') {
-      return (
-        <div className="archive-artifact archive-artifact--booklet">
-          <span className="archive-booklet__spine" aria-hidden="true" />
-          <p>{object.folio} / {object.subtitle}</p>
-          <h3>{object.title}</h3>
-          <div>{object.lines.map((line, index) => <span key={line}>{index + 1}. {line}</span>)}</div>
-          <i>{archiveActionLabels[object.actionKind]} ↗</i>
-        </div>
-      );
-    }
-
-    if (object.kind === 'polaroid') {
-      return (
-        <div className="archive-artifact archive-artifact--polaroid">
-          <div className="archive-polaroid__image">
-            <img draggable={false} src="/images/green-photo.svg" alt="" />
-          </div>
-          <p>{object.subtitle}</p>
-          <h3>{object.title}</h3>
-        </div>
-      );
-    }
-
-    return (
-      <div className="archive-artifact archive-artifact--seeds">
-        <span>{object.folio}</span>
-        <XiaoyueMark />
-        <p>{object.subtitle}</p>
-        <h3>{object.title}</h3>
-        <small>OPEN · PLANT · GROW</small>
-      </div>
-    );
-  };
+  const isActive = phase === 'pressing' || phase === 'dragging';
+  const isDragging = phase === 'dragging';
+  const objectClass = styles[object.id];
+  const style = {
+    '--x': object.x,
+    '--y': object.y,
+    '--w': object.w,
+    '--rotate': object.rotate,
+    '--drag-x': `${offset.x}px`,
+    '--drag-y': `${offset.y}px`,
+    '--z': zIndex,
+    '--aspect-ratio': object.aspectRatio
+  } as CSSProperties;
 
   return (
     <Link
       ref={itemRef}
       href={object.href}
-      aria-label={`${object.label}：${object.description}`}
-      className={`archive-object archive-object--${object.id} archive-object--kind-${object.kind} ${active ? 'active' : ''} ${dragging ? 'is-dragging' : ''} no-underline`}
-      style={{
-        left: object.x,
-        top: object.y,
-        width: object.w,
-        '--base-rotate': object.rotate,
-        '--drag-x': `${offset.x}px`,
-        '--drag-y': `${offset.y}px`,
-        zIndex
-      } as React.CSSProperties}
+      aria-label={`${object.actionLabel}：${object.title}。${object.description}`}
+      className={classNames(
+        styles.object,
+        objectClass,
+        assetMissing && styles.assetMissing,
+        isDragging && styles.dragged,
+        isActive && styles.active
+      )}
+      style={style}
+      data-object={object.id}
+      data-active={isActive ? 'true' : 'false'}
+      data-dragging={isDragging ? 'true' : 'false'}
+      data-phase={phase}
+      data-draggable={dragEnabled ? 'true' : 'false'}
+      data-asset-status={assetMissing ? 'missing' : 'ready'}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
-      onPointerUp={finishDrag}
-      onPointerCancel={finishDrag}
+      onPointerUp={(event) => finishInteraction(event, true)}
+      onPointerCancel={(event) => finishInteraction(event, true)}
+      onLostPointerCapture={(event) => finishInteraction(event, false)}
       onClick={(event) => {
-        if (movedRef.current) {
-          event.preventDefault();
-          event.stopPropagation();
-          movedRef.current = false;
-        }
+        if (!suppressClickRef.current) return;
+        event.preventDefault();
+        event.stopPropagation();
+        suppressClickRef.current = false;
       }}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') onBringToFront(object.id);
+      }}
+      onFocus={() => onBringToFront(object.id)}
       onDragStart={(event) => event.preventDefault()}
-      onMouseEnter={() => onHover(object.id)}
-      onMouseLeave={() => onHover(null)}
-      onFocus={() => onHover(object.id)}
-      onBlur={() => onHover(null)}
     >
-      <div className="archive-object__inner">{renderContents()}</div>
+      <img
+        className={styles.asset}
+        src={object.assetSrc}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        onLoad={() => {
+          setAssetMissing(false);
+          scheduleReclamp(true);
+        }}
+        onError={() => setAssetMissing(true)}
+      />
+      {object.decorations?.map((decoration) => (
+        <img
+          key={decoration.id}
+          className={classNames(
+            styles.decoration,
+            styles[decoration.layer],
+            styles[decoration.id]
+          )}
+          src={decoration.assetSrc}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          data-decoration={decoration.id}
+          data-mobile={decoration.mobile}
+        />
+      ))}
+      <span className={styles.textLayer}>
+        <span className={styles.meta}>
+          <span>{object.folio}</span>
+          <span>{object.lines.join(' / ')}</span>
+        </span>
+        <span className={styles.subtitle}>{object.subtitle}</span>
+        <span className={styles.title}>
+          {(object.titleLines ?? [object.title]).map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </span>
+        <span className={styles.action}>{object.actionLabel} ↗</span>
+      </span>
     </Link>
   );
 }

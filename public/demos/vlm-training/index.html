@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="vlm-snapshot-url" content="./data/snapshot.json" />
+    <title>多模态视觉问答演示</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#visual-ai-demo">跳到演示</a>
+
+    <header class="demo-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">L.02 / 多模态 AI 演示</p>
+        <h1>让模型看懂图片，回答科学问题。</h1>
+        <p class="hero-story" id="project-story">正在读取真实训练记录…</p>
+        <ul class="hero-facts" id="hero-facts" aria-label="项目核心技术"></ul>
+      </div>
+      <div class="hero-action">
+        <p>招聘会快速演示</p>
+        <button class="demo-button" id="demo-mode-toggle" type="button" aria-pressed="false">
+          <span aria-hidden="true">▶</span>
+          启动 60 秒 Demo
+        </button>
+        <span>自动讲完任务、训练与研究目标</span>
+      </div>
+    </header>
+
+    <nav class="section-nav" aria-label="演示页面导航">
+      <a href="#visual-ai-demo">01 视觉问答</a>
+      <a href="#data-selection-research">02 数据选择</a>
+      <a href="#training-inspector">03 训练证明</a>
+      <a href="#evidence-roadmap">04 技术证据</a>
+    </nav>
+
+    <main>
+      <section class="screen visual-screen" id="visual-ai-demo" aria-labelledby="visual-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-index">01 / 视觉问答演示</p>
+            <h2 id="visual-title">一张图，一个科学问题</h2>
+          </div>
+          <p class="section-intro">模型需要同时理解图像、问题与候选答案。</p>
+        </div>
+
+        <div class="qa-stage">
+          <div class="sample-side" id="demo-image-step">
+            <div class="sample-toolbar">
+              <label for="sample-select">选择真实 ScienceQA 样本</label>
+              <span class="sample-counter" id="sample-counter">— / —</span>
+            </div>
+            <select id="sample-select"></select>
+            <figure class="image-stage">
+              <img id="sample-image" alt="" />
+              <figcaption>ScienceQA 真实图片</figcaption>
+            </figure>
+          </div>
+
+          <article class="question-side" id="demo-question-step" aria-live="polite">
+            <div class="task-label" id="ai-task">
+              <span>AI 任务</span>
+              <strong>读图 + 理解问题 + 多项选择</strong>
+            </div>
+            <div class="question-block">
+              <p class="field-label">问题</p>
+              <h3 id="question"></h3>
+              <ol class="choices" id="choices"></ol>
+              <details class="original-question">
+                <summary>查看 ScienceQA 英文原题</summary>
+                <p id="original-question"></p>
+                <ol id="original-choices"></ol>
+              </details>
+            </div>
+            <div class="answer-grid" id="demo-ai-step">
+              <div class="answer-panel ground-truth-panel">
+                <p class="field-label">正确答案</p>
+                <p class="answer-value" id="ground-truth"></p>
+                <p class="answer-note">ScienceQA 冻结答案</p>
+              </div>
+              <div class="answer-panel prediction-panel">
+                <p class="field-label">模型预测</p>
+                <p class="answer-value" id="prediction"></p>
+                <p class="answer-note" id="prediction-source"></p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen research-screen" id="data-selection-research" aria-labelledby="research-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-index">02 / 数据选择研究</p>
+            <h2 id="research-title">少一点数据，能不能学得一样好？</h2>
+          </div>
+          <p class="section-intro" id="research-question"></p>
+        </div>
+
+        <div class="research-flow" aria-label="数据选择实验流程">
+          <div class="flow-node source-node">
+            <span class="flow-kicker">训练数据</span>
+            <strong>ScienceQA</strong>
+            <small>真实图像 + 科学问题</small>
+          </div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-branch">
+            <div class="flow-node">
+              <span class="flow-kicker">随机基线</span>
+              <strong>Random-1000</strong>
+              <small>随机选择 1,000 条</small>
+            </div>
+            <div class="flow-vs">VS</div>
+            <div class="flow-node selected-node">
+              <span class="flow-kicker">数据选择</span>
+              <strong>Selected-1000</strong>
+              <small>选择更有价值的数据</small>
+            </div>
+          </div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-node budget-node">
+            <span class="flow-kicker">相同训练预算</span>
+            <strong id="flow-model">VLM</strong>
+            <small>同一 LoRA / SFT 配置</small>
+          </div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-node evaluation-node">
+            <span class="flow-kicker">公平评测</span>
+            <strong>留出测试集</strong>
+            <small>同一测试集与指标</small>
+          </div>
+        </div>
+
+        <div class="research-lower">
+          <div>
+            <p class="field-label">当前研究状态</p>
+            <div class="status-list" id="research-status"></div>
+          </div>
+          <aside class="no-claim">
+            <span>当前结论</span>
+            <strong>尚未形成数据选择提升结论</strong>
+            <p>Selected-1000 与多随机种子配对实验尚未执行，不展示虚假的准确率提升。</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="screen training-screen" id="training-inspector" aria-labelledby="training-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-index">03 / 训练检查</p>
+            <h2 id="training-title">远端训练回执记录了完整闭环</h2>
+          </div>
+          <p class="section-intro" id="run-status">正在读取 J02 receipt…</p>
+        </div>
+
+        <div class="training-proof" id="demo-training-step">
+          <div class="proof-lead">
+            <span class="proof-mark" aria-hidden="true">✓</span>
+            <div>
+              <p>远端 CUDA 训练回执</p>
+              <strong id="training-proof-title"></strong>
+              <span id="training-proof-subtitle"></span>
+            </div>
+          </div>
+          <div class="metric-grid" id="metric-grid"></div>
+        </div>
+      </section>
+
+      <section class="screen evidence-screen" id="evidence-roadmap" aria-labelledby="evidence-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-index">04 / 技术证据</p>
+            <h2 id="evidence-title">可追溯，但不打扰第一眼</h2>
+          </div>
+          <p class="section-intro">Checkpoint、模型版本、SHA 与确定性证据都保留在这里。</p>
+        </div>
+
+        <div class="evidence-layout">
+          <div class="technical-details">
+            <h3>当前样本与训练证据</h3>
+            <dl id="technical-list"></dl>
+            <p class="evidence-boundary" id="evidence-boundary"></p>
+          </div>
+          <div class="roadmap-panel">
+            <h3>项目真实进度</h3>
+            <ol class="roadmap" id="roadmap"></ol>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        真实 ScienceQA 样本 · 无登录 · 无 API key · 不在本地重新训练 ·
+        <a href="https://github.com/lupantech/ScienceQA/blob/2cbf8318e07b9ece895bb2ae605e71e38d623264/LICENSE-DATA" rel="noreferrer">CC BY-NC-SA 4.0 / 非商业研究展示</a>
+      </p>
+      <p id="manifest-footer"></p>
+    </footer>
+
+    <div class="demo-controller" id="demo-controller" hidden aria-live="polite">
+      <div class="demo-controller-copy">
+        <span id="demo-step-label">60 秒演示</span>
+        <strong id="demo-caption"></strong>
+      </div>
+      <div class="demo-progress-wrap">
+        <progress id="demo-progress" max="60000" value="0"></progress>
+        <span id="demo-countdown">60s</span>
+      </div>
+      <button type="button" id="demo-stop">停止</button>
+    </div>
+
+    <div class="fatal-error" id="fatal-error" hidden role="alert"></div>
+    <script src="./assets/snapshot.js" defer></script>
+    <script src="./assets/app.js" defer></script>
+  </body>
+</html>
