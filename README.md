@@ -1,37 +1,57 @@
-# Chloe's Blog
+# Chloe’s Archive
 
-A simple, static personal technical blog built with Next.js, TypeScript, Tailwind CSS, and Markdown.
+小悦的数字收藏室：一份持续生长的个人档案，用来保存做过的作品、正在研究的问题，以及学习过程留下的笔记。
 
-## Local development
+公开入口：<https://hey-chloe.github.io/>
+
+## 四个入口
+
+- **Archive**：个人档案与收藏室入口，以可移动、可打开的档案物件组织内容。
+- **Work**：产品、系统、Agent 与研究原型；项目按当前真实状态陈列。
+- **Lab**：模型、算法、检索、排序与 Agent 评估实验；同时保留方法、边界、失败和下一步验证。
+- **Notes**：学习笔记、项目现场记录与早期成长痕迹。
+
+Archive、Work、Lab、Notes 属于同一个人，但承担不同职责：Work 展示做成的东西，Lab 记录如何验证，Notes 留下理解，Archive 把这些内容组织成可回访的长期索引。
+
+## 技术实现
+
+本站使用 Next.js App Router、TypeScript 与 React 构建，并通过 Next.js 的静态导出模式生成可部署到 GitHub Pages 的 `out/` 目录。构建脚本会在静态产物中补充 `.nojekyll`。
+
+## 本地运行
+
+仓库已提交 `package-lock.json`，建议使用锁定依赖安装：
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Open <http://localhost:3000>.
+开发服务器默认可从 <http://localhost:3000/> 访问。
 
-## Build
+## 检查与构建
 
 ```bash
+npm run typecheck
 npm run build
 ```
 
-The static site will be generated in the `out` directory.
+- `npm run typecheck`：执行 TypeScript 静态类型检查。
+- `npm run build`：构建并静态导出站点；产物写入 `out/`。
 
-## Add a new post
+仓库目前没有单独的 `test` 脚本。类型检查和构建通过，只能说明对应检查在当前环境完成，不能代替真实浏览器交互、线上可用性或项目效果验证。
 
-Create a new Markdown file in `content/posts`, for example:
+## 证据边界
 
-```md
----
-title: "My New Note"
-date: "2026-07-08"
-description: "A short summary of this note."
-tags: ["Java", "Web"]
----
+本站把“能打开”“代码存在”和“结果已经被真实运行证明”视为不同层级：
 
-Write your post here.
-```
+- **公开 Demo** 只证明公开页面或交互可以被查看；不自动代表生产部署、真实用户采用或商业效果。
+- **离线结果** 只在对应数据、划分、协议、指标和运行产物的边界内成立；不外推为线上 CTR、转化、收入或生产性能。
+- **合成数据 / Fixture** 只用于验证代码路径、界面结构或实验协议；不冒充真实业务数据和公开数据集结果。
+- **仓库材料 / REPOSITORY REPORTED** 表示页面引用了公开仓库中可检查的实现或报告；若本次未复跑，不写成本站已经重新执行并确认。
+- **未执行 / 待验证 / WIP** 会保持原状态；没有运行记录、指标产物或可核对证据时，不补写成功率、性能或结论。
 
-The filename becomes the URL slug. For example, `my-new-note.md` becomes `/blog/my-new-note`.
+如果页面中的项目说明与其固定版本仓库、公开报告或边界文件存在差异，应以可追溯的源材料和最新明确状态为准。
+
+## 内容维护
+
+笔记内容位于 `content/posts/`，页面与路由位于 `app/`，可公开的静态素材和 Demo 位于 `public/`。新增内容时，应同时保留来源、运行状态和适用边界，不用展示文案替代实际证据。
