@@ -595,6 +595,62 @@ select {
   font-size: 0.78rem;
 }
 
+.result-card {
+  padding: 22px;
+}
+
+.result-card > strong {
+  font-size: 1.08rem;
+}
+
+.result-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin: 16px 0;
+  background: rgb(255 255 255 / 16%);
+}
+
+.result-metrics .metric-item {
+  min-height: 82px;
+  padding: 12px;
+  background: #343733;
+}
+
+.result-metrics .metric-label {
+  color: #aeb4aa;
+}
+
+.result-metrics .metric-value {
+  margin-top: 8px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.seed-results {
+  margin-bottom: 14px;
+  border-top: 1px solid rgb(255 255 255 / 18%);
+}
+
+.seed-row {
+  display: grid;
+  grid-template-columns: 0.75fr 1fr 1.18fr 0.65fr;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgb(255 255 255 / 13%);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+}
+
+.seed-id {
+  color: #aeb4aa;
+}
+
+.seed-delta {
+  color: #ffb9ad;
+  text-align: right;
+}
+
 .training-proof {
   display: grid;
   grid-template-columns: minmax(270px, 0.55fr) minmax(0, 1.45fr);
@@ -1035,6 +1091,15 @@ progress::-webkit-progress-value {
 
   .research-lower {
     gap: 24px;
+  }
+
+  .seed-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .seed-coincide,
+  .seed-delta {
+    text-align: left;
   }
 
   .status-row {

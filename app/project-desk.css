@@ -6,6 +6,10 @@
   color: var(--work-ink, #172019);
 }
 
+.project-desk:has(.project-desk__dossier) {
+  z-index: 100;
+}
+
 .project-desk__header {
   position: relative;
   z-index: 4;
@@ -236,6 +240,25 @@
   font-weight: 680;
   letter-spacing: .07em;
   line-height: 1.35;
+}
+
+.project-artifact--spotlight .project-artifact__overline {
+  color: #a84837;
+}
+
+.project-artifact--spotlight::after {
+  position: absolute;
+  top: 5%;
+  right: 12%;
+  z-index: 4;
+  width: 34px;
+  height: 8px;
+  border-radius: 2px;
+  background: rgba(239, 125, 98, .72);
+  box-shadow: 0 2px 4px rgba(92, 51, 41, .12);
+  content: '';
+  pointer-events: none;
+  transform: rotate(2deg);
 }
 
 .project-artifact strong {

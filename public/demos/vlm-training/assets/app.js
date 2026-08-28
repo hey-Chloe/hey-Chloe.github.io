@@ -28,19 +28,19 @@ const DEMO_STEPS = [
     durationMs: 10000,
     target: "#demo-ai-step",
     label: "03 / 看 AI 任务",
-    caption: "Ground Truth 来自冻结数据；预测 artifact 未同步时明确等待，不伪造输出。",
+    caption: "Ground Truth 来自冻结数据；这里展示的是已回收的真实 LoRA checkpoint 输出。",
   },
   {
     durationMs: 13000,
     target: "#demo-training-step",
     label: "04 / 看训练证明",
-    caption: "远端运行回执记录了 128-sample LoRA / SFT 训练闭环；原始产物仍待同步。",
+    caption: "模型已在真实 CUDA GPU 上完成 128-sample LoRA / SFT 训练闭环。",
   },
   {
     durationMs: 15000,
-    target: "#data-selection-research",
-    label: "05 / 看研究目标",
-    caption: "下一步是在相同预算下，比较 Random-1000 与 Selected-1000。",
+    target: "#demo-result-step",
+    label: "05 / 看研究结论",
+    caption: "同一训练预算下，Random-1000 在三个种子都胜过 COINCIDE-1000；负结果同样有研究价值。",
   },
 ];
 
@@ -75,6 +75,15 @@ function formatSeconds(value) {
   return minutes ? `${minutes}m ${seconds.toFixed(2)}s` : `${seconds.toFixed(2)}s`;
 }
 
+function formatPercent(value, digits = 2) {
+  return `${(value * 100).toFixed(digits)}%`;
+}
+
+function formatSignedPoints(value) {
+  const points = value * 100;
+  return `${points >= 0 ? "+" : ""}${points.toFixed(2)} pp`;
+}
+
 function shortRevision(value) {
   return `${value.slice(0, 10)}…${value.slice(-6)}`;
 }
@@ -106,6 +115,10 @@ function cacheElements() {
     "prediction-source",
     "research-question",
     "research-status",
+    "research-finding",
+    "research-result-metrics",
+    "seed-results",
+    "research-claim-boundary",
     "flow-model",
     "run-status",
     "training-proof-title",
@@ -134,7 +147,7 @@ function renderHero() {
   const gpu = inspector.hardware.gpu;
   text(
     els["project-story"],
-    `远端运行回执记录了我在 ${gpu} 上用 LoRA 微调 ${model} 的训练闭环；这个静态页面继续展示 ScienceQA 图文问答与数据选择研究边界。`,
+    `我在 ${gpu} 上用 LoRA 微调 ${model}，让模型学习 ScienceQA 图文问答，并进一步研究如何选择更有价值的训练数据。`,
   );
   els["hero-facts"].replaceChildren();
   [model, gpu, "LoRA / SFT", "ScienceQA"].forEach((fact) => {
@@ -183,6 +196,7 @@ function renderSample(index) {
 }
 
 function renderResearch() {
+  const result = state.snapshot.research.result;
   text(els["research-question"], state.snapshot.research.question);
   text(els["flow-model"], state.snapshot.inspector.model.id.replace("Qwen/", ""));
   els["research-status"].replaceChildren();
@@ -193,6 +207,26 @@ function renderResearch() {
     row.append(copy, make("span", "status-value", humanResearchState(stage.state)));
     els["research-status"].append(row);
   });
+
+  text(els["research-finding"], result.finding);
+  els["research-result-metrics"].replaceChildren(
+    metric("Base", formatPercent(result.base_exact_match)),
+    metric("Random-1000 均值", formatPercent(result.random_exact_match_mean)),
+    metric("COINCIDE-1000 均值", formatPercent(result.coincide_exact_match_mean)),
+    metric("配对差值", formatSignedPoints(result.paired_delta_mean)),
+  );
+  els["seed-results"].replaceChildren();
+  result.paired_seed_results.forEach((row) => {
+    const item = make("div", "seed-row");
+    item.append(
+      make("span", "seed-id", `seed ${row.seed}`),
+      make("span", "seed-random", `Random ${formatPercent(row.random_exact_match)}`),
+      make("span", "seed-coincide", `COINCIDE ${formatPercent(row.coincide_exact_match)}`),
+      make("strong", "seed-delta", formatSignedPoints(row.exact_match_delta)),
+    );
+    els["seed-results"].append(item);
+  });
+  text(els["research-claim-boundary"], result.claim_boundary);
 }
 
 function metric(label, value) {
@@ -208,7 +242,7 @@ function renderTraining() {
   const model = inspector.model;
   const closure = inspector.closure;
 
-  text(els["run-status"], `${inspector.run.job_id} · 远端回执已记录 · 原始产物待同步`);
+  text(els["run-status"], `${inspector.run.job_id} · 训练闭环已完成`);
   text(els["training-proof-title"], `${model.id.replace("Qwen/", "")} × ${hardware.gpu}`);
   text(
     els["training-proof-subtitle"],
@@ -252,6 +286,8 @@ function renderTechnicalDetails() {
   appendDefinition(list, "翻译文件 SHA-256", evidence.translation.sha256, true);
   appendDefinition(list, "J02 config SHA-256", evidence.config_sha256, true);
   appendDefinition(list, "J02 manifest SHA-256", evidence.manifest_sha256, true);
+  appendDefinition(list, "Campaign summary SHA-256", evidence.campaign_summary_sha256, true);
+  appendDefinition(list, "Recovery archive SHA-256", evidence.recovery_archive_sha256, true);
   appendDefinition(
     list,
     "Checkpoint reload",
@@ -266,7 +302,7 @@ function renderTechnicalDetails() {
   appendDefinition(list, "Local artifact state", closure.local_verification, true);
   text(
     els["evidence-boundary"],
-    "J02 完成状态由远端运行回执支持；checkpoint 文件、逐样本预测和确定性哈希仍等待远端原始 artifact 同步到本机。",
+    "J02 与六个 1K run 的原始日志、adapter、逐样本预测、loss、显存遥测和确定性证明均已回收到本机并完成哈希校验；optimizer state 与中间 checkpoint 为控制体积未回收。Base 与 J02 的样本集不同，因此不伪造 Before / After 对照。",
   );
 }
 
@@ -320,7 +356,7 @@ function stopDemo(completed = false) {
   text(els["demo-mode-toggle"], completed ? "↻ 重新播放 60 秒 Demo" : "▶ 启动 60 秒 Demo");
   if (completed) {
     text(els["demo-step-label"], "演示完成");
-    text(els["demo-caption"], "60 秒演示完成：任务、训练证据与 Data Selection 目标已讲完。");
+    text(els["demo-caption"], "60 秒演示完成：任务、训练证据与 Data Selection 负结果已讲完。");
     els["demo-progress"].value = DEMO_TOTAL_MS;
     text(els["demo-countdown"], "完成");
   } else {
@@ -384,7 +420,8 @@ function render(snapshot) {
   renderResearch();
   renderTraining();
   renderRoadmap();
-  renderSample(0);
+  const firstPrediction = snapshot.samples.findIndex((sample) => sample.prediction);
+  renderSample(firstPrediction >= 0 ? firstPrediction : 0);
   bindInteractions();
 }
 

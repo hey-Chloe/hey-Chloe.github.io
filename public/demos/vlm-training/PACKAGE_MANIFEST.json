@@ -6,14 +6,14 @@
       "sha256": "0ef0086a69cc151471b51caaef357b177153e53f39c375bc41d64593ee040cc9"
     },
     {
-      "bytes": 1565,
+      "bytes": 1479,
       "path": "README.md",
-      "sha256": "3a5e2e36d11d1a442fd84284996eecd009c9a20327dfb5e76e8723731f9e54ca"
+      "sha256": "9d0e3ba22b5f0f8d6f7715d928f599ce2a1162a41956716656bbbc97b3d41ca7"
     },
     {
-      "bytes": 13981,
+      "bytes": 15756,
       "path": "assets/app.js",
-      "sha256": "96afb7122e8bb2d4accd3fcfe61df3d47964dca7b5327115ea51ab89ccffbfd8"
+      "sha256": "6a12d225d0fbe41b1cb9a68d6c535bdf0deabb584d68339c97dcadd7cd72c45d"
     },
     {
       "bytes": 19691,
@@ -656,19 +656,19 @@
       "sha256": "d78bd2a70f77cccc81d7107fdee14e206a9a4a27d30e865dd2c712413e1ff18c"
     },
     {
-      "bytes": 93794,
+      "bytes": 99839,
       "path": "assets/snapshot.js",
-      "sha256": "ace7b159615c8c26ac2f5b2f5749dfd7e6f0b2063d04b14ed211386c055dbc71"
+      "sha256": "2d374f92cbc5b9e8c0c36e65b7331a32b2cdc048b5ea285cb6ba5d928e4b7032"
     },
     {
-      "bytes": 18509,
+      "bytes": 19476,
       "path": "assets/styles.css",
-      "sha256": "c787f82c98770951a180f5e9c177225d96e2bfcd0c3b3ff643bb7baa0a143363"
+      "sha256": "b71da6c09183ca800085d139045fe5afbe5ac3c5288ff8a9156ff5a103076a47"
     },
     {
-      "bytes": 125450,
+      "bytes": 133283,
       "path": "data/snapshot.json",
-      "sha256": "110e5672c90adcaca3796e56b8596c27618d81451de34b3c9d649e40a3178bbc"
+      "sha256": "93c4a72dc537ab5c0d864d20c39c1383a0e72cb85144ff81d11a9165955f5c3d"
     },
     {
       "bytes": 36354,
@@ -676,18 +676,18 @@
       "sha256": "b1e91b84c16105c9604340845a62e85ce59fc8085c39c19bf8c39588fc98cd7f"
     },
     {
-      "bytes": 8973,
+      "bytes": 9133,
       "path": "index.html",
-      "sha256": "8e577d2b7ecd0e3fa32a9b05e2bc9cc9e5e11bef4f77a2d2a5a836df0870f357"
+      "sha256": "48524c565842db0a4223a1bd070a329ee818d9b35d72209084f27e5c7776998f"
     }
   ],
   "package": "vlm-training-playground-portable",
-  "prediction_artifacts": 0,
+  "prediction_artifacts": 1,
   "runtime": "static",
   "samples": 128,
   "schema_version": 1,
-  "source_commit": "d4e473ce038a102ae8774376d9937fefb2b4639e",
-  "source_commit_time": "2026-08-26T16:51:36+08:00",
+  "source_commit": "91035879bc6dbfd4a1baa32aa3b7c1124f5f4bfb",
+  "source_commit_time": "2026-08-27T11:56:27+08:00",
   "source_manifest_sha256": "4848562f5e89e68f2c7a32f72bb7d54df524089b39f60f24959c26babce1274a",
   "translation_sha256": "b1e91b84c16105c9604340845a62e85ce59fc8085c39c19bf8c39588fc98cd7f"
 }

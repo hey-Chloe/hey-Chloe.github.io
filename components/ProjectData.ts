@@ -84,16 +84,17 @@ export const originalProjects = [
     name: 'KAI Commerce Studio',
     titleZh: 'AI 电商素材生成工作台',
     category: 'PRODUCT / AI COMMERCE',
-    summary: '从参考图、平台与品牌约束生成多张商品素材，并处理积分预扣、失败退款与生成供应商切换。',
-    tags: ['Node.js', 'Sharp', 'Workers AI', 'Image Generation', 'Transaction'],
+    summary: '站内先用可操作的浏览器合成 Demo 真实导出商品 PNG；完整工程继续处理参考图、平台与品牌约束、生成供应商切换和失败退款。',
+    tags: ['Image Generation', 'Canvas PNG', 'Workers AI', 'Sharp', 'Transaction'],
     evidenceState: 'PROTOTYPE',
-    evidenceNote: '站内是 MOCK / NOT REAL AI OUTPUT 的可操作 UI；本地工程与真实 provider 样例存在，正式多用户存储、支付、审核与生产部署仍未完成。',
+    evidenceNote: '站内 Demo 会真实生成并下载 PNG，但它是浏览器图层合成，不冒充在线生成式模型推理；真实 provider 样例来自本地工程，本轮未复验生产服务。',
     availability: 'DEMO',
     objectKind: 'booklet',
     actionKind: 'try',
-    trialUrl: '/demos/kai-commerce/',
-    trialLabel: '操作 Mock 工作台',
-    provenance: '当前以本地产品闭环展示；没有公开长期在线服务，也不把 mock 输出写成真实 AI 生成。'
+    trialUrl: '/demos/kai-commerce/index.html',
+    trialLabel: '生成并下载一张商品图',
+    provenance: '站内体验证明浏览器端配置、合成与导出流程；它不连接模型、账户、积分或支付，也不把合成图写成真实 AI 输出。',
+    featured: true
   },
   {
     slug: 'kai-play',
@@ -116,19 +117,23 @@ export const originalProjects = [
     slug: 'compute-intelligence',
     folio: 'W.07',
     name: 'KAI Compute Intelligence / Offline RecSys Lab',
-    titleZh: '推荐系统与算力排序实验台',
+    titleZh: '公开推荐系统与离线评估实验室',
     category: 'ALGORITHM / RECOMMENDATION',
-    summary: '把候选召回、CTR 预测与位置偏差校正串成可操作流程，并保留算力硬约束排序原型作为同一项目族中的独立实验。',
-    tags: ['Retrieval', 'CTR', 'Position Bias', 'Offline Evaluation', 'Ranking'],
+    summary: '在公开数据上完成候选召回、Two-Tower / ANN、序列排序、CTR / CVR、位置偏差与离线评估，并用中文 Playground 展示结果和负结论。',
+    tags: ['Two-Tower', 'HNSW', 'DIN / DCN', 'CTR / CVR', 'Offline Evaluation'],
     evidenceState: 'REPOSITORY REPORTED',
-    evidenceNote: '本轮已核验公开静态 Demo 与包内 9/9 文件哈希；指标来自 Amazon Reviews、Criteo 与 Open Bandit 的随包公开离线实验记录，本轮没有重新训练，也不代表线上 CTR、收入或生产推荐效果。',
-    availability: 'DEMO',
+    evidenceNote: '本轮核验公开仓库 main=fcd5a01、Pages HTTP 200 与最新 CI：91 项测试通过，确定性 small reproduction 另有 18 项通过。Amazon 主实验目录为 25,754 个商品，不是百万级；本轮未重新训练。',
+    evidenceUrl: 'https://github.com/hey-Chloe/KAI-Offline-RecSys-Lab/actions/runs/33037703905',
+    availability: 'LIVE',
     objectKind: 'lab-sheet',
     actionKind: 'try',
-    trialUrl: '/demos/recommendation-systems/',
-    trialLabel: '打开推荐算法互动实验室',
+    trialUrl: 'https://hey-chloe.github.io/KAI-Offline-RecSys-Lab/',
+    trialLabel: '进入公开互动实验室',
+    demoUrl: 'https://hey-chloe.github.io/KAI-Offline-RecSys-Lab/',
+    demoLabel: '打开在线演示',
     caseUrl: '/work/algorithm-lab/?tab=compute',
-    provenance: '站内入口只读取公开离线聚合记录与明确标注的合成交互样例，不连接模型、生产数据或 Data Flywheel；Amazon 数据源未指定许可，Criteo 为 CC BY-NC-SA 4.0，因此仅按非商业研究展示。',
+    repoUrl: 'https://github.com/hey-Chloe/KAI-Offline-RecSys-Lab',
+    provenance: '公开页面读取仓库内的公开离线报告与明确标注的合成交互样例；不连接生产数据，也不证明线上 CTR、转化、收入或 KAI Compute 市场效果。Amazon 数据源按 research-only / no assigned license 边界展示。',
     featured: true
   },
   {
@@ -193,19 +198,20 @@ export const originalProjects = [
     slug: 'vlm-data-selection',
     folio: 'W.11',
     name: 'Data-Efficient Visual Instruction Tuning',
-    titleZh: 'VLM 训练与数据选择实验台',
+    titleZh: 'VLM 数据选择的真实负结果',
     category: 'RESEARCH / VLM',
-    summary: '在 128 个冻结的 ScienceQA 图文样本中切换问题，查看 Qwen2.5-VL LoRA / SFT 训练回执、数据选择协议与尚未完成的研究边界。',
-    tags: ['Qwen2.5-VL', 'ScienceQA', 'LoRA / SFT', 'Data Selection', 'Evidence Snapshot'],
+    summary: 'COINCIDE 覆盖更多长尾 skill、近重复率更低，却在 1K 预算下减少 geography、physics、economics 覆盖；TinyLLaVA 选择表征也可能与 Qwen 下游指标迁移错配。',
+    tags: ['Qwen2.5-VL', 'ScienceQA', 'LoRA / SFT', 'COINCIDE', 'Negative Result'],
     evidenceState: 'REPOSITORY REPORTED',
-    evidenceNote: '本轮已核验静态 Demo 行为与包内校验和；J02 / J10 训练状态来自仓库远端回执，原始产物仍待同步。当前没有逐样本模型预测、COINCIDE 提升或 multi-seed 结论。',
+    evidenceNote: '2026-08-27 本地哈希核验的 NVIDIA A10 campaign：Base 74.22%，Random-1000 为 82.94% ± 0.81%，COINCIDE-1000 为 78.26% ± 2.15%；n=3 的 paired 95% CI 跨 0，本轮未重跑训练。',
     availability: 'DEMO',
     objectKind: 'lab-sheet',
     actionKind: 'try',
-    trialUrl: '/demos/vlm-training/',
-    trialLabel: '打开 VLM 训练实验台',
+    trialUrl: '/demos/vlm-training/index.html',
+    trialLabel: '查看三 seed 负结果',
     caseUrl: '/work/algorithm-lab/?tab=vlm',
-    provenance: '站内入口是无 API、无模型权重的静态 evidence snapshot，不执行实时训练或推理；ScienceQA 图文数据仅按 CC BY-NC-SA 4.0 用于非商业研究展示。'
+    provenance: 'COINCIDE 的 unique skills 为 145（Random 95）、近重复率 52.3%（Random 66.0%）；分布再分配与表征错配仍是待验证解释，不是因果证明。站内不执行实时训练或推理，ScienceQA 按 CC BY-NC-SA 4.0 仅用于非商业研究展示。',
+    featured: true
   },
   {
     slug: 'thesis-prestudy',
@@ -355,8 +361,23 @@ export const originalProjects = [
   }
 ] as const satisfies readonly ProjectEntry[];
 
-export const productProjects = originalProjects.slice(0, 6);
-export const researchProjects = originalProjects.slice(6, 12);
+const productProjectGroup = originalProjects.slice(0, 6);
+const researchProjectGroup = originalProjects.slice(6, 12);
+
+export const productProjects = [
+  productProjectGroup[4],
+  ...productProjectGroup.slice(0, 4),
+  productProjectGroup[5]
+];
+
+export const researchProjects = [
+  researchProjectGroup[0],
+  researchProjectGroup[4],
+  researchProjectGroup[1],
+  researchProjectGroup[3],
+  researchProjectGroup[2],
+  researchProjectGroup[5]
+];
 export const systemProjects = originalProjects.slice(12, 19);
 
 export const learningForks = [

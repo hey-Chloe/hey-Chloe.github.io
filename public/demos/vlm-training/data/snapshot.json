@@ -2,20 +2,32 @@
   "compare": {
     "boundary": "Base and LoRA outputs are shown together only when both files contain the same sample_id.",
     "paired_sample_count": 0,
-    "samples_with_any_prediction": 0,
+    "samples_with_any_prediction": 8,
     "state": "NO_REAL_BASE_LORA_PAIR_LOCALLY"
   },
   "evidence": {
+    "campaign_summary": "artifacts/gpu_campaign/local_verified_summary_3/campaign_summary.json",
+    "campaign_summary_sha256": "f8c5acff1c9a7e166e8858e980204d80e8f59be37de7aa1e2f00775486406752",
     "config": "configs/phase1/qwen25vl3b_cuda_24gb.json",
     "config_sha256": "b18da5ceec4a539fd5276d0c5d015d38f984037726ebd23e5412dd771826227b",
     "dataset_revision": "f18b0a70359ebfb41f658fd564208d0355b013f4",
-    "local_raw_artifact_state": "PENDING_REMOTE_ARTIFACT_SYNC",
+    "error_analysis": "artifacts/error_analysis/paired_random_vs_coincide_1k_3seed_v2/analysis.json",
+    "local_raw_artifact_state": "LOCAL_RAW_ARTIFACTS_HASH_VERIFIED",
     "manifest": "data/manifests/scienceqa_train_128_seed3407.json",
     "manifest_sha256": "4848562f5e89e68f2c7a32f72bb7d54df524089b39f60f24959c26babce1274a",
     "mode": "LOCAL_ARTIFACT_READER",
-    "prediction_artifacts": [],
+    "prediction_artifacts": [
+      {
+        "label": "LoRA checkpoint",
+        "path": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551",
+        "variant": "lora"
+      }
+    ],
     "random_1000_manifest": "data/manifests/gpu_plan/scienceqa_train_random_1000_seed3407.json",
     "random_1000_manifest_sha256": "4a09c49edecfef2d480f62bf6b8eec222706acaa309e68fe85fb285b98de19b6",
+    "recovery_archive_sha256": "950b26d6626ae594a83e6fa0c94ae9d4bd2ee0fc13fbe5370a8a4d8c43cdb254",
+    "recovery_receipt": "results/REMOTE_ARTIFACT_RECOVERY_RECEIPT.json",
     "selection_seed": 3407,
     "test_512_manifest": "data/manifests/gpu_plan/scienceqa_test_image_512_seed3407.json",
     "test_512_manifest_sha256": "79cb4c7ef9d95b5153df64de80a9add7503bef4eb99e3dfcf984d98ca0ad733a",
@@ -30,9 +42,9 @@
   "inspector": {
     "closure": {
       "checkpoint_reload_reported": true,
-      "determinism_state": "REPORTED_DETERMINISTIC_PROBE_RAW_HASHES_NOT_LOCAL",
+      "determinism_state": "LOCAL_HASH_VERIFIED_TWO_PASS_IDENTICAL",
       "evaluation_artifacts_reported": true,
-      "local_verification": "PENDING_REMOTE_ARTIFACT_SYNC",
+      "local_verification": "LOCAL_RAW_ARTIFACTS_HASH_VERIFIED",
       "loss_history_reported_complete": true,
       "phase1_status": "TRAINING_COMPLETE",
       "pipeline_complete": true,
@@ -71,9 +83,10 @@
       "evidence_source": "user-reported results from the real ModelScope NVIDIA A10 run",
       "job_id": "J02",
       "local_artifact_verification": {
-        "expected_path": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda",
-        "reason": "the remote raw artifact directory is not present in this local checkout",
-        "status": "PENDING_REMOTE_ARTIFACT_SYNC"
+        "conflicts": [],
+        "mapped_files": 783,
+        "source": "results/REMOTE_ARTIFACT_RECOVERY_RECEIPT.json",
+        "status": "LOCAL_RAW_ARTIFACTS_HASH_VERIFIED"
       },
       "source_receipt": "results/J02_MODELSCOPE_A10_COMPLETION_RECEIPT.json",
       "status": "QWEN2.5_VL_3B_SCIENCEQA128_LORA_CUDA_CLOSURE_COMPLETE"
@@ -93,12 +106,66 @@
     "mode": "STATIC_EVIDENCE_SNAPSHOT",
     "research_inputs_modified": false,
     "runtime": "NO_API_NO_PYTHON",
-    "source_commit": "d4e473ce038a102ae8774376d9937fefb2b4639e",
-    "source_commit_time": "2026-08-26T16:51:36+08:00"
+    "source_commit": "91035879bc6dbfd4a1baa32aa3b7c1124f5f4bfb",
+    "source_commit_time": "2026-08-27T11:56:27+08:00"
   },
   "research": {
     "no_improvement_claim": true,
     "question": "在相同 Qwen2.5-VL-3B、LoRA 训练预算与 held-out protocol 下，更有价值的数据选择能否优于随机选择？",
+    "result": {
+      "base_exact_match": 0.7421875,
+      "claim_boundary": "n=3 的 exact-match 差值 95% CI 跨过 0，不能外推为方法普遍无效。",
+      "coincide_exact_match_mean": 0.7825520833333334,
+      "coincide_exact_match_std": 0.021513947450336336,
+      "evaluation_samples": 256,
+      "finding": "在当前 Qwen2.5-VL-3B × ScienceQA × 1K 预算下，COINCIDE 三个种子均低于 Random；这是一项真实负结果。",
+      "harmed_samples": 35,
+      "improved_samples": 20,
+      "manual_reviewed_samples": 6,
+      "paired_delta_ci95_high": 0.02309910855411433,
+      "paired_delta_ci95_low": -0.11684910855411433,
+      "paired_delta_mean": -0.046875,
+      "paired_seed_results": [
+        {
+          "coincide_exact_match": 0.796875,
+          "coincide_loss": 0.058250971404183005,
+          "exact_match_delta": -0.0234375,
+          "loss_delta": 0.006386190064139541,
+          "random_exact_match": 0.8203125,
+          "random_loss": 0.051864781340043464,
+          "seed": 3407
+        },
+        {
+          "coincide_exact_match": 0.7578125,
+          "coincide_loss": 0.06350028247121742,
+          "exact_match_delta": -0.078125,
+          "loss_delta": 0.011861962146724636,
+          "random_exact_match": 0.8359375,
+          "random_loss": 0.05163832032449278,
+          "seed": 6502
+        },
+        {
+          "coincide_exact_match": 0.79296875,
+          "coincide_loss": 0.06185011298445531,
+          "exact_match_delta": -0.0390625,
+          "loss_delta": 0.01179905609573062,
+          "random_exact_match": 0.83203125,
+          "random_loss": 0.05005105688872469,
+          "seed": 9109
+        }
+      ],
+      "random_exact_match_mean": 0.8294270833333334,
+      "random_exact_match_std": 0.00813150781041458,
+      "seeds": [
+        3407,
+        6502,
+        9109
+      ],
+      "selection_overlap": {
+        "count": 133,
+        "fraction_of_each_budget": 0.133
+      }
+    },
     "status": [
       {
         "label": "128 样本 CUDA 训练闭环",
@@ -119,22 +186,34 @@
         "tone": "complete"
       },
       {
-        "label": "Random-1000 训练",
-        "raw_state": "GPU_PLAN_RUN_COMPLETE_REMOTE_RAW_SYNC_PENDING",
-        "state": "REMOTE_COMPLETE_RAW_SYNC_PENDING",
+        "label": "Random-1000 · 3 个随机种子",
+        "raw_state": "GPU_CAMPAIGN_CORE_COMPLETE",
+        "state": "COMPLETE",
         "tone": "complete"
       },
       {
-        "label": "忠实数据选择方法",
-        "raw_state": "C20_FAITHFUL_PORT_CUDA_READY_NOT_EXECUTED",
-        "state": "NOT_RUN",
-        "tone": "ready"
+        "label": "Faithful COINCIDE-1000 · 3 个随机种子",
+        "raw_state": "C20_COINCIDE_1000_FROZEN_AND_TRAINED",
+        "state": "COMPLETE",
+        "tone": "complete"
       },
       {
         "label": "配对多随机种子",
-        "raw_state": "GATED_COMPLETE_PAIR_SEED6502 · GATED_COMPLETE_PAIR_SEED9109",
-        "state": "NOT_RUN",
-        "tone": "pending"
+        "raw_state": "SEEDS_3407_6502_9109_COMPLETE",
+        "state": "COMPLETE",
+        "tone": "complete"
+      },
+      {
+        "label": "未微调 Base 模型参考",
+        "raw_state": "DETERMINISTIC_BASE_EVALUATION_VERIFIED",
+        "state": "COMPLETE",
+        "tone": "complete"
+      },
+      {
+        "label": "配对失败分析",
+        "raw_state": "MANUAL_VISUAL_REVIEW_COMPLETE_FOR_REPRESENTATIVE_CASES",
+        "state": "COMPLETE",
+        "tone": "complete"
       }
     ]
   },
@@ -154,24 +233,38 @@
       "tone": "complete"
     },
     {
-      "id": "J10",
-      "label": "Random-1000 随机种子 3407",
-      "source": "results/J10_RANDOM1000_REMOTE_COMPLETION_RECEIPT.json",
-      "state": "GPU_PLAN_RUN_COMPLETE_REMOTE_RAW_SYNC_PENDING",
+      "id": "RANDOM-1K",
+      "label": "Random-1000 · seeds 3407 / 6502 / 9109",
+      "source": "artifacts/gpu_campaign/local_verified_summary_3/campaign_summary.json",
+      "state": "COMPLETE",
       "tone": "complete"
     },
     {
-      "id": "C20",
-      "label": "忠实 COINCIDE 数据选择",
-      "source": "results/C20_FAITHFUL_PORT_LOCAL_SELF_CHECK.json",
-      "state": "C20_FAITHFUL_PORT_CUDA_READY_NOT_EXECUTED",
-      "tone": "ready"
+      "id": "COINCIDE-1K",
+      "label": "Faithful COINCIDE · seeds 3407 / 6502 / 9109",
+      "source": "artifacts/error_analysis/paired_random_vs_coincide_1k_3seed_v2/analysis.json",
+      "state": "COMPLETE",
+      "tone": "complete"
     },
     {
-      "detail": "GATED_COMPLETE_PAIR_SEED6502 · GATED_COMPLETE_PAIR_SEED9109",
-      "id": "MULTI-SEED",
-      "label": "配对随机种子 6502 / 9109",
-      "source": "configs/gpu_plan/job_queue.json",
+      "id": "BASE",
+      "label": "冻结 Base 模型确定性评测",
+      "source": "artifacts/gpu_plan/qwen25vl3b_scienceqa_base_eval_seed3407/determinism_proof.json",
+      "state": "COMPLETE",
+      "tone": "complete"
+    },
+    {
+      "id": "ERROR",
+      "label": "真实失败样本与子组分析",
+      "source": "artifacts/error_analysis/paired_random_vs_coincide_1k_3seed_v2/manual_visual_review.json",
+      "state": "COMPLETE",
+      "tone": "complete"
+    },
+    {
+      "detail": "不影响当前 1K 配对主结论；尚未消费额外 GPU。",
+      "id": "SCALE",
+      "label": "250 / 500 / 2K / 4K / Full 数据规模曲线",
+      "source": "artifacts/gpu_campaign/local_verified_summary_3/campaign_summary.json",
       "state": "NOT_RUN",
       "tone": "pending"
     }
@@ -200,9 +293,21 @@
       "image_url": "./assets/images/000.jpg",
       "image_width": 452,
       "index": 0,
-      "lora_outputs": [],
-      "prediction": null,
-      "prediction_status": "J02_SAMPLE_PREDICTION_NOT_PRESENT_LOCALLY",
+      "lora_outputs": [
+        {
+          "label": "LoRA checkpoint",
+          "prediction": "D. Georgia",
+          "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+          "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+        }
+      ],
+      "prediction": {
+        "label": "LoRA checkpoint",
+        "prediction": "D. Georgia",
+        "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+      },
+      "prediction_status": "ARTIFACT_AVAILABLE",
       "question": "What is the name of the colony shown?",
       "question_zh": "图中所示的是哪个殖民地？",
       "sample_id": "ScienceQA:f18b0a70359ebfb41f658fd564208d0355b013f4:train:8666",
@@ -227,9 +332,21 @@
       "image_url": "./assets/images/001.jpg",
       "image_width": 186,
       "index": 1,
-      "lora_outputs": [],
-      "prediction": null,
-      "prediction_status": "J02_SAMPLE_PREDICTION_NOT_PRESENT_LOCALLY",
+      "lora_outputs": [
+        {
+          "label": "LoRA checkpoint",
+          "prediction": "A. attract",
+          "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+          "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+        }
+      ],
+      "prediction": {
+        "label": "LoRA checkpoint",
+        "prediction": "A. attract",
+        "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+      },
+      "prediction_status": "ARTIFACT_AVAILABLE",
       "question": "Will these magnets attract or repel each other?",
       "question_zh": "这些磁铁会相互吸引还是排斥？",
       "sample_id": "ScienceQA:f18b0a70359ebfb41f658fd564208d0355b013f4:train:3575",
@@ -256,9 +373,21 @@
       "image_url": "./assets/images/002.jpg",
       "image_width": 622,
       "index": 2,
-      "lora_outputs": [],
-      "prediction": null,
-      "prediction_status": "J02_SAMPLE_PREDICTION_NOT_PRESENT_LOCALLY",
+      "lora_outputs": [
+        {
+          "label": "LoRA checkpoint",
+          "prediction": "A. The magnitude of the magnetic force is the same in both pairs.",
+          "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+          "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+        }
+      ],
+      "prediction": {
+        "label": "LoRA checkpoint",
+        "prediction": "A. The magnitude of the magnetic force is the same in both pairs.",
+        "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+      },
+      "prediction_status": "ARTIFACT_AVAILABLE",
       "question": "Think about the magnetic force between the magnets in each pair. Which of the following statements is true?",
       "question_zh": "比较每组磁铁之间的磁力。下列说法哪一项正确？",
       "sample_id": "ScienceQA:f18b0a70359ebfb41f658fd564208d0355b013f4:train:9694",
@@ -283,9 +412,21 @@
       "image_url": "./assets/images/003.jpg",
       "image_width": 500,
       "index": 3,
-      "lora_outputs": [],
-      "prediction": null,
-      "prediction_status": "J02_SAMPLE_PREDICTION_NOT_PRESENT_LOCALLY",
+      "lora_outputs": [
+        {
+          "label": "LoRA checkpoint",
+          "prediction": "B. South America",
+          "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+          "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+        }
+      ],
+      "prediction": {
+        "label": "LoRA checkpoint",
+        "prediction": "B. South America",
+        "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+      },
+      "prediction_status": "ARTIFACT_AVAILABLE",
       "question": "Which continent was involved in the Seven Years' War?",
       "question_zh": "哪个大洲卷入了七年战争？",
       "sample_id": "ScienceQA:f18b0a70359ebfb41f658fd564208d0355b013f4:train:6514",
@@ -314,9 +455,21 @@
       "image_url": "./assets/images/004.jpg",
       "image_width": 750,
       "index": 4,
-      "lora_outputs": [],
-      "prediction": null,
-      "prediction_status": "J02_SAMPLE_PREDICTION_NOT_PRESENT_LOCALLY",
+      "lora_outputs": [
+        {
+          "label": "LoRA checkpoint",
+          "prediction": "A. Des Moines",
+          "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+          "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+        }
+      ],
+      "prediction": {
+        "label": "LoRA checkpoint",
+        "prediction": "A. Des Moines",
+        "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+      },
+      "prediction_status": "ARTIFACT_AVAILABLE",
       "question": "What is the capital of Iowa?",
       "question_zh": "爱荷华州的首府是哪里？",
       "sample_id": "ScienceQA:f18b0a70359ebfb41f658fd564208d0355b013f4:train:8915",
@@ -345,9 +498,21 @@
       "image_url": "./assets/images/005.jpg",
       "image_width": 750,
       "index": 5,
-      "lora_outputs": [],
-      "prediction": null,
-      "prediction_status": "J02_SAMPLE_PREDICTION_NOT_PRESENT_LOCALLY",
+      "lora_outputs": [
+        {
+          "label": "LoRA checkpoint",
+          "prediction": "A. Utah",
+          "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+          "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+        }
+      ],
+      "prediction": {
+        "label": "LoRA checkpoint",
+        "prediction": "A. Utah",
+        "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+      },
+      "prediction_status": "ARTIFACT_AVAILABLE",
       "question": "Which of these states is farthest south?",
       "question_zh": "以下哪个州的位置最靠南？",
       "sample_id": "ScienceQA:f18b0a70359ebfb41f658fd564208d0355b013f4:train:2693",
@@ -378,9 +543,21 @@
       "image_url": "./assets/images/006.jpg",
       "image_width": 244,
       "index": 6,
-      "lora_outputs": [],
-      "prediction": null,
-      "prediction_status": "J02_SAMPLE_PREDICTION_NOT_PRESENT_LOCALLY",
+      "lora_outputs": [
+        {
+          "label": "LoRA checkpoint",
+          "prediction": "E. 1/4",
+          "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+          "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+        }
+      ],
+      "prediction": {
+        "label": "LoRA checkpoint",
+        "prediction": "E. 1/4",
+        "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+      },
+      "prediction_status": "ARTIFACT_AVAILABLE",
       "question": "What is the probability that a human produced by this cross will be homozygous recessive for the xeroderma pigmentosum gene?",
       "question_zh": "通过这次杂交产生的后代中，人类个体在着色性干皮病基因上为隐性纯合子的概率是多少？",
       "sample_id": "ScienceQA:f18b0a70359ebfb41f658fd564208d0355b013f4:train:5726",
@@ -409,9 +586,21 @@
       "image_url": "./assets/images/007.jpg",
       "image_width": 750,
       "index": 7,
-      "lora_outputs": [],
-      "prediction": null,
-      "prediction_status": "J02_SAMPLE_PREDICTION_NOT_PRESENT_LOCALLY",
+      "lora_outputs": [
+        {
+          "label": "LoRA checkpoint",
+          "prediction": "B. Carson City",
+          "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+          "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+        }
+      ],
+      "prediction": {
+        "label": "LoRA checkpoint",
+        "prediction": "B. Carson City",
+        "source": "artifacts/phase1/qwen25vl3b_scienceqa128_cuda/inference_output.json",
+        "source_sha256": "da1ad720f270031f2bf15a2642f9ad661518c4af4690d9856abef5c3db047551"
+      },
+      "prediction_status": "ARTIFACT_AVAILABLE",
       "question": "What is the capital of Nevada?",
       "question_zh": "内华达州的首府是哪里？",
       "sample_id": "ScienceQA:f18b0a70359ebfb41f658fd564208d0355b013f4:train:2084",

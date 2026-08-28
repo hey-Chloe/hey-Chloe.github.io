@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
     <meta name="vlm-snapshot-url" content="./data/snapshot.json" />
+    <link rel="icon" href="data:," />
     <title>多模态视觉问答演示</title>
     <link rel="stylesheet" href="./assets/styles.css" />
   </head>
@@ -114,8 +115,8 @@
             <div class="flow-vs">VS</div>
             <div class="flow-node selected-node">
               <span class="flow-kicker">数据选择</span>
-              <strong>Selected-1000</strong>
-              <small>选择更有价值的数据</small>
+              <strong>COINCIDE-1000</strong>
+              <small>忠实复现公开选择方法</small>
             </div>
           </div>
           <span class="flow-arrow" aria-hidden="true">→</span>
@@ -137,10 +138,12 @@
             <p class="field-label">当前研究状态</p>
             <div class="status-list" id="research-status"></div>
           </div>
-          <aside class="no-claim">
-            <span>当前结论</span>
-            <strong>尚未形成数据选择提升结论</strong>
-            <p>Selected-1000 与多随机种子配对实验尚未执行，不展示虚假的准确率提升。</p>
+          <aside class="no-claim result-card" id="demo-result-step">
+            <span>三随机种子真实结果</span>
+            <strong id="research-finding">正在读取实验产物…</strong>
+            <div class="result-metrics" id="research-result-metrics"></div>
+            <div class="seed-results" id="seed-results"></div>
+            <p id="research-claim-boundary"></p>
           </aside>
         </div>
       </section>
@@ -149,7 +152,7 @@
         <div class="section-heading">
           <div>
             <p class="section-index">03 / 训练检查</p>
-            <h2 id="training-title">远端训练回执记录了完整闭环</h2>
+            <h2 id="training-title">这次训练是真实跑完的</h2>
           </div>
           <p class="section-intro" id="run-status">正在读取 J02 receipt…</p>
         </div>
@@ -158,7 +161,7 @@
           <div class="proof-lead">
             <span class="proof-mark" aria-hidden="true">✓</span>
             <div>
-              <p>远端 CUDA 训练回执</p>
+              <p>CUDA 训练闭环</p>
               <strong id="training-proof-title"></strong>
               <span id="training-proof-subtitle"></span>
             </div>

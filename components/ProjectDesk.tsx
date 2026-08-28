@@ -181,22 +181,28 @@ const PROJECT_CARRIERS: Record<string, CarrierId> = {
   zod: 'data-card'
 };
 
+const SPOTLIGHT_PROJECTS = new Set([
+  'kai-commerce-studio',
+  'compute-intelligence',
+  'vlm-data-selection'
+]);
+
 /* An editorial table composition, not generated rows or an equal card grid. */
 const ARTIFACT_LAYOUT: Record<string, ArtifactLayout> = {
-  'kai-commerce-studio': { left: 15, top: 13, rotation: -3.3, scale: 1.16 },
-  remindercat: { left: 36, top: 12, rotation: 4.2, scale: .78 },
-  'kai-creator-voting': { left: 55, top: 14, rotation: -1.7, scale: .94 },
-  'kai-play': { left: 74, top: 11, rotation: 3.5, scale: .9 },
-  'kai-cloudpay-mobile': { left: 89, top: 16, rotation: -2.4, scale: .88 },
-  'kai-admin-console': { left: 17, top: 34, rotation: 2.1, scale: .97 },
-  'compute-intelligence': { left: 40, top: 34, rotation: -3.2, scale: 1.04 },
-  'kai-market-lab': { left: 62, top: 34, rotation: 1.5, scale: 1.03 },
-  'enterprise-agentic-rag': { left: 84, top: 35, rotation: -1.6, scale: 1.08 },
-  budgetagent: { left: 10, top: 55, rotation: -4.2, scale: .88 },
-  'vlm-data-selection': { left: 29, top: 55, rotation: 2.3, scale: 1.02 },
-  'thesis-prestudy': { left: 47, top: 57, rotation: -1.8, scale: .87 },
-  'ruleforge-sast': { left: 66, top: 55, rotation: 3.2, scale: 1 },
-  miniclaudecode: { left: 86, top: 55, rotation: -2.5, scale: .98 },
+  'kai-commerce-studio': { left: 16, top: 13, rotation: -2.4, scale: 1.22 },
+  'compute-intelligence': { left: 42, top: 14, rotation: 1.7, scale: 1.22 },
+  'vlm-data-selection': { left: 65, top: 14, rotation: -1.8, scale: 1.2 },
+  'kai-market-lab': { left: 86, top: 15, rotation: 2.4, scale: .94 },
+  remindercat: { left: 11, top: 35, rotation: 3.3, scale: .78 },
+  'kai-cloudpay-mobile': { left: 30, top: 35, rotation: -2.4, scale: .88 },
+  'kai-creator-voting': { left: 51, top: 36, rotation: 1.8, scale: .9 },
+  'kai-play': { left: 71, top: 34, rotation: -2.8, scale: .88 },
+  'kai-admin-console': { left: 89, top: 36, rotation: 2.1, scale: .92 },
+  'enterprise-agentic-rag': { left: 13, top: 56, rotation: -1.6, scale: 1.04 },
+  budgetagent: { left: 32, top: 55, rotation: -4.2, scale: .88 },
+  'thesis-prestudy': { left: 49, top: 57, rotation: -1.8, scale: .87 },
+  'ruleforge-sast': { left: 68, top: 55, rotation: 3.2, scale: 1 },
+  miniclaudecode: { left: 87, top: 56, rotation: -2.5, scale: .98 },
   'mini-runtime-agent': { left: 12, top: 76, rotation: 2.7, scale: .84 },
   'ctf-agent': { left: 30, top: 75, rotation: -3.1, scale: .86 },
   'okr-agent-platform': { left: 49, top: 76, rotation: 2.4, scale: .91 },
@@ -290,7 +296,7 @@ function carrierFor(project: ProjectEntry) {
   return CARRIERS[PROJECT_CARRIERS[project.slug] ?? fallbackCarrier(project)];
 }
 
-function ProjectArtifactFace({ project, carrier }: { project: ProjectEntry; carrier: Carrier }) {
+function ProjectArtifactFace({ project, carrier, spotlight }: { project: ProjectEntry; carrier: Carrier; spotlight: boolean }) {
   return (
     <>
       <img
@@ -310,7 +316,7 @@ function ProjectArtifactFace({ project, carrier }: { project: ProjectEntry; carr
         />
       )}
       <span className="project-artifact__face">
-        <span className="project-artifact__overline">{project.folio} · {carrier.label}</span>
+        <span className="project-artifact__overline">{spotlight ? '本期重点 · ' : ''}{project.folio} · {carrier.label}</span>
         <strong>{project.titleZh}</strong>
         <span className="project-artifact__name">{project.name}</span>
         <span className="project-artifact__tags" aria-hidden="true">
@@ -515,12 +521,13 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
                   };
                   const isSelected = selectedSlug === project.slug;
                   const carrier = carrierFor(project);
+                  const isSpotlight = SPOTLIGHT_PROJECTS.has(project.slug);
 
                   return (
                     <li className="project-desk__object-slot" key={project.slug}>
                       <button
                         type="button"
-                        className={`project-artifact project-artifact--${carrier.id}${carrier.dark ? ' project-artifact--dark' : ''}${isSelected ? ' project-artifact--selected' : ''}${draggingSlug === project.slug ? ' project-artifact--dragging' : ''}`}
+                        className={`project-artifact project-artifact--${carrier.id}${carrier.dark ? ' project-artifact--dark' : ''}${isSpotlight ? ' project-artifact--spotlight' : ''}${isSelected ? ' project-artifact--selected' : ''}${draggingSlug === project.slug ? ' project-artifact--dragging' : ''}`}
                         data-availability={project.availability.toLowerCase()}
                         data-project={project.slug}
                         data-shell={carrier.source}
@@ -538,7 +545,7 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
                         onPointerCancel={(event) => finishPointer(event, project.slug)}
                         onClick={() => openProject(project.slug)}
                       >
-                        <ProjectArtifactFace project={project} carrier={carrier} />
+                        <ProjectArtifactFace project={project} carrier={carrier} spotlight={isSpotlight} />
                       </button>
                     </li>
                   );
