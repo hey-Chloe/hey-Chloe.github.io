@@ -9,6 +9,9 @@ const state = {
   ctrModel: "deepfm",
   positionMethod: "naive_bts",
   clipping: "none",
+  rankingRound: 0,
+  rankingSelection: [],
+  rankingSubmitted: false,
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -335,6 +338,216 @@ function renderPosition(run = false) {
   );
 }
 
+function currentRankingRound() {
+  return state.fixture.rankingGame.rounds[state.rankingRound];
+}
+
+function rankingItem(itemId) {
+  return currentRankingRound().candidates.find((candidate) => candidate.id === itemId);
+}
+
+function selectRankingItem(itemId) {
+  if (state.rankingSubmitted) return;
+  const result = RankingGameCore.toggleSelection(state.rankingSelection, itemId, 3);
+  if (!result.changed) {
+    $("#ranking-hint").textContent = "Top-3 已满。先移除一件，再加入新的候选。";
+    $("#ranking-hint").dataset.state = "notice";
+    return;
+  }
+  state.rankingSelection = result.selection;
+  renderRankingGame();
+  requestAnimationFrame(() => {
+    document.querySelector(`[data-candidate-id="${itemId}"]`)?.focus();
+  });
+}
+
+function moveRankingItem(itemId, direction) {
+  if (state.rankingSubmitted) return;
+  state.rankingSelection = RankingGameCore.moveRanking(state.rankingSelection, itemId, direction);
+  renderRankingGame();
+  requestAnimationFrame(() => {
+    document.querySelector(`[data-rank-item="${itemId}"] [data-move="${direction}"]`)?.focus();
+  });
+}
+
+function removeRankingItem(itemId) {
+  if (state.rankingSubmitted) return;
+  state.rankingSelection = state.rankingSelection.filter((id) => id !== itemId);
+  renderRankingGame();
+  requestAnimationFrame(() => {
+    document.querySelector(`[data-candidate-id="${itemId}"]`)?.focus();
+  });
+}
+
+function renderRankingSlots() {
+  const root = $("#ranking-slots");
+  root.replaceChildren();
+  [0, 1, 2].forEach((index) => {
+    const slot = document.createElement("li");
+    slot.className = "ranking-slot";
+    const rank = document.createElement("span");
+    rank.className = "ranking-slot__rank";
+    rank.textContent = `0${index + 1}`;
+    slot.append(rank);
+
+    const itemId = state.rankingSelection[index];
+    if (!itemId) {
+      const empty = document.createElement("span");
+      empty.className = "ranking-slot__empty";
+      empty.textContent = index === 0 ? "先选最值得推荐的商品" : "等待选择";
+      slot.append(empty);
+      root.append(slot);
+      return;
+    }
+
+    const item = rankingItem(itemId);
+    slot.dataset.rankItem = itemId;
+    const copy = document.createElement("span");
+    copy.className = "ranking-slot__copy";
+    const name = document.createElement("strong");
+    name.textContent = item.name;
+    const cue = document.createElement("small");
+    cue.textContent = item.cue;
+    copy.append(name, cue);
+
+    const controls = document.createElement("span");
+    controls.className = "ranking-slot__controls";
+    [
+      { label: "上移", direction: -1, disabled: index === 0 },
+      { label: "下移", direction: 1, disabled: index === state.rankingSelection.length - 1 },
+    ].forEach((control) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = control.label;
+      button.dataset.move = String(control.direction);
+      button.disabled = state.rankingSubmitted || control.disabled;
+      button.setAttribute("aria-label", `${item.name}${control.label}`);
+      button.addEventListener("click", () => moveRankingItem(itemId, control.direction));
+      controls.append(button);
+    });
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.textContent = "移除";
+    remove.disabled = state.rankingSubmitted;
+    remove.setAttribute("aria-label", `从排名中移除${item.name}`);
+    remove.addEventListener("click", () => removeRankingItem(itemId));
+    controls.append(remove);
+
+    slot.append(copy, controls);
+    root.append(slot);
+  });
+}
+
+function renderRankingCandidates() {
+  const root = $("#ranking-candidates");
+  root.replaceChildren();
+  currentRankingRound().candidates.forEach((candidate) => {
+    const selectedIndex = state.rankingSelection.indexOf(candidate.id);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "ranking-candidate";
+    button.dataset.candidateId = candidate.id;
+    button.disabled = state.rankingSubmitted;
+    button.setAttribute("aria-pressed", String(selectedIndex >= 0));
+    button.setAttribute(
+      "aria-label",
+      selectedIndex >= 0
+        ? `${candidate.name}，当前第 ${selectedIndex + 1} 名，点击移除`
+        : `${candidate.name}，${candidate.cue}，点击加入下一名`,
+    );
+    const name = document.createElement("strong");
+    name.textContent = candidate.name;
+    const cue = document.createElement("span");
+    cue.textContent = selectedIndex >= 0 ? `已选 · 第 ${selectedIndex + 1} 名` : candidate.cue;
+    button.append(name, cue);
+    button.addEventListener("click", () => selectRankingItem(candidate.id));
+    root.append(button);
+  });
+}
+
+function renderRankingGame() {
+  const round = currentRankingRound();
+  $("#rank-game-round").textContent = `第 ${state.rankingRound + 1} / ${state.fixture.rankingGame.rounds.length} 轮`;
+  $("#ranking-user-title").textContent = round.user;
+  $("#ranking-mission").textContent = round.mission;
+
+  const signals = $("#ranking-signals");
+  signals.replaceChildren();
+  round.signals.forEach((signal) => {
+    const item = document.createElement("li");
+    item.textContent = signal;
+    signals.append(item);
+  });
+
+  renderRankingSlots();
+  renderRankingCandidates();
+  $("#ranking-count").textContent = `已选 ${state.rankingSelection.length} / 3`;
+  $("#ranking-submit").disabled = state.rankingSelection.length !== 3 || state.rankingSubmitted;
+  $("#ranking-reset").disabled = state.rankingSelection.length === 0 && !state.rankingSubmitted;
+  $("#ranking-hint").textContent = state.rankingSubmitted
+    ? "本轮已提交。可以查看原因、再排一次，或换一位模拟用户。"
+    : state.rankingSelection.length === 3
+      ? "Top-3 已排好。还可以调整顺序，然后提交。"
+      : "点击候选加入排名；选中后可上移、下移或移除。所有得分只用于这局教学模拟。";
+  $("#ranking-hint").dataset.state = state.rankingSelection.length === 3 ? "ready" : "";
+}
+
+function submitRankingGame() {
+  if (state.rankingSelection.length !== 3 || state.rankingSubmitted) return;
+  const round = currentRankingRound();
+  state.rankingSubmitted = true;
+  const { hits, exact } = RankingGameCore.evaluateRanking(state.rankingSelection, round.idealOrder);
+
+  const title = exact === 3
+    ? "三件都排对了"
+    : hits === 3
+      ? "选对了三件，再看看顺序"
+      : hits >= 1
+        ? "抓到了一部分偏好"
+        : "热门不等于相关";
+  $("#ranking-feedback-title").textContent = title;
+  $("#ranking-score").textContent = `教学模拟结果：候选命中 ${hits} / 3，顺序命中 ${exact} / 3。`;
+
+  const list = $("#ranking-feedback-list");
+  list.replaceChildren();
+  state.rankingSelection.forEach((itemId, index) => {
+    const item = rankingItem(itemId);
+    const row = document.createElement("li");
+    row.dataset.result = round.idealOrder.includes(itemId) ? "hit" : "miss";
+    const rank = document.createElement("span");
+    rank.textContent = `0${index + 1}`;
+    const copy = document.createElement("span");
+    const name = document.createElement("strong");
+    name.textContent = item.name;
+    const reason = document.createElement("small");
+    reason.textContent = item.feedback;
+    copy.append(name, reason);
+    row.append(rank, copy);
+    list.append(row);
+  });
+
+  $("#ranking-answer-order").textContent = round.idealOrder
+    .map((itemId, index) => `${index + 1}. ${rankingItem(itemId).name}`)
+    .join("　");
+  $("#ranking-feedback").hidden = false;
+  renderRankingGame();
+  requestAnimationFrame(() => $("#ranking-feedback").focus());
+}
+
+function resetRankingGame() {
+  state.rankingSelection = [];
+  state.rankingSubmitted = false;
+  $("#ranking-feedback").hidden = true;
+  renderRankingGame();
+  requestAnimationFrame(() => $("#ranking-candidates button")?.focus());
+}
+
+function nextRankingRound() {
+  state.rankingRound = (state.rankingRound + 1) % state.fixture.rankingGame.rounds.length;
+  resetRankingGame();
+  requestAnimationFrame(() => $("#ranking-user-title").focus?.());
+}
+
 async function initialize() {
   try {
     const reportBase = document.documentElement.dataset.reportBase || "../reports";
@@ -350,6 +563,7 @@ async function initialize() {
     [state.fixture, state.retrievalReport, state.ctrReport, state.positionReport] = await Promise.all(
       responses.map((response) => response.json()),
     );
+    renderRankingGame();
     renderRetrieval();
     renderCtr();
     renderPosition();
@@ -357,6 +571,9 @@ async function initialize() {
     $("#retrieval-run").addEventListener("click", () => renderRetrieval(true));
     $("#ctr-run").addEventListener("click", () => renderCtr(true));
     $("#position-run").addEventListener("click", () => renderPosition(true));
+    $("#ranking-submit").addEventListener("click", submitRankingGame);
+    $("#ranking-reset").addEventListener("click", resetRankingGame);
+    $("#ranking-next").addEventListener("click", nextRankingRound);
     $("#open-technical-details").addEventListener("click", () => {
       const details = $("#position-details");
       details.open = true;

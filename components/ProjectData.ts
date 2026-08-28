@@ -97,8 +97,26 @@ export const originalProjects = [
     featured: true
   },
   {
-    slug: 'kai-play',
+    slug: 'compute-quote-terminal',
     folio: 'W.06',
+    name: 'KAI Compute Quote Terminal',
+    titleZh: '算力动态报价终端',
+    category: 'PRODUCT / COMPUTE MARKET',
+    summary: '面向算力智慧财富履约场景的交互式行情演示，支持 GPU 产品切换、动态 K 线、报价更新与历史走势查看；当前使用明确标注的确定性演示参考报价。',
+    tags: ['GPU Quote', 'K Line', 'Deterministic Demo', 'REST', 'WebSocket'],
+    evidenceState: 'PROTOTYPE',
+    evidenceNote: '独立静态版本包含 GPU 产品与周期切换、暂停 / 恢复、报价更新、K 线和移动端布局；当前体验使用明确标注的确定性演示数据。',
+    availability: 'DEMO',
+    objectKind: 'receipt',
+    actionKind: 'try',
+    trialUrl: '/compute-market/index.html',
+    trialLabel: '打开算力报价终端',
+    provenance: '确定性演示数据不代表真实行情、成交、库存、收益、履约承诺、量化策略或生产部署；REST / WebSocket 只是可替换的数据适配边界，当前未接入生产服务。',
+    featured: true
+  },
+  {
+    slug: 'kai-play',
+    folio: 'W.07',
     name: 'KAI Play',
     titleZh: '卡时体系里的多端小游戏',
     category: 'PRODUCT / GAME',
@@ -115,7 +133,7 @@ export const originalProjects = [
   },
   {
     slug: 'compute-intelligence',
-    folio: 'W.07',
+    folio: 'W.08',
     name: 'KAI Compute Intelligence / Offline RecSys Lab',
     titleZh: '公开推荐系统与离线评估实验室',
     category: 'ALGORITHM / RECOMMENDATION',
@@ -138,7 +156,7 @@ export const originalProjects = [
   },
   {
     slug: 'kai-market-lab',
-    folio: 'W.08',
+    folio: 'W.09',
     name: 'KAI Market Lab',
     titleZh: '订单簿方向研究与评估流程',
     category: '研究 / 量化',
@@ -156,7 +174,7 @@ export const originalProjects = [
   },
   {
     slug: 'budgetagent',
-    folio: 'W.09',
+    folio: 'W.10',
     name: 'BudgetAgent / CVV',
     titleZh: '长程 Agent 的验证预算研究',
     category: 'RESEARCH / AGENT EVAL',
@@ -174,7 +192,7 @@ export const originalProjects = [
   },
   {
     slug: 'enterprise-agentic-rag',
-    folio: 'W.10',
+    folio: 'W.11',
     name: 'Enterprise Agentic RAG',
     titleZh: '企业级可追溯 RAG',
     category: 'ALGORITHM / RAG',
@@ -196,7 +214,7 @@ export const originalProjects = [
   },
   {
     slug: 'vlm-data-selection',
-    folio: 'W.11',
+    folio: 'W.12',
     name: 'Data-Efficient Visual Instruction Tuning',
     titleZh: 'VLM 数据选择的真实负结果',
     category: 'RESEARCH / VLM',
@@ -215,7 +233,7 @@ export const originalProjects = [
   },
   {
     slug: 'thesis-prestudy',
-    folio: 'W.12',
+    folio: 'W.13',
     name: 'Undergraduate Thesis Pre-study',
     titleZh: '织物疵点识别毕业论文预研',
     category: 'WIP / RESEARCH DESIGN',
@@ -230,7 +248,7 @@ export const originalProjects = [
   },
   {
     slug: 'ruleforge-sast',
-    folio: 'W.13',
+    folio: 'W.14',
     name: 'RuleForge-SAST',
     titleZh: '代码扫描与 Patch 验证',
     category: 'PRODUCT / SECURITY',
@@ -250,7 +268,7 @@ export const originalProjects = [
   },
   {
     slug: 'miniclaudecode',
-    folio: 'W.14',
+    folio: 'W.15',
     name: 'MiniClaudeCode',
     titleZh: '可恢复的 Coding Agent Runtime',
     category: 'AGENT / DEVELOPER TOOL',
@@ -271,7 +289,7 @@ export const originalProjects = [
   },
   {
     slug: 'mini-runtime-agent',
-    folio: 'W.15',
+    folio: 'W.16',
     name: 'mini-Runtime-Agent',
     titleZh: '只用标准库的最小 Agent Runtime',
     category: 'LAB / AGENT RUNTIME',
@@ -289,7 +307,7 @@ export const originalProjects = [
   },
   {
     slug: 'ctf-agent',
-    folio: 'W.16',
+    folio: 'W.17',
     name: 'CTF-Agent',
     titleZh: '面向授权靶场的 CTF Agent',
     category: 'LAB / SECURITY AGENT',
@@ -307,7 +325,7 @@ export const originalProjects = [
   },
   {
     slug: 'okr-agent-platform',
-    folio: 'W.17',
+    folio: 'W.18',
     name: 'OKR Agent Platform',
     titleZh: '权限节点仍在占位的 OKR Agent',
     category: 'WIP / ENTERPRISE AGENT',
@@ -325,7 +343,7 @@ export const originalProjects = [
   },
   {
     slug: 'smartcs-rag',
-    folio: 'W.18',
+    folio: 'W.19',
     name: 'SmartCS-RAG',
     titleZh: '企业客服 RAG 后端实验',
     category: 'WIP / RAG BACKEND',
@@ -343,7 +361,7 @@ export const originalProjects = [
   },
   {
     slug: 'chloe-notebook',
-    folio: 'W.19',
+    folio: 'W.20',
     name: 'Chloe / 我的笔记本',
     titleZh: '早期浏览器笔记本',
     category: 'ARCHIVE / WEB EXPERIMENT',
@@ -361,13 +379,14 @@ export const originalProjects = [
   }
 ] as const satisfies readonly ProjectEntry[];
 
-const productProjectGroup = originalProjects.slice(0, 6);
-const researchProjectGroup = originalProjects.slice(6, 12);
+const productProjectGroup = originalProjects.slice(0, 7);
+const researchProjectGroup = originalProjects.slice(7, 13);
 
 export const productProjects = [
   productProjectGroup[4],
+  productProjectGroup[5],
   ...productProjectGroup.slice(0, 4),
-  productProjectGroup[5]
+  productProjectGroup[6]
 ];
 
 export const researchProjects = [
@@ -378,7 +397,7 @@ export const researchProjects = [
   researchProjectGroup[2],
   researchProjectGroup[5]
 ];
-export const systemProjects = originalProjects.slice(12, 19);
+export const systemProjects = originalProjects.slice(13, 20);
 
 export const learningForks = [
   {

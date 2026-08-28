@@ -86,7 +86,7 @@ export default function ArchiveObject({
   zIndex: number;
   onBringToFront: (id: ArchiveObjectId) => void;
 }) {
-  const itemRef = useRef<HTMLAnchorElement>(null);
+  const itemRef = useRef<HTMLAnchorElement | HTMLDivElement>(null);
   const pointerRef = useRef<PointerSession | null>(null);
   const latestOffsetRef = useRef<Offset>(ZERO_OFFSET);
   const draggedThisGestureRef = useRef(false);
@@ -200,7 +200,7 @@ export default function ArchiveObject({
     }, SETTLE_DURATION_MS);
   };
 
-  const onPointerDown = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+  const onPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
     if (!desktopRef.current) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
 
@@ -226,7 +226,7 @@ export default function ArchiveObject({
     setPhase('pressing');
   };
 
-  const onPointerMove = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+  const onPointerMove = (event: ReactPointerEvent<HTMLElement>) => {
     const drag = pointerRef.current;
     if (!drag || drag.id !== event.pointerId) return;
 
@@ -251,7 +251,7 @@ export default function ArchiveObject({
     applyOffset({ x: drag.startOffset.x + dx, y: drag.startOffset.y + dy });
   };
 
-  const finishInteraction = (event: ReactPointerEvent<HTMLAnchorElement>, releaseCapture: boolean) => {
+  const finishInteraction = (event: ReactPointerEvent<HTMLElement>, releaseCapture: boolean) => {
     const drag = pointerRef.current;
     if (!drag || drag.id !== event.pointerId) return;
 
@@ -293,42 +293,45 @@ export default function ArchiveObject({
     '--aspect-ratio': object.aspectRatio
   } as CSSProperties;
 
-  return (
-    <Link
-      ref={itemRef}
-      href={object.href}
-      aria-label={`${object.actionLabel}：${object.title}。${object.description}`}
-      className={classNames(
-        styles.object,
-        objectClass,
-        assetMissing && styles.assetMissing,
-        isDragging && styles.dragged,
-        isActive && styles.active
-      )}
-      style={style}
-      data-object={object.id}
-      data-active={isActive ? 'true' : 'false'}
-      data-dragging={isDragging ? 'true' : 'false'}
-      data-phase={phase}
-      data-draggable={dragEnabled ? 'true' : 'false'}
-      data-asset-status={assetMissing ? 'missing' : 'ready'}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={(event) => finishInteraction(event, true)}
-      onPointerCancel={(event) => finishInteraction(event, true)}
-      onLostPointerCapture={(event) => finishInteraction(event, false)}
-      onClick={(event) => {
-        if (!suppressClickRef.current) return;
-        event.preventDefault();
-        event.stopPropagation();
-        suppressClickRef.current = false;
-      }}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter') onBringToFront(object.id);
-      }}
-      onFocus={() => onBringToFront(object.id)}
-      onDragStart={(event) => event.preventDefault()}
-    >
+  const objectClassName = classNames(
+    styles.object,
+    objectClass,
+    assetMissing && styles.assetMissing,
+    isDragging && styles.dragged,
+    isActive && styles.active
+  );
+  const setItemRef = (node: HTMLAnchorElement | HTMLDivElement | null) => {
+    itemRef.current = node;
+  };
+  const featuredByIndex = object.featuredProjects
+    ? new Map(object.featuredProjects.map((project) => [project.index, project]))
+    : null;
+  const renderFeaturedProject = (index: string) => {
+    const project = featuredByIndex?.get(index);
+    if (!project) return null;
+
+    return (
+      <Link
+        className={styles.featuredProject}
+        href={project.href}
+        aria-label={`打开${project.title}`}
+        draggable={false}
+        style={{ pointerEvents: 'auto', color: 'inherit', textDecoration: 'none' }}
+        onPointerDown={(event) => event.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
+        onDragStart={(event) => event.preventDefault()}
+      >
+        <span className={styles.featuredIndex}>{project.index}</span>
+        <span className={styles.featuredCopy}>
+          <span className={styles.featuredProjectTitle}>{project.title}</span>
+          <span className={styles.featuredEvidence}>{project.evidence}</span>
+        </span>
+        <span className={styles.featuredDescriptor}>{project.descriptor}</span>
+      </Link>
+    );
+  };
+  const objectContents = (
+    <>
       <img
         className={styles.asset}
         src={object.assetSrc}
@@ -358,18 +361,90 @@ export default function ArchiveObject({
         />
       ))}
       <span className={styles.textLayer}>
-        <span className={styles.meta}>
-          <span>{object.folio}</span>
-          <span>{object.lines.join(' / ')}</span>
-        </span>
-        <span className={styles.subtitle}>{object.subtitle}</span>
-        <span className={styles.title}>
-          {(object.titleLines ?? [object.title]).map((line) => (
-            <span key={line}>{line}</span>
-          ))}
-        </span>
+        {object.featuredProjects ? (
+          <span className={styles.foldoutPages}>
+            <span className={classNames(styles.foldoutPanel, styles.foldoutCenter)}>
+              <span className={styles.featuredHeading}>
+                <span className={styles.featuredKicker}>{object.folio} · {object.subtitle}</span>
+                <span className={styles.featuredTitle}>{object.title}</span>
+              </span>
+              {renderFeaturedProject('01')}
+            </span>
+            <span className={classNames(styles.foldoutPanel, styles.foldoutLeft)}>
+              {renderFeaturedProject('02')}
+            </span>
+            <span className={classNames(styles.foldoutPanel, styles.foldoutRight)}>
+              {renderFeaturedProject('03')}
+            </span>
+          </span>
+        ) : (
+          <>
+            <span className={styles.meta}>
+              <span>{object.folio}</span>
+              <span>{object.lines.join(' / ')}</span>
+            </span>
+            <span className={styles.subtitle}>{object.subtitle}</span>
+            <span className={styles.title}>
+              {(object.titleLines ?? [object.title]).map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </span>
+          </>
+        )}
         <span className={styles.action}>{object.actionLabel} ↗</span>
       </span>
+    </>
+  );
+  const interactionProps = {
+    'aria-label': `${object.actionLabel}：${object.title}。${object.description}`,
+    className: objectClassName,
+    style,
+    'data-object': object.id,
+    'data-active': isActive ? 'true' : 'false',
+    'data-dragging': isDragging ? 'true' : 'false',
+    'data-phase': phase,
+    'data-draggable': dragEnabled ? 'true' : 'false',
+    'data-asset-status': assetMissing ? 'missing' : 'ready',
+    onPointerDown,
+    onPointerMove,
+    onPointerUp: (event: ReactPointerEvent<HTMLElement>) => finishInteraction(event, true),
+    onPointerCancel: (event: ReactPointerEvent<HTMLElement>) => finishInteraction(event, true),
+    onLostPointerCapture: (event: ReactPointerEvent<HTMLElement>) => finishInteraction(event, false),
+    onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => {
+      if (event.key === 'Enter') onBringToFront(object.id);
+    },
+    onFocus: () => onBringToFront(object.id),
+    onDragStart: (event: React.DragEvent<HTMLElement>) => event.preventDefault()
+  };
+
+  if (object.featuredProjects) {
+    return (
+      <div
+        ref={setItemRef}
+        role="group"
+        {...interactionProps}
+      >
+        {objectContents}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      ref={setItemRef}
+      href={object.href}
+      {...interactionProps}
+      className={classNames(
+        objectClassName
+      )}
+      onClick={(event) => {
+        if (!suppressClickRef.current) return;
+        event.preventDefault();
+        event.stopPropagation();
+        suppressClickRef.current = false;
+      }}
+    >
+      {objectContents}
     </Link>
   );
 }

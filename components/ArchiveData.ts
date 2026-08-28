@@ -32,6 +32,13 @@ export type ArchiveDeskObject = {
   titleLines?: string[];
   subtitle: string;
   lines: string[];
+  featuredProjects?: Array<{
+    index: string;
+    title: string;
+    descriptor: string;
+    evidence: string;
+    href: string;
+  }>;
   decorations?: ArchiveDecoration[];
 };
 
@@ -78,13 +85,13 @@ export const archiveObjects: ArchiveDeskObject[] = [
   },
   {
     id: 'lab',
-    folio: 'L.01',
-    label: '打开小悦的实验桌',
-    description: '研究中的问题、运行材料与失败记录。',
-    href: '/lab',
+    folio: 'W.00',
+    label: '打开三个精选项目',
+    description: '查看算力报价、VLM 数据选择与公开推荐系统。',
+    href: '/work',
     kind: 'lab-sheet',
-    actionKind: 'view-experiment',
-    actionLabel: '查看实验',
+    actionKind: 'view-project',
+    actionLabel: '查看精选项目',
     assetSrc: '/archive/phase-1/lab-foldout.webp',
     aspectRatio: '1.48 / 1',
     x: '49%',
@@ -92,9 +99,32 @@ export const archiveObjects: ArchiveDeskObject[] = [
     w: '42%',
     rotate: '2.4deg',
     z: 10,
-    title: '小悦的实验桌',
-    subtitle: '模型、系统与证据',
-    lines: ['Agent 边界', 'Retrieval / Ranking', '失败也留在桌上'],
+    title: '三个精选项目',
+    subtitle: '研究、算法与可交互产品',
+    lines: ['真实结果', '公开演示', '可交互产品'],
+    featuredProjects: [
+      {
+        index: '01',
+        title: '算力动态报价终端',
+        descriptor: '交互演示',
+        evidence: 'GPU 产品、动态 K 线与确定性演示报价',
+        href: '/compute-market/index.html'
+      },
+      {
+        index: '02',
+        title: 'VLM 数据选择小游戏',
+        descriptor: '真实负结果',
+        evidence: '1K 小预算下的覆盖损失与可能的迁移错配',
+        href: '/demos/vlm-training/index.html'
+      },
+      {
+        index: '03',
+        title: '推荐系统排序小游戏',
+        descriptor: '公开离线评估',
+        evidence: '召回、排序、评估与回滚闭环',
+        href: '/demos/recommendation-systems/index.html'
+      }
+    ],
     decorations: [
       {
         id: 'labPaperclip',
@@ -115,9 +145,9 @@ export const archiveObjects: ArchiveDeskObject[] = [
     actionLabel: '阅读笔记',
     assetSrc: '/archive/phase-1/r3-field-notebook.webp',
     aspectRatio: '713 / 1120',
-    x: '40%',
-    y: '50%',
-    w: '27%',
+    x: '34%',
+    y: '52%',
+    w: '15.5%',
     rotate: '-1.1deg',
     z: 13,
     title: '笔记与现场记录',

@@ -6,16 +6,20 @@
   "externalNetworkRequired": false,
   "files": {
     "ATTRIBUTION.md": {
-      "sha256": "bc48c6f73ac18d657f13bbc82c2b34e83a5a0eba183d2df822793231b0696782",
-      "bytes": 1867
+      "sha256": "86db6d12ae420a8a8869909eb4ce68fc2ea42906217c0f5be83fd11e93f972f6",
+      "bytes": 2048
     },
     "README.md": {
-      "sha256": "d2c7a3a81b3fefeb26845394a155dc61c201eff5e8a9cd223b86f6b140a49da4",
-      "bytes": 2280
+      "sha256": "69e07d863b8f9a45b5aa187e531d6223fc67a4d9cdf713ca29d5364918934217",
+      "bytes": 3006
     },
     "app.js": {
-      "sha256": "5fa00738e52fc8fbbca2f153f6125619594358bff3d1d4f6b89ea4553662c357",
-      "bytes": 13773
+      "sha256": "cb46f8145cff0c4bf0735c419dffd2e9a330461dae76ac0c05126ac233897c3f",
+      "bytes": 22198
+    },
+    "ranking-game-core.js": {
+      "sha256": "7e92d016c856273c7bd14e61dda7e13f31547a0a537da732aad8e2efb63ed93e",
+      "bytes": 1452
     },
     "data/amazon-retrieval-v1-results.json": {
       "sha256": "91d4abfe2beb33e413ccd326ed40820ce9a998312ff2f84d85ae61ad79ef9ab1",
@@ -26,20 +30,20 @@
       "bytes": 34592
     },
     "data/demo-fixtures.json": {
-      "sha256": "317423772912a83384c9a6ed421cd2bc7295be8807ae173eb23b20b356175c2c",
-      "bytes": 4962
+      "sha256": "f6cf3d69eef37ad3d591b9f63698c578e1516f20ffa59029fbc1f6c0956572f6",
+      "bytes": 9453
     },
     "data/position-bias-open-bandit-full-ope-v1.json": {
       "sha256": "87cc5fe3d41a7219c918890716b95c5e0a0bbdcba988b2b8089454c6ad13a750",
       "bytes": 20548
     },
     "index.html": {
-      "sha256": "355128d3b35d3d2b8a751e98419753ec0da6878f15d00eb6062ee92a025cdea0",
-      "bytes": 14335
+      "sha256": "e1d5f6805c05f63ed06a007a34189b176e7635ded70193c7cabdf30d314d8204",
+      "bytes": 17251
     },
     "styles.css": {
-      "sha256": "7ef8375847f9d1d07c06fd1350c6189fcf27acfda49c8d699d451e142c1a3b98",
-      "bytes": 26631
+      "sha256": "aae9b5a364b83714b2c042ee913760867305049cb7ac4f2c45ff4d614e7a126a",
+      "bytes": 36969
     }
   }
 }

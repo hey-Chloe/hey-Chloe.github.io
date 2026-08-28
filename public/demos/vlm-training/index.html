@@ -6,7 +6,7 @@
     <meta name="color-scheme" content="light" />
     <meta name="vlm-snapshot-url" content="./data/snapshot.json" />
     <link rel="icon" href="data:," />
-    <title>多模态视觉问答演示</title>
+    <title>1K 数据预算分配挑战 · 多模态训练实验</title>
     <link rel="stylesheet" href="./assets/styles.css" />
   </head>
   <body>
@@ -14,33 +14,144 @@
 
     <header class="demo-hero">
       <div class="hero-copy">
-        <p class="eyebrow">L.02 / 多模态 AI 演示</p>
-        <h1>让模型看懂图片，回答科学问题。</h1>
+        <p class="eyebrow">L.02 / 数据选择实验</p>
+        <h1>1,000 个训练名额，<br />你会怎么选？</h1>
         <p class="hero-story" id="project-story">正在读取真实训练记录…</p>
         <ul class="hero-facts" id="hero-facts" aria-label="项目核心技术"></ul>
       </div>
       <div class="hero-action">
-        <p>招聘会快速演示</p>
-        <button class="demo-button" id="demo-mode-toggle" type="button" aria-pressed="false">
-          <span aria-hidden="true">▶</span>
-          启动 60 秒 Demo
+        <p>三轮互动实验 · 约 2 分钟</p>
+        <button class="demo-button" id="challenge-start" type="button">
+          开始分配挑战
+          <span aria-hidden="true">→</span>
         </button>
-        <span>自动讲完任务、训练与研究目标</span>
+        <span>先做判断，再打开六次真实训练留下的结果。</span>
       </div>
     </header>
 
     <nav class="section-nav" aria-label="演示页面导航">
-      <a href="#visual-ai-demo">01 视觉问答</a>
-      <a href="#data-selection-research">02 数据选择</a>
-      <a href="#training-inspector">03 训练证明</a>
-      <a href="#evidence-roadmap">04 技术证据</a>
+      <a href="#budget-challenge">01 预算挑战</a>
+      <a href="#visual-ai-demo">02 真实样本</a>
+      <a href="#data-selection-research">03 实验结果</a>
+      <a href="#evidence-roadmap">04 证据边界</a>
     </nav>
 
     <main>
+      <section class="screen challenge-screen" id="budget-challenge" aria-labelledby="challenge-title">
+        <div class="section-heading challenge-heading">
+          <div>
+            <p class="section-index">01 / 1K 数据预算分配挑战</p>
+            <h2 id="challenge-title"><span>你只有 1,000 个</span><span class="challenge-title-tail">训练名额。</span></h2>
+          </div>
+          <p class="section-intro">每轮都先选，再看真实证据。这里不会根据你的选择虚构模型成绩。</p>
+        </div>
+
+        <div class="challenge-desk">
+          <aside class="challenge-note" aria-label="实验规则">
+            <span>实验规则</span>
+            <strong>同一个 Qwen</strong>
+            <strong>同一个预算</strong>
+            <strong>同一个测试集</strong>
+            <small>唯一改变：选了哪些训练样本</small>
+          </aside>
+
+          <article class="challenge-sheet" aria-live="polite">
+            <ol class="round-progress" aria-label="挑战进度">
+              <li data-round-progress="1" aria-current="step"><span>1</span>定优先级</li>
+              <li data-round-progress="2"><span>2</span>猜真实结果</li>
+              <li data-round-progress="3"><span>3</span>找原因</li>
+            </ol>
+
+            <section class="challenge-round" data-round="1" aria-labelledby="round-1-title">
+              <p class="round-kicker">第 1 轮 / 先定策略</p>
+              <h3 id="round-1-title">你最想把预算花在哪里？</h3>
+              <p class="round-copy">没有标准答案。请选择你进入实验前最相信的一条原则。</p>
+              <div class="strategy-choices" role="group" aria-label="选择数据策略优先级">
+                <button type="button" data-priority="tail">
+                  <span>覆盖更多长尾技能</span>
+                  <small>让 1,000 条样本尽量分散</small>
+                </button>
+                <button type="button" data-priority="duplicate">
+                  <span>降低近重复题目</span>
+                  <small>少看相似问题，多看不同表达</small>
+                </button>
+                <button type="button" data-priority="distribution">
+                  <span>保留高频科目覆盖</span>
+                  <small>不要让小预算偏离测试分布太远</small>
+                </button>
+              </div>
+              <p class="round-feedback" id="priority-feedback" role="status">选择只记录你的判断，不生成预测分数。</p>
+              <button class="round-next" id="priority-next" type="button" disabled>锁定策略，打开样本袋 →</button>
+            </section>
+
+            <section class="challenge-round" data-round="2" aria-labelledby="round-2-title" hidden>
+              <p class="round-kicker">第 2 轮 / 两个真实的 1K 选择集合</p>
+              <h3 id="round-2-title">哪一组最终答题准确率更高？</h3>
+              <p class="round-copy">下面都是已经回收、哈希校验的真实选择集合属性。先猜，不要只看“更丰富”。</p>
+              <div class="sample-envelopes" role="group" aria-label="选择你认为准确率更高的样本组">
+                <button class="sample-envelope sample-envelope-a" type="button" data-sample-choice="A">
+                  <span class="envelope-label">样本组 A</span>
+                  <strong>95 个技能</strong>
+                  <span class="envelope-stats">
+                    <span><span>长尾技能覆盖</span><b>15.22%</b></span>
+                    <span><span>近重复题率</span><b>66.0%</b></span>
+                    <span><span>地理 / 物理 / 经济</span><b>284 / 211 / 32</b></span>
+                  </span>
+                  <span class="choose-mark">我猜 A 更高</span>
+                </button>
+                <button class="sample-envelope sample-envelope-b" type="button" data-sample-choice="B">
+                  <span class="envelope-label">样本组 B</span>
+                  <strong>145 个技能</strong>
+                  <span class="envelope-stats">
+                    <span><span>长尾技能覆盖</span><b>84.78%</b></span>
+                    <span><span>近重复题率</span><b>52.3%</b></span>
+                    <span><span>地理 / 物理 / 经济</span><b>192 / 142 / 6</b></span>
+                  </span>
+                  <span class="choose-mark">我猜 B 更高</span>
+                </button>
+              </div>
+              <div class="round-feedback reveal-feedback" id="sample-feedback" role="status">
+                请选择一组，真实方法名和三随机种子均值会立即揭晓。
+              </div>
+              <button class="round-next" id="sample-next" type="button" disabled>继续追查原因 →</button>
+            </section>
+
+            <section class="challenge-round" data-round="3" aria-labelledby="round-3-title" hidden>
+              <p class="round-kicker">第 3 轮 / 排除错误解释</p>
+              <h3 id="round-3-title">为什么覆盖更广的 B 没赢？</h3>
+              <p class="round-copy">请选择当前证据最支持的解释。注意：解释仍是待验证假设，不是已证明因果。</p>
+              <div class="reason-choices" role="group" aria-label="选择负结果解释">
+                <button type="button" data-reason="duplicates">因为 B 包含更多重复样本</button>
+                <button type="button" data-reason="broken">因为 B 的训练没有真正跑完</button>
+                <button type="button" data-reason="mismatch">1K 预算重新分配，加上 TinyLLaVA → Qwen 的表征/目标错配</button>
+              </div>
+              <div class="round-feedback reason-feedback" id="reason-feedback" role="status">选择一个解释，证据会告诉你哪些可以排除。</div>
+              <button class="round-next" id="finish-challenge" type="button" disabled>完成挑战，收下结论 →</button>
+            </section>
+
+            <section class="challenge-complete" id="challenge-complete" hidden tabindex="-1">
+              <p class="round-kicker">挑战完成 / 真实负结果已解锁</p>
+              <h3>更广的覆盖，不等于更高的当前任务收益。</h3>
+              <div class="final-result-strip">
+                <div><span>Random-1000</span><strong>82.94% ± 0.81%</strong></div>
+                <div><span>COINCIDE-1000</span><strong>78.26% ± 2.15%</strong></div>
+                <div><span>配对差值</span><strong>−4.69 pp</strong></div>
+              </div>
+              <p>COINCIDE 不是因为重复更多而失败：它覆盖了更多长尾技能，也降低了近重复率。但在 1K 小预算下，它减少了地理、物理、经济等训练覆盖；同时，TinyLLaVA 的选择表征与下游 Qwen 指标可能存在迁移和目标错配。</p>
+              <p class="claim-boundary">边界：只有 3 个随机种子，准确率的 95% 置信区间跨过 0。结果不支持“当前设置下 COINCIDE 优于 Random”，也不证明 COINCIDE 普遍无效。</p>
+              <div class="complete-actions">
+                <button type="button" id="challenge-reset">再玩一次</button>
+                <a href="#data-selection-research">查看完整实验结果 ↓</a>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+
       <section class="screen visual-screen" id="visual-ai-demo" aria-labelledby="visual-title">
         <div class="section-heading">
           <div>
-            <p class="section-index">01 / 视觉问答演示</p>
+            <p class="section-index">02 / 真实视觉问答样本</p>
             <h2 id="visual-title">一张图，一个科学问题</h2>
           </div>
           <p class="section-intro">模型需要同时理解图像、问题与候选答案。</p>
@@ -93,7 +204,7 @@
       <section class="screen research-screen" id="data-selection-research" aria-labelledby="research-title">
         <div class="section-heading">
           <div>
-            <p class="section-index">02 / 数据选择研究</p>
+            <p class="section-index">03 / 数据选择研究</p>
             <h2 id="research-title">少一点数据，能不能学得一样好？</h2>
           </div>
           <p class="section-intro" id="research-question"></p>
@@ -151,7 +262,7 @@
       <section class="screen training-screen" id="training-inspector" aria-labelledby="training-title">
         <div class="section-heading">
           <div>
-            <p class="section-index">03 / 训练检查</p>
+            <p class="section-index">04 / 训练检查</p>
             <h2 id="training-title">这次训练是真实跑完的</h2>
           </div>
           <p class="section-intro" id="run-status">正在读取 J02 receipt…</p>
@@ -173,7 +284,7 @@
       <section class="screen evidence-screen" id="evidence-roadmap" aria-labelledby="evidence-title">
         <div class="section-heading">
           <div>
-            <p class="section-index">04 / 技术证据</p>
+            <p class="section-index">05 / 技术证据</p>
             <h2 id="evidence-title">可追溯，但不打扰第一眼</h2>
           </div>
           <p class="section-intro">Checkpoint、模型版本、SHA 与确定性证据都保留在这里。</p>
@@ -200,18 +311,6 @@
       </p>
       <p id="manifest-footer"></p>
     </footer>
-
-    <div class="demo-controller" id="demo-controller" hidden aria-live="polite">
-      <div class="demo-controller-copy">
-        <span id="demo-step-label">60 秒演示</span>
-        <strong id="demo-caption"></strong>
-      </div>
-      <div class="demo-progress-wrap">
-        <progress id="demo-progress" max="60000" value="0"></progress>
-        <span id="demo-countdown">60s</span>
-      </div>
-      <button type="button" id="demo-stop">停止</button>
-    </div>
 
     <div class="fatal-error" id="fatal-error" hidden role="alert"></div>
     <script src="./assets/snapshot.js" defer></script>

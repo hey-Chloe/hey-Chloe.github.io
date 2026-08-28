@@ -1,50 +1,16 @@
 const state = {
   snapshot: null,
   selectedIndex: 0,
-  demo: {
-    running: false,
-    startedAt: 0,
-    activeStep: -1,
-    timer: null,
+  challenge: {
+    round: 1,
+    priority: null,
+    sampleChoice: null,
+    reason: null,
+    completed: false,
   },
 };
 
 const els = {};
-
-const DEMO_STEPS = [
-  {
-    durationMs: 10000,
-    target: "#demo-image-step",
-    label: "01 / 看图片",
-    caption: "先看真实 ScienceQA 图片：这是一个需要视觉理解的任务。",
-  },
-  {
-    durationMs: 12000,
-    target: "#demo-question-step",
-    label: "02 / 看问题",
-    caption: "模型还要理解问题，并在 A / B / C / D 中做选择。",
-  },
-  {
-    durationMs: 10000,
-    target: "#demo-ai-step",
-    label: "03 / 看 AI 任务",
-    caption: "Ground Truth 来自冻结数据；这里展示的是已回收的真实 LoRA checkpoint 输出。",
-  },
-  {
-    durationMs: 13000,
-    target: "#demo-training-step",
-    label: "04 / 看训练证明",
-    caption: "模型已在真实 CUDA GPU 上完成 128-sample LoRA / SFT 训练闭环。",
-  },
-  {
-    durationMs: 15000,
-    target: "#demo-result-step",
-    label: "05 / 看研究结论",
-    caption: "同一训练预算下，Random-1000 在三个种子都胜过 COINCIDE-1000；负结果同样有研究价值。",
-  },
-];
-
-const DEMO_TOTAL_MS = DEMO_STEPS.reduce((total, step) => total + step.durationMs, 0);
 
 function byId(id) {
   return document.getElementById(id);
@@ -128,13 +94,15 @@ function cacheElements() {
     "evidence-boundary",
     "roadmap",
     "manifest-footer",
-    "demo-mode-toggle",
-    "demo-controller",
-    "demo-step-label",
-    "demo-caption",
-    "demo-progress",
-    "demo-countdown",
-    "demo-stop",
+    "challenge-start",
+    "priority-feedback",
+    "priority-next",
+    "sample-feedback",
+    "sample-next",
+    "reason-feedback",
+    "finish-challenge",
+    "challenge-complete",
+    "challenge-reset",
     "fatal-error",
   ].forEach((id) => {
     els[id] = byId(id);
@@ -147,10 +115,10 @@ function renderHero() {
   const gpu = inspector.hardware.gpu;
   text(
     els["project-story"],
-    `我在 ${gpu} 上用 LoRA 微调 ${model}，让模型学习 ScienceQA 图文问答，并进一步研究如何选择更有价值的训练数据。`,
+    `六次真实 ${gpu} 训练已经完成。先用三轮挑战判断：覆盖更广、重复更少的数据，为什么没有赢？`,
   );
   els["hero-facts"].replaceChildren();
-  [model, gpu, "LoRA / SFT", "ScienceQA"].forEach((fact) => {
+  ["1K 数据预算", "3 组配对种子", model, "ScienceQA"].forEach((fact) => {
     els["hero-facts"].append(make("li", "", fact));
   });
 }
@@ -325,85 +293,139 @@ function renderRoadmap() {
   });
 }
 
-function clearDemoTarget() {
-  document.querySelectorAll(".demo-active").forEach((node) => node.classList.remove("demo-active"));
-}
-
-function activateDemoStep(index) {
-  if (state.demo.activeStep === index) return;
-  clearDemoTarget();
-  state.demo.activeStep = index;
-  const step = DEMO_STEPS[index];
-  const target = document.querySelector(step.target);
-  if (!target) return;
-  target.classList.add("demo-active");
-  text(els["demo-step-label"], step.label);
-  text(els["demo-caption"], step.caption);
-  target.scrollIntoView({
-    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    block: "center",
+function selectSingle(selector, selected) {
+  document.querySelectorAll(selector).forEach((button) => {
+    const active = button === selected;
+    button.classList.toggle("is-selected", active);
+    button.setAttribute("aria-pressed", String(active));
   });
 }
 
-function stopDemo(completed = false) {
-  if (state.demo.timer) window.clearInterval(state.demo.timer);
-  state.demo.timer = null;
-  state.demo.running = false;
-  state.demo.activeStep = -1;
-  clearDemoTarget();
-  document.body.classList.remove("demo-running");
-  els["demo-mode-toggle"].setAttribute("aria-pressed", "false");
-  text(els["demo-mode-toggle"], completed ? "↻ 重新播放 60 秒 Demo" : "▶ 启动 60 秒 Demo");
-  if (completed) {
-    text(els["demo-step-label"], "演示完成");
-    text(els["demo-caption"], "60 秒演示完成：任务、训练证据与 Data Selection 负结果已讲完。");
-    els["demo-progress"].value = DEMO_TOTAL_MS;
-    text(els["demo-countdown"], "完成");
-  } else {
-    els["demo-controller"].hidden = true;
+function setRound(round, focus = true) {
+  state.challenge.round = round;
+  state.challenge.completed = false;
+  els["challenge-complete"].hidden = true;
+  document.querySelectorAll("[data-round]").forEach((node) => {
+    node.hidden = Number(node.dataset.round) !== round;
+  });
+  document.querySelectorAll("[data-round-progress]").forEach((node) => {
+    const step = Number(node.dataset.roundProgress);
+    node.classList.toggle("is-complete", step < round);
+    if (step === round) node.setAttribute("aria-current", "step");
+    else node.removeAttribute("aria-current");
+  });
+  if (focus) {
+    document.querySelector(`[data-round="${round}"] button`)?.focus({ preventScroll: true });
   }
 }
 
-function tickDemo() {
-  const elapsed = Math.min(performance.now() - state.demo.startedAt, DEMO_TOTAL_MS);
-  els["demo-progress"].value = elapsed;
-  text(els["demo-countdown"], `${Math.max(0, Math.ceil((DEMO_TOTAL_MS - elapsed) / 1000))}s`);
-
-  let cumulative = 0;
-  let nextStep = DEMO_STEPS.length - 1;
-  for (let index = 0; index < DEMO_STEPS.length; index += 1) {
-    cumulative += DEMO_STEPS[index].durationMs;
-    if (elapsed < cumulative) {
-      nextStep = index;
-      break;
-    }
-  }
-  activateDemoStep(nextStep);
-  if (elapsed >= DEMO_TOTAL_MS) stopDemo(true);
+function resetChallenge() {
+  state.challenge = {
+    round: 1,
+    priority: null,
+    sampleChoice: null,
+    reason: null,
+    completed: false,
+  };
+  document.querySelectorAll("[data-priority], [data-sample-choice], [data-reason]").forEach((button) => {
+    button.classList.remove("is-selected", "is-correct", "is-wrong");
+    button.setAttribute("aria-pressed", "false");
+  });
+  text(els["priority-feedback"], "选择只记录你的判断，不生成预测分数。");
+  text(els["sample-feedback"], "请选择一组，真实方法名和三随机种子均值会立即揭晓。");
+  text(els["reason-feedback"], "选择一个解释，证据会告诉你哪些可以排除。");
+  els["priority-next"].disabled = true;
+  els["sample-next"].disabled = true;
+  els["finish-challenge"].disabled = true;
+  setRound(1, false);
+  document.getElementById("budget-challenge")?.scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    block: "start",
+  });
+  window.setTimeout(() => document.querySelector("[data-priority]")?.focus(), 120);
 }
 
-function startDemo() {
-  if (state.demo.running) {
-    stopDemo(false);
-    return;
-  }
-  state.demo.running = true;
-  state.demo.startedAt = performance.now();
-  state.demo.activeStep = -1;
-  document.body.classList.add("demo-running");
-  els["demo-controller"].hidden = false;
-  els["demo-mode-toggle"].setAttribute("aria-pressed", "true");
-  text(els["demo-mode-toggle"], "■ 停止 Demo Mode");
-  tickDemo();
-  state.demo.timer = window.setInterval(tickDemo, 200);
+function finishChallenge() {
+  state.challenge.completed = true;
+  document.querySelectorAll("[data-round]").forEach((node) => { node.hidden = true; });
+  els["challenge-complete"].hidden = false;
+  document.querySelectorAll("[data-round-progress]").forEach((node) => {
+    node.classList.add("is-complete");
+    node.removeAttribute("aria-current");
+  });
+  els["challenge-complete"].focus({ preventScroll: true });
+}
+
+function bindChallenge() {
+  els["challenge-start"].addEventListener("click", () => {
+    document.getElementById("budget-challenge")?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+    window.setTimeout(() => document.querySelector("[data-priority]")?.focus(), 180);
+  });
+
+  document.querySelectorAll("[data-priority]").forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+    button.addEventListener("click", () => {
+      state.challenge.priority = button.dataset.priority;
+      selectSingle("[data-priority]", button);
+      const messages = {
+        tail: "你把覆盖放在第一位。COINCIDE 的真实集合确实更接近这条原则。",
+        duplicate: "你选择减少重复。真实 COINCIDE 集合也确实把近重复率从 66.0% 降到 52.3%。",
+        distribution: "你选择守住高频科目。这个判断会在 1K 小预算下变得关键。",
+      };
+      text(els["priority-feedback"], messages[state.challenge.priority]);
+      els["priority-next"].disabled = false;
+    });
+  });
+  els["priority-next"].addEventListener("click", () => setRound(2));
+
+  document.querySelectorAll("[data-sample-choice]").forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+    button.addEventListener("click", () => {
+      state.challenge.sampleChoice = button.dataset.sampleChoice;
+      selectSingle("[data-sample-choice]", button);
+      document.querySelectorAll("[data-sample-choice]").forEach((choice) => {
+        choice.classList.toggle("is-correct", choice.dataset.sampleChoice === "A");
+        choice.classList.toggle("is-wrong", choice === button && choice.dataset.sampleChoice !== "A");
+      });
+      const message = state.challenge.sampleChoice === "A"
+        ? "你猜对了。A 是 Random-1000，真实均值 82.94%；B 是 COINCIDE-1000，真实均值 78.26%。"
+        : "这是最自然的误判。B 更长尾、重复更少，但真实均值 78.26%，低于 A 的 82.94%。";
+      text(els["sample-feedback"], message);
+      els["sample-next"].disabled = false;
+    });
+  });
+  els["sample-next"].addEventListener("click", () => setRound(3));
+
+  document.querySelectorAll("[data-reason]").forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+    button.addEventListener("click", () => {
+      state.challenge.reason = button.dataset.reason;
+      selectSingle("[data-reason]", button);
+      document.querySelectorAll("[data-reason]").forEach((choice) => {
+        choice.classList.toggle("is-correct", choice.dataset.reason === "mismatch");
+        choice.classList.toggle("is-wrong", choice === button && choice.dataset.reason !== "mismatch");
+      });
+      const messages = {
+        duplicates: "可以排除：COINCIDE 的近重复率反而更低（52.3% 对 66.0%），并非因为重复更多。",
+        broken: "可以排除：六次 1K 训练都完成 125 steps、checkpoint reload 与确定性评测。",
+        mismatch: "这是当前证据支持的解释方向：1K 预算发生科目再分配，并可能存在 TinyLLaVA 选择表征到 Qwen 下游指标的迁移/目标错配；但尚未证明因果。",
+      };
+      text(els["reason-feedback"], messages[state.challenge.reason]);
+      els["finish-challenge"].disabled = false;
+    });
+  });
+  els["finish-challenge"].addEventListener("click", finishChallenge);
+  els["challenge-reset"].addEventListener("click", resetChallenge);
 }
 
 function bindInteractions() {
   els["sample-select"].addEventListener("change", (event) => {
     renderSample(Number(event.target.value));
   });
-  els["demo-mode-toggle"].addEventListener("click", startDemo);
-  els["demo-stop"].addEventListener("click", () => stopDemo(false));
+  bindChallenge();
 }
 
 function render(snapshot) {
@@ -427,7 +449,6 @@ function render(snapshot) {
 
 async function init() {
   cacheElements();
-  els["demo-progress"].max = DEMO_TOTAL_MS;
   try {
     if (window.__VLM_PLAYGROUND_SNAPSHOT__) {
       render(window.__VLM_PLAYGROUND_SNAPSHOT__);

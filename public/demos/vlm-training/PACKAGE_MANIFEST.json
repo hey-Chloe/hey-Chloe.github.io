@@ -6,14 +6,14 @@
       "sha256": "0ef0086a69cc151471b51caaef357b177153e53f39c375bc41d64593ee040cc9"
     },
     {
-      "bytes": 1479,
+      "bytes": 2175,
       "path": "README.md",
-      "sha256": "9d0e3ba22b5f0f8d6f7715d928f599ce2a1162a41956716656bbbc97b3d41ca7"
+      "sha256": "515b94f7154cf8c6843d17f49beaee2a6d46db6e9920e1cc96e4f158a8a60092"
     },
     {
-      "bytes": 15756,
+      "bytes": 18101,
       "path": "assets/app.js",
-      "sha256": "6a12d225d0fbe41b1cb9a68d6c535bdf0deabb584d68339c97dcadd7cd72c45d"
+      "sha256": "768854aa81d0de0235e70d50b5fe8e37d203b348da262324bf02ea8892c90df5"
     },
     {
       "bytes": 19691,
@@ -661,9 +661,9 @@
       "sha256": "2d374f92cbc5b9e8c0c36e65b7331a32b2cdc048b5ea285cb6ba5d928e4b7032"
     },
     {
-      "bytes": 19476,
+      "bytes": 31379,
       "path": "assets/styles.css",
-      "sha256": "b71da6c09183ca800085d139045fe5afbe5ac3c5288ff8a9156ff5a103076a47"
+      "sha256": "08fca2e94ca402efc8fdfcaf140b73dbfac4a4f912da9a6c023cc3112a3d3055"
     },
     {
       "bytes": 133283,
@@ -676,9 +676,9 @@
       "sha256": "b1e91b84c16105c9604340845a62e85ce59fc8085c39c19bf8c39588fc98cd7f"
     },
     {
-      "bytes": 9133,
+      "bytes": 16139,
       "path": "index.html",
-      "sha256": "48524c565842db0a4223a1bd070a329ee818d9b35d72209084f27e5c7776998f"
+      "sha256": "a55341519b178315bac7a31bf19d7b39548b8a510be3de79dff0e0c1a52f683e"
     }
   ],
   "package": "vlm-training-playground-portable",

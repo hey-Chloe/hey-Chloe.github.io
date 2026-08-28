@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="算力动态报价的确定性数据交互演示" />
+    <title>算力动态报价终端</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#quote" aria-label="返回算力动态报价首页">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>
+            <strong>算力动态报价</strong>
+            <small>智慧财富履约平台</small>
+          </span>
+        </a>
+
+        <nav aria-label="页面导航">
+          <a class="nav-link is-active" href="#quote">报价行情</a>
+          <button class="nav-link" id="open-integration" type="button">接入说明</button>
+        </nav>
+
+        <div class="demo-disclosure" title="当前页面使用确定性演示报价，不代表公司真实成交">
+          <span class="status-dot" aria-hidden="true"></span>
+          演示数据
+        </div>
+      </header>
+
+      <main id="quote" class="workspace">
+        <section class="intro" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">算力报价演示</p>
+            <h1 id="page-title">看懂每一次算力价格变化</h1>
+            <p>按 GPU 产品查看历史报价、当前价格与报价更新情况。当前全部使用确定性演示数据，不代表真实成交或生产行情。</p>
+          </div>
+          <dl class="session-facts" aria-label="当前演示状态">
+            <div><dt>数据状态</dt><dd id="connection-label">演示流运行中</dd></div>
+            <div><dt>更新频率</dt><dd id="frequency-label">每秒 8 次</dd></div>
+            <div><dt>价格口径</dt><dd>参考报价 / GPU时</dd></div>
+          </dl>
+        </section>
+
+        <section class="market-board" aria-label="算力动态行情">
+          <div class="market-toolbar">
+            <div class="product-switcher" role="tablist" aria-label="选择算力产品">
+              <button class="product-tab is-active" role="tab" aria-selected="true" data-symbol="GPU-A100" type="button">
+                <span>A100</span><small>80 GB</small>
+              </button>
+              <button class="product-tab" role="tab" aria-selected="false" data-symbol="GPU-H100" type="button">
+                <span>H100</span><small>80 GB</small>
+              </button>
+              <button class="product-tab" role="tab" aria-selected="false" data-symbol="GPU-H200" type="button">
+                <span>H200</span><small>141 GB</small>
+              </button>
+              <button class="product-tab" role="tab" aria-selected="false" data-symbol="GPU-B200" type="button">
+                <span>B200</span><small>180 GB</small>
+              </button>
+              <button class="product-tab" role="tab" aria-selected="false" data-symbol="GPU-B300" type="button">
+                <span>B300</span><small>288 GB</small>
+              </button>
+            </div>
+
+            <div class="toolbar-actions">
+              <div class="interval-switcher" aria-label="选择K线周期">
+                <button class="interval-button is-active" data-interval="60000" type="button">1 分</button>
+                <button class="interval-button" data-interval="300000" type="button">5 分</button>
+                <button class="interval-button" data-interval="3600000" type="button">1 小时</button>
+              </div>
+              <button class="quiet-button" id="toggle-stream" type="button" aria-pressed="false">
+                <span class="pause-icon" aria-hidden="true"></span><span>暂停</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="price-header">
+            <div class="asset-identity">
+              <span class="asset-code" id="asset-code">A100</span>
+              <span><strong id="asset-name">GPU-A100 算力</strong><small id="asset-market">全平台 · 参考报价</small></span>
+            </div>
+            <div class="headline-price">
+              <strong id="current-price">18.60</strong><span class="unit">KAI卡时 / GPU时</span>
+              <span class="price-change is-up" id="price-change">+0.00%</span>
+            </div>
+            <dl class="market-stats">
+              <div><dt>区间最高</dt><dd id="stat-high">—</dd></div>
+              <div><dt>区间最低</dt><dd id="stat-low">—</dd></div>
+              <div><dt>区间开盘</dt><dd id="stat-open">—</dd></div>
+              <div><dt>报价更新</dt><dd id="stat-volume">—</dd></div>
+            </dl>
+          </div>
+
+          <div class="chart-layout">
+            <div class="chart-column">
+              <div class="chart-caption">
+                <div id="crosshair-values" aria-live="polite">开 —　高 —　低 —　收 —</div>
+                <div><span class="legend-candle" aria-hidden="true"></span>K 线 <span class="legend-volume" aria-hidden="true"></span>报价更新</div>
+              </div>
+              <div class="chart-stage" id="chart-stage">
+                <canvas id="price-chart" aria-label="算力报价K线图" role="img"></canvas>
+                <div class="live-price-tag" id="live-price-tag">18.60</div>
+                <div class="chart-tooltip" id="chart-tooltip" hidden></div>
+              </div>
+              <div class="chart-footnote">
+                <span>确定性演示报价 · 非公司真实成交</span>
+                <span id="last-updated">等待首条报价</span>
+              </div>
+            </div>
+
+            <aside class="quote-tape" aria-labelledby="quote-tape-title">
+              <div class="tape-heading">
+                <div><p class="eyebrow">报价明细</p><h2 id="quote-tape-title">最新变动</h2></div>
+                <span class="stream-badge"><i></i>动态</span>
+              </div>
+              <div class="tape-columns" aria-hidden="true"><span>时间</span><span>价格</span><span>口径</span></div>
+              <ol id="quote-list" class="quote-list" aria-label="最近报价列表"></ol>
+              <div class="basis-note">
+                <strong>当前口径</strong>
+                <p>页面使用演示参考报价。公司当前目录以询价/参考为主，正式接入后仍须保留价格来源标签。</p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="handoff-strip" aria-labelledby="handoff-title">
+          <div>
+            <p class="eyebrow">可迁移组件</p>
+            <h2 id="handoff-title">保留两条数据边界，后续可接入真实来源</h2>
+          </div>
+          <ol>
+            <li><span>01</span><div><strong>读取历史 K 线</strong><small>REST 返回 OHLCV</small></div></li>
+            <li><span>02</span><div><strong>订阅实时报价</strong><small>WebSocket 推送变动</small></div></li>
+            <li><span>03</span><div><strong>替换演示适配器</strong><small>界面与图表无需重做</small></div></li>
+          </ol>
+          <button class="primary-button" id="open-integration-secondary" type="button">查看接入步骤</button>
+        </section>
+      </main>
+
+      <footer>
+        <span>算力智慧财富履约平台 · 动态报价演示模块</span>
+        <span>当前页面不包含量化预测与自动交易</span>
+      </footer>
+    </div>
+
+    <dialog id="integration-dialog" class="integration-dialog" aria-labelledby="integration-title">
+      <form method="dialog" class="dialog-bar">
+        <div><p class="eyebrow">数据适配边界</p><h2 id="integration-title">接入真实数据</h2></div>
+        <button class="icon-button" value="close" aria-label="关闭接入说明">×</button>
+      </form>
+      <div class="dialog-content">
+        <p class="dialog-lead">保留当前界面，只替换数据适配器。不要把成交价、挂单价和指导价混成同一条 K 线。</p>
+        <ol class="integration-steps">
+          <li><span>1</span><div><strong>确定价格口径</strong><p>有履约成交时优先使用成交价；只有报价时使用买卖中间价，并明确标注。</p></div></li>
+          <li><span>2</span><div><strong>提供历史接口</strong><code>GET /api/compute-market/v1/candles</code></div></li>
+          <li><span>3</span><div><strong>提供实时接口</strong><code>WSS /api/compute-market/v1/stream</code></div></li>
+          <li><span>4</span><div><strong>切换环境配置</strong><p>将 <code>DEMO</code> 适配器替换为 <code>COMPANY</code>，完成鉴权、断线重连和数据补齐。</p></div></li>
+        </ol>
+        <div class="contract-example">
+          <div><strong>实时消息最小结构</strong><span>JSON</span></div>
+          <pre><code>{
+  "instrument_id": "gpu-a100-cn-east-1",
+  "occurred_at": "2026-08-28T06:30:01.245Z",
+  "price_minor": 1860,
+  "price_type": "REFERENCE",
+  "source_status": "REFERENCE_ONLY",
+  "data_mode": "DEMO",
+  "sequence": 10241
+}</code></pre>
+        </div>
+        <p class="dialog-note">公开版本只展示数据结构与适配边界，不包含公司接口、鉴权信息或生产配置。</p>
+      </div>
+    </dialog>
+
+    <noscript>请启用 JavaScript 以查看动态报价演示。</noscript>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

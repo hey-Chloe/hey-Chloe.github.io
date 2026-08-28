@@ -163,6 +163,7 @@ const PROJECT_CARRIERS: Record<string, CarrierId> = {
   'kai-creator-voting': 'invitation',
   'kai-commerce-studio': 'booklet',
   'kai-play': 'ticket',
+  'compute-quote-terminal': 'terminal-slip',
   'compute-intelligence': 'technical-sheet',
   'kai-market-lab': 'clipboard',
   budgetagent: 'trace-receipt',
@@ -183,16 +184,18 @@ const PROJECT_CARRIERS: Record<string, CarrierId> = {
 
 const SPOTLIGHT_PROJECTS = new Set([
   'kai-commerce-studio',
+  'compute-quote-terminal',
   'compute-intelligence',
   'vlm-data-selection'
 ]);
 
 /* An editorial table composition, not generated rows or an equal card grid. */
 const ARTIFACT_LAYOUT: Record<string, ArtifactLayout> = {
-  'kai-commerce-studio': { left: 16, top: 13, rotation: -2.4, scale: 1.22 },
-  'compute-intelligence': { left: 42, top: 14, rotation: 1.7, scale: 1.22 },
-  'vlm-data-selection': { left: 65, top: 14, rotation: -1.8, scale: 1.2 },
-  'kai-market-lab': { left: 86, top: 15, rotation: 2.4, scale: .94 },
+  'kai-commerce-studio': { left: 10, top: 13, rotation: -2.4, scale: 1.18 },
+  'compute-quote-terminal': { left: 30, top: 14, rotation: 1.5, scale: 1.16 },
+  'compute-intelligence': { left: 50, top: 13, rotation: -1.6, scale: 1.16 },
+  'vlm-data-selection': { left: 70, top: 15, rotation: 2.1, scale: 1.14 },
+  'kai-market-lab': { left: 89, top: 14, rotation: -2.2, scale: .92 },
   remindercat: { left: 11, top: 35, rotation: 3.3, scale: .78 },
   'kai-cloudpay-mobile': { left: 30, top: 35, rotation: -2.4, scale: .88 },
   'kai-creator-voting': { left: 51, top: 36, rotation: 1.8, scale: .9 },
@@ -481,7 +484,7 @@ export default function ProjectDesk({ groups }: ProjectDeskProps) {
     <section className="project-desk" id="project-trials" aria-labelledby="project-desk-title">
       <header className="project-desk__header">
         <div>
-          <p className="project-desk__eyebrow">W.01—W.19 / F.01—F.03 · 物理作品收藏</p>
+          <p className="project-desk__eyebrow">W.01—W.20 / F.01—F.03 · 物理作品收藏</p>
           <h2 id="project-desk-title" className="project-desk__title">作品收藏</h2>
         </div>
         <details className="project-desk__menu">

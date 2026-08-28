@@ -3,6 +3,58 @@
   "dataBoundary": "public-offline-reports-plus-synthetic-interaction-fixture",
   "productionClaim": false,
   "generatedWithoutTraining": true,
+  "rankingGame": {
+    "origin": "synthetic",
+    "scoring": "deterministic-teaching-rubric",
+    "disclosure": "人物、偏好、候选商品、标准顺序与反馈均为教学模拟，不来自线上用户、模型预测或真实 benchmark。",
+    "rounds": [
+      {
+        "id": "maker-bench",
+        "user": "正在搭建精密工作台的创客",
+        "mission": "她重视测量精度、操作安全和零件收纳，希望下一次购买能直接改善工作台。",
+        "signals": ["最近看过：数显游标卡尺", "偏好：精密工具", "在意：防静电与收纳"],
+        "idealOrder": ["torque-driver", "antistatic-mat", "magnetic-tray"],
+        "candidates": [
+          {"id": "torque-driver", "name": "扭矩螺丝刀", "cue": "精密装配", "feedback": "最贴近精密装配任务，也延续了最近的测量工具兴趣。"},
+          {"id": "antistatic-mat", "name": "防静电工作垫", "cue": "操作安全", "feedback": "符合防静电偏好，但任务紧迫度略低于核心装配工具。"},
+          {"id": "magnetic-tray", "name": "磁性零件盘", "cue": "桌面收纳", "feedback": "能减少小零件丢失，适合作为补充推荐。"},
+          {"id": "universal-toolbox", "name": "通用工具箱", "cue": "热门商品", "feedback": "有工具相关性，但过于宽泛，没有利用精密装配信号。"},
+          {"id": "grow-light", "name": "植物补光灯", "cue": "跨品类热门", "feedback": "与当前任务和浏览信号不匹配。"},
+          {"id": "solder-station", "name": "可调温焊台", "cue": "相邻兴趣", "feedback": "属于相邻工作台品类，但没有证据表明此刻需要焊接。"}
+        ]
+      },
+      {
+        "id": "seedling-corner",
+        "user": "准备第一次育苗的阳台种植者",
+        "mission": "她已经买好育苗盘和土壤湿度计，现在需要稳定温度、光照和浇水节奏。",
+        "signals": ["最近看过：育苗盘", "已有：土壤湿度计", "目标：提高发芽稳定性"],
+        "idealOrder": ["heat-mat", "grow-light-timer", "fine-sprayer"],
+        "candidates": [
+          {"id": "heat-mat", "name": "恒温育苗垫", "cue": "温度控制", "feedback": "直接补齐发芽阶段的温度条件，是当前最紧迫的缺口。"},
+          {"id": "grow-light-timer", "name": "补光灯定时器", "cue": "光照节奏", "feedback": "帮助建立稳定光照周期，和育苗目标高度相关。"},
+          {"id": "fine-sprayer", "name": "细雾喷壶", "cue": "温和浇水", "feedback": "适合幼苗阶段，相关但优先级低于温度和光照。"},
+          {"id": "garden-gloves", "name": "园艺手套", "cue": "品类热门", "feedback": "属于园艺品类，但对当前育苗瓶颈帮助有限。"},
+          {"id": "caliper", "name": "数显游标卡尺", "cue": "跨品类热门", "feedback": "与育苗任务无关。"},
+          {"id": "large-watering-can", "name": "大容量浇水壶", "cue": "相邻需求", "feedback": "有浇水相关性，但水流对幼苗可能过强。"}
+        ]
+      },
+      {
+        "id": "solder-practice",
+        "user": "刚开始焊接练习的电子爱好者",
+        "mission": "他已经有练习板和焊锡丝，希望减少烟雾、修正焊点，并安全固定电路板。",
+        "signals": ["最近看过：焊接练习板", "已有：无铅焊锡丝", "在意：安全与返工"],
+        "idealOrder": ["fume-extractor", "desolder-pump", "pcb-holder"],
+        "candidates": [
+          {"id": "fume-extractor", "name": "焊接烟雾净化器", "cue": "安全优先", "feedback": "直接处理烟雾暴露，是当前最重要的安全补充。"},
+          {"id": "desolder-pump", "name": "吸锡器", "cue": "修正焊点", "feedback": "新手需要反复返工，吸锡器能直接降低修正成本。"},
+          {"id": "pcb-holder", "name": "PCB 固定架", "cue": "稳定操作", "feedback": "能稳定练习板，适合作为第三位补充。"},
+          {"id": "premium-multimeter", "name": "高精度万用表", "cue": "专业升级", "feedback": "对进阶诊断有用，但当前练习阶段优先级更低。"},
+          {"id": "seed-tray", "name": "育苗盘", "cue": "跨品类热门", "feedback": "与焊接任务无关。"},
+          {"id": "tool-labels", "name": "工具标签纸", "cue": "收纳辅助", "feedback": "有轻微辅助价值，但不能解决安全或返工问题。"}
+        ]
+      }
+    ]
+  },
   "amazon": {
     "origin": "synthetic",
     "dataset": "Synthetic catalog histories for UI demonstration",
