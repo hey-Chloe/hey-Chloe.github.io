@@ -186,7 +186,8 @@ const SPOTLIGHT_PROJECTS = new Set([
   'kai-commerce-studio',
   'compute-quote-terminal',
   'compute-intelligence',
-  'vlm-data-selection'
+  'vlm-data-selection',
+  'kai-play'
 ]);
 
 /* An editorial table composition, not generated rows or an equal card grid. */
@@ -195,11 +196,11 @@ const ARTIFACT_LAYOUT: Record<string, ArtifactLayout> = {
   'compute-quote-terminal': { left: 30, top: 14, rotation: 1.5, scale: 1.16 },
   'compute-intelligence': { left: 50, top: 13, rotation: -1.6, scale: 1.16 },
   'vlm-data-selection': { left: 70, top: 15, rotation: 2.1, scale: 1.14 },
-  'kai-market-lab': { left: 89, top: 14, rotation: -2.2, scale: .92 },
+  'kai-play': { left: 89, top: 14, rotation: -2.2, scale: 1.06 },
   remindercat: { left: 11, top: 35, rotation: 3.3, scale: .78 },
   'kai-cloudpay-mobile': { left: 30, top: 35, rotation: -2.4, scale: .88 },
   'kai-creator-voting': { left: 51, top: 36, rotation: 1.8, scale: .9 },
-  'kai-play': { left: 71, top: 34, rotation: -2.8, scale: .88 },
+  'kai-market-lab': { left: 71, top: 34, rotation: -2.8, scale: .88 },
   'kai-admin-console': { left: 89, top: 36, rotation: 2.1, scale: .92 },
   'enterprise-agentic-rag': { left: 13, top: 56, rotation: -1.6, scale: 1.04 },
   budgetagent: { left: 32, top: 55, rotation: -4.2, scale: .88 },
