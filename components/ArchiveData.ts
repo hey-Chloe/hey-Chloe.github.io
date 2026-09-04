@@ -119,10 +119,10 @@ export const archiveObjects: ArchiveDeskObject[] = [
       },
       {
         index: '03',
-        title: '推荐系统排序小游戏',
-        descriptor: '公开离线评估',
-        evidence: '召回、排序、评估与回滚闭环',
-        href: '/demos/recommendation-systems/index.html'
+        title: '推荐算法互动实验室',
+        descriptor: '公网可操作',
+        evidence: '百万级 ANN、CTR / CVR 与位置偏差',
+        href: 'https://hey-chloe.github.io/KAI-Offline-RecSys-Lab/'
       }
     ],
     decorations: [
