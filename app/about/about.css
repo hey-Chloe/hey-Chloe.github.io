@@ -6,9 +6,10 @@
   overflow-x: clip;
   color: var(--about-ink);
   background:
-    radial-gradient(circle at 9% 12%, rgba(140, 164, 140, .16), transparent 28%),
-    radial-gradient(circle at 92% 18%, rgba(239, 173, 148, .09), transparent 26%),
-    #f2f0e8;
+    url('/images/pearl-marble-texture.svg') center top / cover no-repeat,
+    radial-gradient(circle at 9% 12%, rgba(255, 255, 255, .72), transparent 28%),
+    radial-gradient(circle at 92% 18%, rgba(233, 111, 85, .018), transparent 26%),
+    #f7f6f4;
   font-family: var(--xy-sans, "PingFang SC", "Noto Sans SC", system-ui, sans-serif);
   font-synthesis: none;
 }

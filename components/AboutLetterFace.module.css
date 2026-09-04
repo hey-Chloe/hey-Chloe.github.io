@@ -1,0 +1,70 @@
+@font-face {
+  font-family: 'Archive Zhi Mang Xing';
+  src: url('/fonts/type-choice/zhi-mang-xing-about.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+5173, U+4E8E, U+5C0F, U+60A6;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  container-type: inline-size;
+  pointer-events: none;
+  user-select: none;
+  font-synthesis: none;
+}
+
+.upperPlane {
+  position: absolute;
+  top: 20%;
+  right: 12%;
+  left: 12%;
+  display: flex;
+  flex-direction: column;
+  color: #6d7c6b;
+  transform: perspective(760px) rotateX(1.4deg);
+  transform-origin: bottom;
+}
+
+.folio { font: 500 10px/1.4 ui-monospace, Menlo, monospace; letter-spacing: .13em; }
+.english { margin-top: 5px; font: italic 10px/1.3 'Iowan Old Style', Baskerville, Georgia, serif; opacity: .7; }
+.subtitle {
+  position: absolute;
+  left: 12.6%;
+  top: 52%;
+  color: #78816d;
+  font: 400 10px/1.5 'Hiragino Sans GB', 'PingFang SC', sans-serif;
+  letter-spacing: .06em;
+  transform: perspective(620px) rotateX(-6deg) rotate(-.3deg);
+}
+
+/* Same proportions and crease split as the selected 01 specimen. */
+.title {
+  position: absolute;
+  left: 12%;
+  top: 57.5%;
+  width: 76%;
+  aspect-ratio: 450 / 120;
+  color: #233a2a;
+  mix-blend-mode: multiply;
+}
+.wordmark { display: block; width: 100%; height: auto; overflow: visible; }
+.inkTop, .inkBottom { position: absolute; inset: 0; display: block; transform-origin: 50% 41.8%; visibility: hidden; }
+.inkTop { clip-path: inset(0 0 58.2% 0); transform: perspective(720px) rotateX(2deg) skewX(-.65deg); opacity: .97; }
+.inkBottom { clip-path: inset(41.8% 0 0 0); transform: perspective(720px) rotateX(-7deg) skewX(.85deg) scaleY(.97); opacity: .92; }
+.fallback { display: block; font: 500 22px/1.4 'PingFang SC', sans-serif; }
+.face[data-font-state='ready'] .inkTop,
+.face[data-font-state='ready'] .inkBottom { visibility: visible; }
+.face[data-font-state='ready'] .fallback { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (max-width: 720px) {
+  .english { max-width: 14em; font-size: 9px; }
+  .subtitle { display: none; }
+  /* Keep the mark on the exposed paper beside the Garden packet.
+     50% width with this top still meets the same 67% physical crease. */
+  .title { left: 10%; top: 60.75%; width: 50%; }
+  .fallback { font-size: 17px; }
+}

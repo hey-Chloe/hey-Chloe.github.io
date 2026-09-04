@@ -111,7 +111,7 @@
   isolation: isolate;
   border: 1px solid rgba(31, 45, 35, .12);
   border-radius: clamp(30px, 3.4vw, 50px);
-  background: #dfe3da;
+  background: #e9ebea;
   box-shadow:
     0 30px 78px rgba(37, 52, 41, .12),
     0 1px 0 rgba(255, 255, 255, .66) inset;
@@ -124,9 +124,11 @@
   pointer-events: none;
   opacity: .52;
   background-image:
+    url('/images/pearl-marble-texture.svg'),
     repeating-linear-gradient(96deg, transparent 0 8px, rgba(23, 32, 25, .015) 8px 9px),
     radial-gradient(circle, rgba(23, 32, 25, .055) 0 .7px, transparent .8px);
-  background-size: auto, 29px 29px;
+  background-size: 1800px 1200px, auto, 29px 29px;
+  background-repeat: no-repeat, repeat, repeat;
 }
 
 .project-desk__collection,

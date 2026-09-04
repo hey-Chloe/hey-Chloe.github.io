@@ -21,7 +21,7 @@
   --work-screen-muted: #a6b0a7;
   color-scheme: light;
   color: var(--work-ink);
-  background: #d9ded3;
+  background: #f2f3f2;
   font-family: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
@@ -32,9 +32,10 @@
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 4% 17%, rgba(255, 255, 255, .74), transparent 21rem),
-    radial-gradient(circle at 94% 11%, rgba(49, 91, 61, .12), transparent 27rem),
-    #d9ded3;
+    url('/images/pearl-marble-texture.svg') center / cover no-repeat,
+    radial-gradient(circle at 4% 17%, rgba(255, 255, 255, .76), transparent 21rem),
+    radial-gradient(circle at 94% 11%, rgba(25, 62, 48, .018), transparent 27rem),
+    #f2f3f2;
 }
 
 .work-soft-world :is(h1, h2, h3, p, figure, dl, dd, ol) {
@@ -47,12 +48,12 @@
 
 /* Work keeps the Archive's warm paper at the threshold. */
 .work-soft-world .world-nav--work {
-  --nav-bg: rgba(243, 237, 225, .94);
+  --nav-bg: rgba(249, 249, 247, .94);
   --nav-fg: var(--work-ink);
   --nav-line: rgba(24, 33, 27, .16);
   color: var(--work-ink);
   border-color: var(--work-line);
-  background: rgba(243, 237, 225, .94);
+  background: rgba(249, 249, 247, .94);
   backdrop-filter: blur(16px);
 }
 

@@ -9,8 +9,9 @@
   overflow-x: hidden;
   color: var(--garden-ink);
   background:
-    radial-gradient(circle at 9% 20%, rgba(255, 255, 255, .8), transparent 24%),
-    linear-gradient(135deg, #f8f4ea 0 42%, #e7ece3 100%);
+    url('/images/pearl-marble-texture.svg') center top / cover no-repeat,
+    radial-gradient(circle at 9% 20%, rgba(255, 255, 255, .92), transparent 24%),
+    linear-gradient(135deg, #f6f7f4 0 44%, #f1f3f1 100%);
   font-family: var(--xy-sans);
   isolation: isolate;
 }
@@ -21,16 +22,16 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: .28;
+  opacity: .18;
   background-image:
-    linear-gradient(rgba(33, 67, 49, .025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(33, 67, 49, .02) 1px, transparent 1px);
+    linear-gradient(rgba(33, 67, 49, .012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33, 67, 49, .01) 1px, transparent 1px);
   background-size: 28px 28px;
   mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 82%, transparent);
 }
 
 .garden-world .world-nav {
-  --nav-bg: rgba(248, 244, 234, .94);
+  --nav-bg: rgba(249, 249, 247, .94);
   --nav-fg: var(--garden-ink);
   --nav-line: rgba(24, 54, 41, .16);
   backdrop-filter: blur(14px);
@@ -174,8 +175,9 @@
   padding: clamp(2rem, 5vw, 4.5rem) max(1.5rem, calc((100vw - 1280px) / 2));
   border-top: 1px solid rgba(24, 54, 41, .13);
   background:
-    radial-gradient(circle at 78% 20%, rgba(255, 255, 255, .62), transparent 23%),
-    linear-gradient(155deg, #dfe6dc, #c9d5c8 64%, #e8e8dd);
+    url('/images/pearl-marble-texture.svg') center / cover no-repeat,
+    radial-gradient(circle at 78% 20%, rgba(255, 255, 255, .72), transparent 23%),
+    linear-gradient(155deg, #ecefed, #e8ebea 64%, #f3f3f1);
   box-shadow: inset 0 22px 60px rgba(54, 78, 62, .07);
 }
 

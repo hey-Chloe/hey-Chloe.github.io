@@ -7,6 +7,9 @@
   --lab-soft-paper: #f4f0e7;
   --lab-soft-paper-warm: #eee8db;
   --lab-soft-paper-green: #e8eee2;
+  --lab-soft-space: #f1f3f2;
+  --lab-soft-space-paper: #f7f7f5;
+  --lab-soft-space-deep: #e9ecea;
   --lab-soft-line: rgba(38, 56, 44, .18);
   --lab-soft-moss: #42634b;
   --lab-soft-bloom: #d96e57;
@@ -14,9 +17,9 @@
   color-scheme: light;
   color: var(--lab-soft-ink);
   background:
-    radial-gradient(circle at 84% 7%, rgba(255, 255, 255, .52), transparent 25rem),
-    radial-gradient(circle at 4% 34%, rgba(255, 255, 255, .28), transparent 35rem),
-    var(--lab-soft-felt);
+    radial-gradient(circle at 84% 7%, rgba(255, 255, 255, .7), transparent 25rem),
+    radial-gradient(circle at 4% 34%, rgba(255, 255, 255, .38), transparent 35rem),
+    var(--lab-soft-space);
   font-family: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
@@ -26,18 +29,20 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: .38;
+  opacity: .46;
   background-image:
-    linear-gradient(rgba(48, 70, 53, .045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(48, 70, 53, .045) 1px, transparent 1px);
-  background-size: 38px 38px;
+    url('/images/pearl-marble-texture.svg'),
+    linear-gradient(rgba(48, 70, 53, .018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(48, 70, 53, .018) 1px, transparent 1px);
+  background-size: 1800px 1200px, 38px 38px, 38px 38px;
+  background-repeat: no-repeat, repeat, repeat;
   mask-image: linear-gradient(to bottom, #000 0 66rem, transparent 120rem);
 }
 
 .world-nav--lab {
   color: var(--lab-soft-ink);
   border-color: var(--lab-soft-line);
-  background: rgba(226, 233, 224, .9);
+  background: rgba(249, 249, 247, .92);
   backdrop-filter: blur(18px) saturate(.92);
 }
 
@@ -329,7 +334,10 @@
   gap: clamp(1rem, 3vw, 3rem);
   align-items: start;
   padding: clamp(7rem, 11vw, 11rem) clamp(1.25rem, 4.5vw, 5rem);
-  background: radial-gradient(circle at 93% 23%, rgba(255, 255, 255, .5), transparent 20rem), var(--lab-soft-paper-warm);
+  background:
+    url('/images/pearl-marble-texture.svg') center / cover no-repeat,
+    radial-gradient(circle at 93% 23%, rgba(255, 255, 255, .62), transparent 20rem),
+    var(--lab-soft-space-paper);
 }
 
 .lab-evidence-dossier {
@@ -373,7 +381,10 @@
 
 .lab-open-experiments {
   padding: clamp(7rem, 11vw, 11rem) clamp(1.25rem, 4.5vw, 5rem) clamp(6rem, 9vw, 9rem);
-  background: radial-gradient(circle at 18% 18%, rgba(255, 255, 255, .42), transparent 25rem), var(--lab-soft-felt-deep);
+  background:
+    url('/images/pearl-marble-texture.svg') center / cover no-repeat,
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, .5), transparent 25rem),
+    var(--lab-soft-space-deep);
 }
 .lab-open-experiments > header { display: grid; grid-template-columns: minmax(300px, .8fr) minmax(280px, .55fr); gap: 1rem 8vw; align-items: end; max-width: 1180px; margin-inline: auto; }
 .lab-open-experiments > header > p { grid-column: 1 / -1; margin: 0; color: var(--lab-soft-bloom); font: 700 .59rem/1.3 'IBM Plex Mono', monospace; letter-spacing: .09em; }

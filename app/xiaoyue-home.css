@@ -144,30 +144,39 @@
 }
 
 .world-nav__brand {
+  --xy-brand-ink: #28322d;
+  --xy-brand-sage: #82958a;
+  --xy-brand-coral: #c66d58;
+  --xy-brand-metal: #9c9181;
   display: inline-flex;
   min-height: 44px;
   width: fit-content;
   align-items: center;
-  gap: .65rem;
+  gap: .72rem;
+  color: var(--xy-brand-ink);
   text-decoration: none;
 }
 
-.world-nav__brand > span:last-child {
+.world-nav__brand-copy {
   display: flex;
-  align-items: baseline;
-  gap: .42rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: .12rem;
   white-space: nowrap;
 }
 
 .world-nav__brand b {
-  font-size: .78rem;
-  letter-spacing: .1em;
+  color: var(--xy-brand-ink);
+  font: 650 .84rem/.92 "Avenir Next", "Helvetica Neue", var(--xy-sans);
+  letter-spacing: .045em;
 }
 
 .world-nav__brand small {
-  font-size: .58rem;
-  letter-spacing: .14em;
-  opacity: .55;
+  color: #6f7e76;
+  font: 500 .6rem/1.05 var(--xy-display);
+  letter-spacing: .02em;
+  opacity: .92;
 }
 
 .world-nav__links {
@@ -242,8 +251,54 @@
   overflow: visible;
 }
 
+.xiaoyue-mark--seal {
+  width: 28px;
+  height: 28px;
+}
+
+.xiaoyue-mark--seal .xiaoyue-mark__ring {
+  fill: none;
+  stroke: var(--xy-brand-metal, currentColor);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  opacity: .24;
+}
+
 .xiaoyue-mark__petal {
   fill: currentColor;
+  opacity: .9;
+}
+
+.xiaoyue-mark--seal .xiaoyue-mark__petal {
+  stroke: var(--xy-brand-ink, currentColor);
+  stroke-width: .55;
+  stroke-linejoin: round;
+  opacity: .88;
+}
+
+.xiaoyue-mark--seal .xiaoyue-mark__petal--ne,
+.xiaoyue-mark--seal .xiaoyue-mark__petal--sw {
+  fill: none;
+  stroke: var(--xy-brand-sage, currentColor);
+  stroke-width: 1.45;
+  opacity: .78;
+}
+
+.world-nav__brand .xiaoyue-mark--seal .xiaoyue-mark__petal--nw {
+  fill: var(--xy-brand-ink);
+  stroke: var(--xy-brand-ink);
+}
+
+.world-nav__brand .xiaoyue-mark--seal .xiaoyue-mark__petal--se {
+  fill: var(--xy-brand-sage);
+  stroke: var(--xy-brand-sage);
+}
+
+.xiaoyue-mark--seal .xiaoyue-mark__veins {
+  fill: none;
+  stroke: rgba(249, 249, 247, .72);
+  stroke-width: .72;
+  stroke-linecap: round;
   opacity: .9;
 }
 
@@ -251,17 +306,21 @@
   fill: var(--xy-bloom);
 }
 
-.world-nav--work .xiaoyue-mark__petal,
-.world-nav--lab .xiaoyue-mark__petal {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
+.xiaoyue-mark--seal .xiaoyue-mark__center {
+  fill: var(--xy-brand-coral, var(--xy-bloom));
+  stroke: rgba(249, 249, 247, .86);
+  stroke-width: 1.05;
+}
+
+.xiaoyue-mark--seal .xiaoyue-mark__seed {
+  fill: rgba(249, 249, 247, .92);
+  opacity: .9;
 }
 
 .world-nav--lab .xiaoyue-mark__center {
   fill: var(--xy-signal);
   stroke: var(--xy-ink);
-  stroke-width: 1;
+  stroke-width: .9;
 }
 
 .xiaoyue-mark-label {
@@ -1331,13 +1390,18 @@
     flex: 0 0 auto;
   }
 
-  .world-nav__brand > span:last-child {
+  .world-nav__brand-copy {
     display: none;
   }
 
   .world-nav__brand .xiaoyue-mark {
     width: 26px;
     height: 26px;
+  }
+
+  .world-nav__brand .xiaoyue-mark--seal {
+    width: 28px;
+    height: 28px;
   }
 
   .world-nav__links {
@@ -2248,17 +2312,18 @@
 .notes-world {
   --notes-ink: #1e3024;
   --notes-paper: #f1ebde;
+  --notes-space: #f6f6f3;
   --notes-green: #31563b;
   position: relative;
   z-index: 1;
   min-height: 100vh;
   color: var(--notes-ink);
-  background: var(--notes-paper);
+  background: var(--notes-space);
   font-family: var(--xy-sans);
 }
 
 .notes-world .world-nav {
-  --nav-bg: rgba(244, 241, 233, .96);
+  --nav-bg: rgba(249, 249, 247, .96);
   --nav-fg: #234630;
   --nav-line: rgba(35, 70, 48, .14);
 }
@@ -2279,16 +2344,16 @@
   padding: clamp(3.5rem, 7vw, 7rem) clamp(1.25rem, 5vw, 5rem) clamp(4rem, 7vw, 7rem);
   color: var(--notes-ink);
   background:
-    radial-gradient(circle at 82% 22%, rgba(74, 108, 81, .11), transparent 23%),
-    linear-gradient(145deg, #eef0e9, #dbe2d9 58%, #e8e5dc);
+    radial-gradient(circle at 82% 22%, rgba(83, 91, 98, .025), transparent 23%),
+    linear-gradient(145deg, #f9f9f7, #f0f2f1 58%, #f6f5f3);
 }
 
 .notes-hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: .08;
-  background: url('/images/fog-texture.svg') center / cover;
+  opacity: .56;
+  background: url('/images/pearl-marble-texture.svg') center / cover no-repeat;
   pointer-events: none;
 }
 
@@ -2350,7 +2415,11 @@
   padding: clamp(5rem, 9vw, 9rem) clamp(1.25rem, 5vw, 5rem);
 }
 
-.notes-field-records { background: #f1ebde; }
+.notes-field-records {
+  background:
+    url('/images/pearl-marble-texture.svg') center / cover no-repeat,
+    var(--notes-space);
+}
 
 .notes-section-label {
   display: grid;
@@ -2503,7 +2572,9 @@
 
 .notes-systems {
   color: var(--notes-ink);
-  background: #d9dfd5;
+  background:
+    url('/images/pearl-marble-texture.svg') center / cover no-repeat,
+    #eef0ef;
 }
 
 .notes-section-label--dark { color: var(--notes-ink); }
@@ -2580,8 +2651,9 @@
 .notes-early {
   color: var(--notes-ink);
   background:
-    radial-gradient(circle at 80% 14%, rgba(94, 122, 101, .09), transparent 27%),
-    #ebe7dd;
+    url('/images/pearl-marble-texture.svg') center / cover no-repeat,
+    radial-gradient(circle at 80% 14%, rgba(83, 91, 98, .022), transparent 27%),
+    #f3f3f1;
 }
 
 .notes-early__context {
@@ -4197,11 +4269,11 @@
 .archive-router.archive-world--soft {
   min-height: 100dvh;
   overflow: hidden;
-  background: #ebe9e2;
+  background: #f2f3f2;
 }
 
 .archive-router.archive-world--soft .world-nav {
-  --nav-bg: rgba(246, 242, 233, .94);
+  --nav-bg: rgba(249, 249, 247, .94);
   --nav-fg: #193e30;
   --nav-line: rgba(25, 62, 48, .13);
   background: var(--nav-bg);
@@ -4224,7 +4296,7 @@
   }
 
   .archive-router.archive-world--soft .world-nav {
-    --nav-bg: rgba(246, 242, 233, .97);
+    --nav-bg: rgba(249, 249, 247, .97);
     background: var(--nav-bg);
   }
 }

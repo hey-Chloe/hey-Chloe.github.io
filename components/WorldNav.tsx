@@ -14,9 +14,9 @@ export default function WorldNav({ active = 'home' }: { active?: 'home' | 'archi
   return (
     <header className={`world-nav world-nav--${active}`}>
       <a className="world-nav__skip" href={skipTarget}>跳到主要内容</a>
-      <Link href="/" className="world-nav__brand" aria-label="XIAOYUE Index home">
-        <XiaoyueMark />
-        <span><b>XIAOYUE</b><small>INDEX</small></span>
+      <Link href="/" className="world-nav__brand" aria-label="回到小悦数字档案首页">
+        <XiaoyueMark variant="seal" />
+        <span className="world-nav__brand-copy"><b>Xiaoyue</b><small>数字档案</small></span>
       </Link>
       <nav className="world-nav__links" aria-label="世界导航 / World navigation">
         {worlds.map((world) => (

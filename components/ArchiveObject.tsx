@@ -11,6 +11,7 @@ import {
   type RefObject
 } from 'react';
 import type { ArchiveDeskObject, ArchiveObjectId } from '@/components/ArchiveData';
+import AboutLetterFace from './AboutLetterFace';
 import styles from './ArchiveDesk.module.css';
 
 type Offset = { x: number; y: number };
@@ -360,7 +361,9 @@ export default function ArchiveObject({
           data-mobile={decoration.mobile}
         />
       ))}
-      <span className={styles.textLayer}>
+      {object.id === 'about' ? (
+        <AboutLetterFace folio={object.folio} subtitle={object.subtitle} lines={object.lines} />
+      ) : <span className={styles.textLayer}>
         {object.featuredProjects ? (
           <span className={styles.foldoutPages}>
             <span className={classNames(styles.foldoutPanel, styles.foldoutCenter)}>
@@ -392,7 +395,7 @@ export default function ArchiveObject({
           </>
         )}
         <span className={styles.action}>{object.actionLabel} ↗</span>
-      </span>
+      </span>}
     </>
   );
   const interactionProps = {

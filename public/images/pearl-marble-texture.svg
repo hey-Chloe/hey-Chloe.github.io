@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 1800 1200" fill="none">
+  <defs>
+    <filter id="mineral-cloud" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0035 0.012" numOctaves="4" seed="23" stitchTiles="stitch" />
+      <feGaussianBlur stdDeviation="1.6 0.45" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="0.2" intercept="0.62" />
+        <feFuncG type="linear" slope="0.2" intercept="0.65" />
+        <feFuncB type="linear" slope="0.2" intercept="0.64" />
+        <feFuncA type="table" tableValues="0.025 0.055" />
+      </feComponentTransfer>
+    </filter>
+    <filter id="soft-vein" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.2" />
+    </filter>
+    <filter id="wide-vein" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" />
+    </filter>
+    <filter id="frost-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.46" numOctaves="3" seed="41" stitchTiles="stitch" />
+      <feColorMatrix type="matrix" values="
+        0 0 0 0 0.34
+        0 0 0 0 0.35
+        0 0 0 0 0.34
+        0 0 0 0.13 0" />
+    </filter>
+    <filter id="matte-cloud" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035 0.072" numOctaves="3" seed="17" stitchTiles="stitch" />
+      <feColorMatrix type="matrix" values="
+        0 0 0 0 0.43
+        0 0 0 0 0.42
+        0 0 0 0 0.39
+        0 0 0 0.11 0" />
+    </filter>
+    <filter id="soft-patina" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="58" />
+    </filter>
+    <radialGradient id="edge-patina" cx="50%" cy="45%" r="72%">
+      <stop offset="48%" stop-color="#8f8779" stop-opacity="0" />
+      <stop offset="100%" stop-color="#8f8779" stop-opacity="0.085" />
+    </radialGradient>
+    <pattern id="frost-speckle" width="164" height="148" patternUnits="userSpaceOnUse" patternTransform="rotate(-6)">
+      <g fill="#666863">
+        <circle cx="8" cy="17" r="0.7" opacity="0.2" />
+        <circle cx="29" cy="43" r="0.45" opacity="0.14" />
+        <circle cx="51" cy="12" r="0.5" opacity="0.19" />
+        <circle cx="76" cy="61" r="0.72" opacity="0.13" />
+        <circle cx="104" cy="29" r="0.42" opacity="0.2" />
+        <circle cx="139" cy="9" r="0.66" opacity="0.13" />
+        <circle cx="157" cy="54" r="0.46" opacity="0.18" />
+        <circle cx="18" cy="92" r="0.52" opacity="0.16" />
+        <circle cx="45" cy="126" r="0.74" opacity="0.12" />
+        <circle cx="69" cy="101" r="0.4" opacity="0.2" />
+        <circle cx="92" cy="139" r="0.58" opacity="0.15" />
+        <circle cx="122" cy="84" r="0.68" opacity="0.12" />
+        <circle cx="151" cy="119" r="0.42" opacity="0.19" />
+      </g>
+      <g fill="#ffffff">
+        <circle cx="18" cy="58" r="0.55" opacity="0.3" />
+        <circle cx="59" cy="77" r="0.44" opacity="0.24" />
+        <circle cx="88" cy="18" r="0.62" opacity="0.22" />
+        <circle cx="113" cy="118" r="0.48" opacity="0.27" />
+        <circle cx="145" cy="72" r="0.58" opacity="0.2" />
+      </g>
+    </pattern>
+  </defs>
+
+  <rect width="1800" height="1200" filter="url(#mineral-cloud)" opacity="0.72" />
+  <rect width="1800" height="1200" filter="url(#matte-cloud)" opacity="0.58" style="mix-blend-mode:multiply" />
+  <rect width="1800" height="1200" filter="url(#frost-grain)" opacity="0.62" style="mix-blend-mode:multiply" />
+  <rect width="1800" height="1200" fill="url(#frost-speckle)" opacity="0.72" style="mix-blend-mode:multiply" />
+  <rect width="1800" height="1200" fill="url(#edge-patina)" />
+
+  <g fill="#b2a38d" filter="url(#soft-patina)" opacity="0.055">
+    <ellipse cx="220" cy="170" rx="260" ry="145" />
+    <ellipse cx="1510" cy="985" rx="310" ry="165" />
+    <ellipse cx="1045" cy="255" rx="210" ry="120" />
+  </g>
+
+  <g stroke="#7d8582" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-110 1040C142 984 210 865 403 836C626 802 691 695 849 620C1012 543 1126 548 1286 444C1433 349 1587 302 1910 250" stroke-width="12" opacity="0.052" filter="url(#wide-vein)" />
+    <path d="M-110 1037C141 979 214 866 403 832C615 794 691 692 850 616C1011 539 1129 542 1285 439C1433 342 1592 294 1910 245" stroke-width="2.35" opacity="0.23" filter="url(#soft-vein)" />
+    <path d="M-110 1037C141 979 214 866 403 832C615 794 691 692 850 616C1011 539 1129 542 1285 439C1433 342 1592 294 1910 245" stroke-width="0.82" opacity="0.32" />
+
+    <path d="M410 1280C454 1064 592 1001 611 835C630 672 559 598 681 458C790 333 764 189 840 -80" stroke-width="9" opacity="0.038" filter="url(#wide-vein)" />
+    <path d="M414 1280C458 1064 596 1003 615 836C634 674 563 600 685 460C793 335 768 189 844 -80" stroke-width="1.7" opacity="0.17" filter="url(#soft-vein)" />
+    <path d="M414 1280C458 1064 596 1003 615 836C634 674 563 600 685 460C793 335 768 189 844 -80" stroke-width="0.62" opacity="0.25" />
+
+    <path d="M863 611C812 556 797 505 808 455C817 413 844 375 898 335" stroke-width="0.58" opacity="0.18" />
+    <path d="M1288 440C1246 402 1231 366 1237 329C1244 287 1272 254 1325 217" stroke-width="0.54" opacity="0.16" />
+    <path d="M397 834C362 789 350 748 360 711C371 669 401 638 455 612" stroke-width="0.56" opacity="0.17" />
+    <path d="M1530 315C1502 275 1498 239 1511 208C1524 176 1552 151 1599 130" stroke-width="0.5" opacity="0.14" />
+
+    <path d="M-80 390C156 351 258 256 360 162C454 76 523 20 625 -50" stroke-width="1.55" opacity="0.15" filter="url(#soft-vein)" />
+    <path d="M-80 390C156 351 258 256 360 162C454 76 523 20 625 -50" stroke-width="0.54" opacity="0.23" />
+    <path d="M1028 1260C1142 1082 1325 970 1412 832C1512 674 1642 630 1885 590" stroke-width="1.45" opacity="0.14" filter="url(#soft-vein)" />
+    <path d="M1028 1260C1142 1082 1325 970 1412 832C1512 674 1642 630 1885 590" stroke-width="0.5" opacity="0.21" />
+  </g>
+
+  <g stroke="#ffffff" stroke-linecap="round" opacity="0.29">
+    <path d="M-100 1050C150 992 221 880 408 844C619 804 700 704 856 628C1017 550 1138 551 1292 450C1440 353 1597 306 1900 260" stroke-width="0.7" />
+    <path d="M430 1280C474 1070 608 1008 629 844C650 682 579 607 699 469C808 343 784 202 860 -70" stroke-width="0.55" />
+  </g>
+
+  <g fill="none" stroke-linecap="round">
+    <path d="M115 178C220 165 292 174 365 160" stroke="#ffffff" stroke-width="1.1" opacity="0.13" />
+    <path d="M1190 1022C1310 1004 1420 1012 1535 987" stroke="#746f66" stroke-width="0.55" opacity="0.1" />
+    <path d="M1462 151C1515 143 1560 146 1618 134" stroke="#ffffff" stroke-width="0.72" opacity="0.11" />
+    <path d="M520 1110C588 1101 642 1104 711 1090" stroke="#766f65" stroke-width="0.48" opacity="0.075" />
+  </g>
+</svg>
