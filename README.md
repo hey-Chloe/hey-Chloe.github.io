@@ -55,3 +55,9 @@ npm run build
 ## 内容维护
 
 笔记内容位于 `content/posts/`，页面与路由位于 `app/`，可公开的静态素材和 Demo 位于 `public/`。新增内容时，应同时保留来源、运行状态和适用边界，不用展示文案替代实际证据。
+
+## XIAOYUE 创意指导 Skill
+
+仓库同时保存可迁移的 [`xiaoyue-creative-system`](skills/xiaoyue-creative-system/SKILL.md)。它用于维护 XIAOYUE / Chloe 的个人视觉身份、Archive / Work / Lab 世界边界、差异化审计与真实性规则，不是可套用到其他产品的通用复古模板。
+
+当前差异化原则是：`个人痕迹 × 物件语义 × 真实证据 × 世界反差`。绿色、纸张、花、Mono、手写字、圆角和贴纸只是可替换的表达材料，不要求同时出现。
