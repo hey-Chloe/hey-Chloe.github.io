@@ -56,7 +56,7 @@
   top: clamp(28px, 4.2vh, 44px);
   left: clamp(28px, 4.5vw, 68px);
   z-index: 30;
-  width: min(26vw, 350px);
+  width: min(23vw, 310px);
   pointer-events: none;
 }
 
@@ -81,7 +81,7 @@
   gap: 0;
   color: var(--archive-ink);
   font-family: var(--xy-signature);
-  font-size: clamp(68px, 6.6vw, 96px);
+  font-size: clamp(62px, 5.7vw, 84px);
   font-weight: 400;
   line-height: 0.78;
   letter-spacing: -0.065em;
@@ -92,7 +92,7 @@
 
 .descriptor {
   max-width: 24rem;
-  margin: 18px 0 0;
+  margin: 14px 0 0;
   color: rgba(25, 62, 48, 0.62);
   font-family: var(--xy-sans);
   font-size: 13px;
@@ -341,8 +341,8 @@
 
 .work {
   --object-left: 6%;
-  --object-top: 40%;
-  --object-width: min(35.5%, 520px);
+  --object-top: 50%;
+  --object-width: min(27%, 390px);
   --object-rotate: -3.2deg;
   --object-z: 5;
   aspect-ratio: 1283 / 972;
@@ -359,7 +359,7 @@
 .work .title {
   max-width: 10em;
   margin-top: auto;
-  font-size: clamp(30px, 2.8vw, 44px);
+  font-size: clamp(26px, 2.25vw, 36px);
 }
 
 .work .subtitle {
@@ -371,11 +371,21 @@
   color: rgba(245, 236, 218, 0.7);
 }
 
+.work .action {
+  display: block;
+  margin-top: 12px;
+  color: rgba(245, 236, 218, 0.82);
+  font-family: var(--xy-sans);
+  font-size: clamp(10px, 0.82vw, 12px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
 .lab {
-  --object-left: 44%;
-  --object-top: 15%;
-  --object-width: min(47%, 650px);
-  --object-rotate: 1.6deg;
+  --object-left: 39%;
+  --object-top: 10%;
+  --object-width: min(58%, 820px);
+  --object-rotate: 1.1deg;
   --object-z: 4;
   aspect-ratio: 1382 / 851;
   perspective: 1100px;
@@ -446,7 +456,7 @@
 
 .foldoutLeft {
   grid-area: left;
-  padding: 14% 13% 10% 14%;
+  padding: 11% 9% 8% 10%;
   transform: rotateY(1.8deg) translateZ(0.25px);
   transform-origin: right center;
 }
@@ -457,7 +467,7 @@
 
 .foldoutCenter {
   grid-area: center;
-  padding: 6% 8% 5%;
+  padding: 5% 7% 4%;
   transform: translateZ(0.7px);
   transform-origin: center;
 }
@@ -468,7 +478,7 @@
 
 .foldoutRight {
   grid-area: right;
-  padding: 14% 14% 10% 13%;
+  padding: 11% 10% 8% 9%;
   transform: rotateY(-1.6deg) translateZ(0.2px);
   transform-origin: left center;
 }
@@ -481,8 +491,8 @@
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  gap: 3px;
-  padding-bottom: 9px;
+  gap: 2px;
+  padding-bottom: 8px;
   border-bottom: 1px solid rgba(23, 55, 43, 0.2);
 }
 
@@ -496,8 +506,8 @@
 
 .featuredTitle {
   font-family: var(--xy-display);
-  font-size: clamp(18px, 1.45vw, 23px);
-  font-weight: 600;
+  font-size: clamp(18px, 1.55vw, 25px);
+  font-weight: 560;
   line-height: 1.2;
 }
 
@@ -510,8 +520,8 @@
   flex: 1;
   align-items: flex-start;
   justify-content: center;
-  padding: 9px 6px;
-  margin: 5px -6px 0;
+  padding: 9px 5px;
+  margin: 5px -5px 0;
   flex-direction: column;
   color: inherit;
   gap: 7px;
@@ -548,8 +558,8 @@
 .foldoutCenter .featuredProject {
   display: grid;
   flex: 1;
-  grid-template-columns: 30px minmax(0, 1fr);
-  grid-template-rows: auto auto;
+  grid-template-columns: 28px minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
   align-content: center;
   justify-content: stretch;
   padding: 12px 10px;
@@ -563,11 +573,11 @@
 }
 
 .foldoutCenter .featuredCopy,
-.foldoutCenter .featuredDescriptor {
+.foldoutCenter .featuredAction {
   grid-column: 2;
 }
 
-.foldoutCenter .featuredDescriptor {
+.foldoutCenter .featuredAction {
   justify-self: start;
 }
 
@@ -580,8 +590,8 @@
 
 .featuredProjectTitle {
   font-family: var(--xy-sans);
-  font-size: clamp(12px, 0.95vw, 15px);
-  font-weight: 600;
+  font-size: clamp(13px, 1.08vw, 17px);
+  font-weight: 560;
   line-height: 1.3;
   letter-spacing: normal;
   text-wrap: balance;
@@ -589,41 +599,70 @@
 
 .foldoutCenter .featuredProjectTitle {
   font-family: var(--xy-display);
-  font-size: clamp(22px, 1.85vw, 30px);
+  font-size: clamp(22px, 1.75vw, 28px);
   line-height: 1.16;
 }
 
 .featuredEvidence {
   color: rgba(23, 55, 43, 0.62);
   font-family: var(--xy-sans);
-  font-size: clamp(9px, 0.72vw, 11px);
+  font-size: clamp(9px, 0.76vw, 12px);
   font-weight: 400;
   line-height: 1.5;
 }
 
-.featuredDescriptor {
-  padding: 3px 7px;
-  color: rgba(23, 55, 43, 0.68);
-  border: 1px solid rgba(23, 55, 43, 0.18);
-  border-radius: 999px;
+.featuredStatus {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 3px;
+  color: rgba(23, 55, 43, 0.58);
   font-family: var(--xy-sans);
-  font-size: clamp(8px, 0.66vw, 10px);
+  font-size: clamp(8px, 0.62vw, 10px);
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+}
+
+.featuredStatus::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: #67816d;
+  box-shadow: 0 0 0 2px rgba(103, 129, 109, 0.1);
+}
+
+.featuredProject[data-evidence-status="repository-reported"] .featuredStatus::before {
+  background: #9c7b59;
+  box-shadow: 0 0 0 2px rgba(156, 123, 89, 0.11);
+}
+
+.featuredProject[data-evidence-status="verified"] .featuredStatus::before {
+  background: #3f7758;
+  box-shadow: 0 0 0 2px rgba(63, 119, 88, 0.12);
+}
+
+.featuredAction {
+  color: rgba(23, 55, 43, 0.72);
+  font-family: var(--xy-sans);
+  font-size: clamp(8px, 0.67vw, 10px);
+  font-weight: 520;
+  line-height: 1.25;
   white-space: nowrap;
 }
 
-.featuredDescriptor::after {
+.featuredAction::after {
   content: "↗";
   display: inline-block;
-  margin-left: 4px;
-  opacity: 0.58;
+  margin-left: 5px;
+  opacity: 0.62;
   transform: translate3d(0, 0, 0);
   transition: transform 160ms ease;
 }
 
-.featuredProject:hover .featuredDescriptor::after,
-.featuredProject:focus-visible .featuredDescriptor::after {
+.featuredProject:hover .featuredAction::after,
+.featuredProject:focus-visible .featuredAction::after {
   transform: translate3d(1px, -1px, 0);
 }
 
@@ -633,7 +672,8 @@
   .featuredIndex,
   .featuredProjectTitle,
   .featuredEvidence,
-  .featuredDescriptor
+  .featuredStatus,
+  .featuredAction
 ) {
   text-shadow:
     0 0.35px 0 rgba(255, 255, 255, 0.34),
@@ -641,9 +681,9 @@
 }
 
 .notes {
-  --object-left: 34%;
-  --object-top: 52%;
-  --object-width: min(15.5%, 225px);
+  --object-left: 31%;
+  --object-top: 56%;
+  --object-width: min(14%, 205px);
   --object-rotate: -1.5deg;
   --object-z: 8;
   aspect-ratio: 713 / 1120;
@@ -673,9 +713,9 @@
 }
 
 .about {
-  --object-left: 29%;
-  --object-top: 11%;
-  --object-width: min(17.5%, 250px);
+  --object-left: 27%;
+  --object-top: 26%;
+  --object-width: min(15.5%, 225px);
   --object-rotate: -4.2deg;
   --object-z: 2;
   aspect-ratio: 1098 / 979;
@@ -703,9 +743,9 @@
 }
 
 .garden {
-  --object-left: 80%;
-  --object-top: 54%;
-  --object-width: min(12.5%, 176px);
+  --object-left: 83%;
+  --object-top: 62%;
+  --object-width: min(11%, 164px);
   --object-rotate: 3.6deg;
   --object-z: 7;
   aspect-ratio: 883 / 1299;
@@ -868,37 +908,41 @@
 
 @media (max-width: 1100px) and (min-width: 721px) {
   .identity {
-    width: min(31vw, 330px);
+    width: min(28vw, 300px);
   }
 
   .signature {
-    font-size: clamp(62px, 8vw, 86px);
+    font-size: clamp(58px, 7vw, 78px);
   }
 
   .work {
     --object-left: 4%;
-    --object-width: 41%;
+    --object-top: 51%;
+    --object-width: 32%;
   }
 
   .lab {
-    --object-left: 39%;
-    --object-width: 55%;
+    --object-left: 36%;
+    --object-top: 14%;
+    --object-width: 61%;
   }
 
   .about {
     --object-left: 25%;
-    --object-width: 23%;
+    --object-top: 28%;
+    --object-width: 18%;
   }
 
   .notes {
-    --object-left: 22%;
-    --object-top: 52%;
-    --object-width: 21%;
+    --object-left: 31%;
+    --object-top: 57%;
+    --object-width: 17%;
   }
 
   .garden {
-    --object-left: 79%;
-    --object-width: 16%;
+    --object-left: 83%;
+    --object-top: 64%;
+    --object-width: 13%;
   }
 }
 
@@ -980,6 +1024,11 @@
       filter 220ms var(--archive-ease);
   }
 
+  .object:focus-visible,
+  .object:focus-within {
+    z-index: 90;
+  }
+
   .decoration[data-mobile="hide"] {
     display: none;
   }
@@ -999,56 +1048,64 @@
 
   .work {
     --object-left: 4%;
-    --object-top: 20%;
-    --object-width: 92%;
+    --object-top: 51%;
+    --object-width: 58%;
     --object-rotate: -2.7deg;
-    --object-z: 2;
+    --object-z: 5;
   }
 
   .lab {
-    --object-left: 6%;
-    --object-top: 34%;
-    --object-width: 90%;
-    --object-rotate: 1.5deg;
-    --object-z: 3;
+    --object-left: 3%;
+    --object-top: 20%;
+    --object-width: 94%;
+    --object-rotate: 1deg;
+    --object-z: 7;
   }
 
   .notes {
     --object-left: 5%;
-    --object-top: 67%;
-    --object-width: 42%;
+    --object-top: 63%;
+    --object-width: 34%;
     --object-rotate: -2.1deg;
-    --object-z: 5;
+    --object-z: 4;
   }
 
   .about {
-    --object-left: 43%;
-    --object-top: 62%;
-    --object-width: 49%;
+    --object-left: 40%;
+    --object-top: 60%;
+    --object-width: 38%;
     --object-rotate: 2deg;
     --object-z: 6;
   }
 
   .garden {
-    --object-left: 70%;
-    --object-top: 70%;
-    --object-width: 28%;
+    --object-left: 75%;
+    --object-top: 66%;
+    --object-width: 24%;
     --object-rotate: -3deg;
-    --object-z: 7;
+    --object-z: 4;
   }
 
   .work .textLayer {
-    top: 14%;
+    top: 16%;
+    right: 11%;
+    bottom: 13%;
+    left: 11%;
   }
 
   .work .title {
     max-width: 9em;
-    margin-top: 8px;
-    font-size: clamp(24px, 7.2vw, 30px);
+    margin-top: auto;
+    font-size: clamp(20px, 5.8vw, 25px);
   }
 
   .work .subtitle {
     display: none;
+  }
+
+  .work .action {
+    margin-top: 6px;
+    font-size: 9px;
   }
 
   .lab .textLayer {
@@ -1066,7 +1123,7 @@
       "left"
       "right";
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(66px, 1.35fr) minmax(44px, 1fr) minmax(44px, 1fr);
+    grid-template-rows: minmax(64px, 1.2fr) minmax(48px, 1fr) minmax(48px, 1fr);
     perspective: none;
     transform-style: flat;
   }
@@ -1128,7 +1185,7 @@
     padding-inline: 2px;
     margin: 0;
     flex-direction: row;
-    gap: 5px;
+    gap: 4px;
     border-bottom: 1px solid rgba(23, 55, 43, 0.14);
   }
 
@@ -1137,12 +1194,12 @@
     grid-template-columns: 18px minmax(0, 1fr) auto;
     grid-template-rows: auto;
     padding: 0 2px;
-    gap: 5px;
+    gap: 4px;
   }
 
   .foldoutCenter .featuredIndex,
   .foldoutCenter .featuredCopy,
-  .foldoutCenter .featuredDescriptor {
+  .foldoutCenter .featuredAction {
     grid-column: auto;
     grid-row: auto;
     padding-top: 0;
@@ -1153,11 +1210,12 @@
   }
 
   .featuredProjectTitle {
-    overflow: hidden;
     font-size: clamp(10px, 3vw, 12px);
     line-height: 1.22;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .foldoutCenter .featuredProjectTitle {
@@ -1167,17 +1225,32 @@
   }
 
   .featuredEvidence {
-    display: none;
+    display: block;
+    overflow: hidden;
+    font-size: clamp(7.5px, 2.1vw, 9px);
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  .featuredDescriptor {
-    padding: 2px 5px;
+  .featuredStatus {
+    margin-bottom: 1px;
+    font-size: 7px;
+  }
+
+  .featuredStatus::before {
+    width: 4px;
+    height: 4px;
+    margin-right: 4px;
+  }
+
+  .featuredAction {
     font-size: 7px;
   }
 
   .featuredIndex,
   .featuredCopy,
-  .featuredDescriptor {
+  .featuredAction {
     transform: none;
   }
 
@@ -1187,7 +1260,8 @@
     .featuredIndex,
     .featuredProjectTitle,
     .featuredEvidence,
-    .featuredDescriptor
+    .featuredStatus,
+    .featuredAction
   ) {
     text-shadow: 0 0.25px 0 rgba(255, 255, 255, 0.26);
   }
@@ -1261,7 +1335,7 @@
 
   .work {
     --object-left: 4%;
-    --object-width: 92%;
+    --object-width: 60%;
   }
 
   .lab {
@@ -1271,18 +1345,22 @@
 
   .notes {
     --object-left: 5%;
-    --object-top: 70%;
-    --object-width: 42%;
+    --object-top: 63%;
+    --object-width: 34%;
   }
 
   .about {
-    --object-left: 43%;
-    --object-width: 49%;
+    --object-left: 40%;
+    --object-width: 38%;
   }
 
   .garden {
-    --object-left: 70%;
-    --object-width: 28%;
+    --object-left: 75%;
+    --object-width: 24%;
+  }
+
+  .featuredEvidence {
+    display: none;
   }
 }
 
@@ -1290,7 +1368,7 @@
   .lab .textLayer,
   .featuredIndex,
   .featuredCopy,
-  .featuredDescriptor {
+  .featuredAction {
     transform: none;
     transition: none;
   }

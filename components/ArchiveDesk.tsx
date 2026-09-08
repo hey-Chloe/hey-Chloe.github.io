@@ -224,6 +224,7 @@ export default function ArchiveDesk() {
   const resetLayout = () => {
     try {
       localStorage.removeItem(ARCHIVE_LAYOUT_STORAGE_KEY);
+      localStorage.removeItem('xiaoyue-archive-layout:v1:desktop');
       localStorage.removeItem('chloe-archive-layout');
     } catch {
       // The desk remains usable when local storage is unavailable.

@@ -32,7 +32,7 @@ type PointerSession = {
   threshold: number;
 };
 
-export const ARCHIVE_LAYOUT_STORAGE_KEY = 'xiaoyue-archive-layout:v1:desktop';
+export const ARCHIVE_LAYOUT_STORAGE_KEY = 'xiaoyue-archive-layout:v2:desktop';
 
 const DESKTOP_QUERY = '(min-width: 721px)';
 const SETTLE_DURATION_MS = 240;
@@ -315,7 +315,8 @@ export default function ArchiveObject({
       <Link
         className={styles.featuredProject}
         href={project.href}
-        aria-label={`打开${project.title}`}
+        aria-label={`${project.actionLabel}：${project.title}。${project.statusLabel}。${project.evidence}`}
+        data-evidence-status={project.status.toLowerCase().replace('_', '-')}
         draggable={false}
         style={{ pointerEvents: 'auto', color: 'inherit', textDecoration: 'none' }}
         onPointerDown={(event) => event.stopPropagation()}
@@ -324,10 +325,11 @@ export default function ArchiveObject({
       >
         <span className={styles.featuredIndex}>{project.index}</span>
         <span className={styles.featuredCopy}>
+          <span className={styles.featuredStatus}>{project.statusLabel}</span>
           <span className={styles.featuredProjectTitle}>{project.title}</span>
           <span className={styles.featuredEvidence}>{project.evidence}</span>
         </span>
-        <span className={styles.featuredDescriptor}>{project.descriptor}</span>
+        <span className={styles.featuredAction}>{project.actionLabel}</span>
       </Link>
     );
   };
@@ -394,7 +396,7 @@ export default function ArchiveObject({
             </span>
           </>
         )}
-        <span className={styles.action}>{object.actionLabel} ↗</span>
+        {!object.featuredProjects && <span className={styles.action}>{object.actionLabel} ↗</span>}
       </span>}
     </>
   );

@@ -35,8 +35,10 @@ export type ArchiveDeskObject = {
   featuredProjects?: Array<{
     index: string;
     title: string;
-    descriptor: string;
+    status: 'PROTOTYPE' | 'REPOSITORY_REPORTED' | 'VERIFIED';
+    statusLabel: string;
     evidence: string;
+    actionLabel: string;
     href: string;
   }>;
   decorations?: ArchiveDecoration[];
@@ -49,40 +51,6 @@ export type ArchiveDeskObject = {
  * the DOM so the generated asset never becomes the source of truth for text.
  */
 export const archiveObjects: ArchiveDeskObject[] = [
-  {
-    id: 'work',
-    folio: 'W.01',
-    label: '打开作品收藏',
-    description: '做成的产品、系统与真实输出。',
-    href: '/work',
-    kind: 'dossier',
-    actionKind: 'view-project',
-    actionLabel: '打开作品',
-    assetSrc: '/archive/phase-1/work-dossier.webp',
-    aspectRatio: '1.32 / 1',
-    x: '7%',
-    y: '25%',
-    w: '37%',
-    rotate: '-3.2deg',
-    z: 11,
-    title: '作品收藏',
-    subtitle: '我做成了什么',
-    lines: ['产品与系统', '真实试用与演示', '过程、证据与边界'],
-    decorations: [
-      {
-        id: 'workClip',
-        assetSrc: '/archive/phase-1/accessories/binder-clip-brass.png',
-        layer: 'over',
-        mobile: 'hide'
-      },
-      {
-        id: 'workTab',
-        assetSrc: '/archive/phase-1/accessories/index-tab-coral.png',
-        layer: 'under',
-        mobile: 'keep'
-      }
-    ]
-  },
   {
     id: 'lab',
     folio: 'W.00',
@@ -98,30 +66,36 @@ export const archiveObjects: ArchiveDeskObject[] = [
     y: '18%',
     w: '42%',
     rotate: '2.4deg',
-    z: 10,
+    z: 15,
     title: '三个精选项目',
-    subtitle: '研究、算法与可交互产品',
+    subtitle: '真实界面、实验与公开演示',
     lines: ['真实结果', '公开演示', '可交互产品'],
     featuredProjects: [
       {
         index: '01',
         title: '算力动态报价终端',
-        descriptor: '交互演示',
-        evidence: 'GPU 产品、动态 K 线与确定性演示报价',
+        status: 'PROTOTYPE',
+        statusLabel: '可运行原型',
+        evidence: '5 类 GPU · 3 档 K 线 · 确定性演示报价',
+        actionLabel: '打开终端',
         href: '/compute-market/index.html'
       },
       {
         index: '02',
-        title: 'VLM 数据选择小游戏',
-        descriptor: '真实负结果',
-        evidence: '1K 小预算下的覆盖损失与可能的迁移错配',
+        title: 'VLM 数据选择：一个真实负结果',
+        status: 'REPOSITORY_REPORTED',
+        statusLabel: '仓库报告',
+        evidence: '1K 同预算 · 3 个配对种子 · 未优于随机（95% CI 跨 0）',
+        actionLabel: '查看负结果',
         href: '/demos/vlm-training/index.html'
       },
       {
         index: '03',
-        title: '推荐算法互动实验室',
-        descriptor: '公网可操作',
-        evidence: '百万级 ANN、CTR / CVR 与位置偏差',
+        title: '端到端推荐算法实验室',
+        status: 'VERIFIED',
+        statusLabel: '已验证',
+        evidence: '25,754 商品 · 50,653 测试用户 · 公开离线评估',
+        actionLabel: '打开实验',
         href: 'https://hey-chloe.github.io/KAI-Offline-RecSys-Lab/'
       }
     ],
@@ -131,6 +105,40 @@ export const archiveObjects: ArchiveDeskObject[] = [
         assetSrc: '/archive/phase-1/accessories/paperclip-silver.png',
         layer: 'over',
         mobile: 'hide'
+      }
+    ]
+  },
+  {
+    id: 'work',
+    folio: 'W.01',
+    label: '查看全部作品',
+    description: '完整的产品、系统、研究与真实输出索引。',
+    href: '/work',
+    kind: 'dossier',
+    actionKind: 'view-project',
+    actionLabel: '查看全部作品',
+    assetSrc: '/archive/phase-1/work-dossier.webp',
+    aspectRatio: '1.32 / 1',
+    x: '7%',
+    y: '25%',
+    w: '37%',
+    rotate: '-3.2deg',
+    z: 9,
+    title: '全部作品',
+    subtitle: '完整作品索引',
+    lines: ['产品、系统与模型', '可试用作品与研究', '过程、证据与边界'],
+    decorations: [
+      {
+        id: 'workClip',
+        assetSrc: '/archive/phase-1/accessories/binder-clip-brass.png',
+        layer: 'over',
+        mobile: 'hide'
+      },
+      {
+        id: 'workTab',
+        assetSrc: '/archive/phase-1/accessories/index-tab-coral.png',
+        layer: 'under',
+        mobile: 'keep'
       }
     ]
   },
@@ -149,7 +157,7 @@ export const archiveObjects: ArchiveDeskObject[] = [
     y: '52%',
     w: '15.5%',
     rotate: '-1.1deg',
-    z: 13,
+    z: 12,
     title: '笔记与现场记录',
     titleLines: ['笔记与', '现场记录'],
     subtitle: '学习 / 实验 / 复现',
@@ -170,7 +178,7 @@ export const archiveObjects: ArchiveDeskObject[] = [
     y: '10%',
     w: '22%',
     rotate: '-5deg',
-    z: 9,
+    z: 8,
     title: '关于小悦',
     subtitle: '一封放在桌上的信',
     lines: ['Products', 'Systems', 'Models']
@@ -190,7 +198,7 @@ export const archiveObjects: ArchiveDeskObject[] = [
     y: '58%',
     w: '19%',
     rotate: '-5deg',
-    z: 14,
+    z: 13,
     title: '数字花园',
     subtitle: '还在发芽的知识索引',
     lines: ['学习', '连接', '生长']
