@@ -224,6 +224,11 @@
   will-change: transform;
 }
 
+.assetPicture {
+  display: block;
+  width: 100%;
+}
+
 .asset {
   position: relative;
   z-index: 1;
@@ -971,9 +976,12 @@
   }
 
   .surface::before {
-    background-position: 58% 8%;
-    background-size: auto 145%;
-    opacity: 0.54;
+    background:
+      radial-gradient(circle at 19% 14%, rgba(255, 255, 255, 0.7) 0 12%, transparent 30%),
+      radial-gradient(circle at 82% 68%, rgba(219, 224, 220, 0.42) 0 13%, transparent 34%),
+      linear-gradient(112deg, rgba(238, 241, 238, 0.7), rgba(255, 255, 255, 0.14) 44%, rgba(227, 232, 228, 0.42));
+    filter: none;
+    opacity: 0.68;
   }
 
   .surface::after {

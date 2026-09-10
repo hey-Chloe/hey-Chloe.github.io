@@ -24,6 +24,7 @@ export type ArchiveDeskObject = {
   actionKind: ArchiveActionKind;
   actionLabel: string;
   assetSrc: string;
+  mobileAssetSrc: string;
   assetWidth: number;
   assetHeight: number;
   aspectRatio: string;
@@ -65,6 +66,7 @@ export const archiveObjects: ArchiveDeskObject[] = [
     actionKind: 'view-project',
     actionLabel: '查看精选项目',
     assetSrc: '/archive/phase-1/lab-foldout.webp',
+    mobileAssetSrc: '/archive/phase-1/lab-foldout-mobile.webp',
     assetWidth: 1200,
     assetHeight: 739,
     aspectRatio: '1.48 / 1',
@@ -126,6 +128,7 @@ export const archiveObjects: ArchiveDeskObject[] = [
     actionKind: 'view-project',
     actionLabel: '查看全部作品',
     assetSrc: '/archive/phase-1/work-dossier.webp',
+    mobileAssetSrc: '/archive/phase-1/work-dossier-mobile.webp',
     assetWidth: 900,
     assetHeight: 682,
     aspectRatio: '1.32 / 1',
@@ -166,6 +169,7 @@ export const archiveObjects: ArchiveDeskObject[] = [
     actionKind: 'read-research',
     actionLabel: '阅读笔记',
     assetSrc: '/archive/phase-1/r3-field-notebook.webp',
+    mobileAssetSrc: '/archive/phase-1/r3-field-notebook-mobile.webp',
     assetWidth: 560,
     assetHeight: 880,
     aspectRatio: '713 / 1120',
@@ -189,6 +193,7 @@ export const archiveObjects: ArchiveDeskObject[] = [
     actionKind: 'view-project',
     actionLabel: '打开来信',
     assetSrc: '/archive/phase-1/r3-folded-letter.webp',
+    mobileAssetSrc: '/archive/phase-1/r3-folded-letter-mobile.webp',
     assetWidth: 700,
     assetHeight: 624,
     aspectRatio: '1098 / 979',
@@ -211,6 +216,7 @@ export const archiveObjects: ArchiveDeskObject[] = [
     actionKind: 'view-project',
     actionLabel: '进入花园',
     assetSrc: '/archive/phase-1/garden-seed-packet.webp',
+    mobileAssetSrc: '/archive/phase-1/garden-seed-packet-mobile.webp',
     assetWidth: 500,
     assetHeight: 736,
     aspectRatio: '.72 / 1',

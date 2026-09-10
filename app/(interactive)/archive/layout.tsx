@@ -22,7 +22,13 @@ export const metadata: Metadata = {
 export default function ArchiveLayout({ children }: { children: ReactNode }) {
   return <html lang="zh-CN">
     <head>
-      <link rel="preload" as="image" href={assetPath("/images/pearl-marble-texture.svg")} fetchPriority="high" />
+      <link
+        rel="preload"
+        as="image"
+        href={assetPath("/images/pearl-marble-texture.svg")}
+        fetchPriority="high"
+        media="(min-width: 721px)"
+      />
       <link
         rel="preload"
         as="font"

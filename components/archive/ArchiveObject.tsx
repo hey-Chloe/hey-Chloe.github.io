@@ -336,22 +336,25 @@ export default function ArchiveObject({
   };
   const objectContents = (
     <>
-      <Image
-        className={styles.asset}
-        src={assetPath(object.assetSrc)}
-        width={object.assetWidth}
-        height={object.assetHeight}
-        unoptimized
-        loading={object.id === 'lab' ? 'eager' : 'lazy'}
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-        onLoad={() => {
-          setAssetMissing(false);
-          scheduleReclamp(true);
-        }}
-        onError={() => setAssetMissing(true)}
-      />
+      <picture className={styles.assetPicture}>
+        <source media="(max-width: 720px)" srcSet={assetPath(object.mobileAssetSrc)} />
+        <Image
+          className={styles.asset}
+          src={assetPath(object.assetSrc)}
+          width={object.assetWidth}
+          height={object.assetHeight}
+          unoptimized
+          loading={object.id === 'lab' ? 'eager' : 'lazy'}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          onLoad={() => {
+            setAssetMissing(false);
+            scheduleReclamp(true);
+          }}
+          onError={() => setAssetMissing(true)}
+        />
+      </picture>
       {object.decorations?.map((decoration) => (
         <Image
           key={decoration.id}
