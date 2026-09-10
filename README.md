@@ -177,16 +177,16 @@ SITE_URL=http://127.0.0.1:3000 BASE_PATH=/实际仓库名 npm run check:browser
 3. 设置真实 `NEXT_PUBLIC_SITE_URL`，`NEXT_PUBLIC_BASE_PATH` 留空，然后部署。启用自定义域名后，更新 origin 并重新构建。
 4. 在实际部署 URL 上检查主要页面与链接，重新运行浏览器检查和 Lighthouse。
 
-本项目交付代码与部署配置，不代表已经创建远程仓库、推送、绑定域名或完成公开部署。
+当前正式站点部署于 [https://hey-chloe.github.io/](https://hey-chloe.github.io/)，每次默认分支更新都必须通过完整验证后才会发布。
 
 ## 更新研究图表
 
-首页缩略图使用真实公开实验报告的结果图，详细数据与来源保存在 `content/figure-data.json`，PNG 为网页资源，SVG 可用于高分辨率导出。重新绘图需要 Python 3 与 matplotlib：
+首页缩略图使用真实公开实验报告的论文式结果图，详细数据与来源保存在 `content/figure-data.json`，PNG 为网页资源，SVG 可用于高分辨率导出。重新绘图需要 Python 3 与固定版本的 matplotlib：
 
 ```bash
-python3 -m pip install matplotlib
-python3 scripts/generate-research-figures.py
+python3 -m pip install matplotlib==3.11.1
+CHART_FONT=/absolute/path/to/cjk-font.ttc python3 scripts/generate-research-figures.py
 CHART_LANGUAGE=en python3 scripts/generate-research-figures.py
 ```
 
-脚本优先使用本机可用的中文字体；跨平台运行时请安装支持中文的字体并通过 CHART_FONT 环境变量指定。更新数据时保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。
+中文图缺少可用 CJK 字体时脚本会直接失败，防止中文文件静默生成英文标签。运行两条生成命令后，应同时提交 6 个 PNG 与 6 个 SVG。更新数据时保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。

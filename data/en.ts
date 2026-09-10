@@ -48,7 +48,7 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     venue: "Independent project",
     status: "Public data · offline experiments",
     thumbnailSrc: "/images/research-recsys-en.png",
-    thumbnailAlt: "Bar chart comparing test NDCG@100 for Exact retrieval and DIN reranking under the same frozen candidate protocol.",
+    thumbnailAlt: "Estimate plot comparing Exact retrieval and DIN reranking means, with a separate paired-difference 95% interval under the same frozen protocol.",
     sections: {
       abstract: "A personal public-data lab covering candidate retrieval, reranking, calibration, and cohort evaluation. Its aim is to compare models under explicit shared protocols while distinguishing recommendation quality, ANN systems measurements, and business outcomes.",
       problem: "Ranking metrics may not be comparable when candidate sets, populations, negative sampling, or feature sources differ. Frozen retrieval snapshots, dev-only selection, and a defined test-opening sequence reduce the risk of confusing protocol changes with model gains.",

@@ -108,7 +108,7 @@
       "upper_bound": 0.0026801428985577095,
       "user_count": 50653
     },
-    "scope": "Bar heights are reported means. The paired-difference interval is not an interval for either individual mean. No online-performance claim."
+    "scope": "The plotted points are reported means. The paired-difference interval is not an interval for either individual mean. No online-performance claim."
   },
   "vlm": {
     "source": {

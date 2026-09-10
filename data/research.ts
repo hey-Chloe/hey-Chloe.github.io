@@ -15,7 +15,7 @@ export const research: readonly Research[] = [
     status: "离线估计器研究",
     thumbnail: {
       src: "/images/research-agent.png",
-      alt: "归因采样收敛：在受控协议下，增加采样预算时，相对精确参考的 RMSE 下降；阴影为公开报告的 95% 区间，包含 12 个随机种子。",
+      alt: "归因采样收敛：在受控协议下，增加采样预算时，相对精确参考的 RMSE 下降；误差棒为公开报告的 95% 区间，包含 12 个随机种子。",
       width: 1200,
       height: 750,
     },
