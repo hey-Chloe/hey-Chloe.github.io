@@ -28,8 +28,13 @@ jobs:
           extracted="$(mktemp -d)"
           trap 'rm -rf "$extracted"' EXIT
           unzip -q "$archive" -d "$extracted"
-          git ls-files -z | xargs -0 rm -f
-          cp -a "$extracted"/. "$GITHUB_WORKSPACE"/
+          while IFS= read -r -d '' path; do
+            case "$path" in
+              .github/workflows/*) ;;
+              *) rm -f -- "$path" ;;
+            esac
+          done < <(git ls-files -z)
+          rsync -a --exclude '.github/workflows/' "$extracted"/ "$GITHUB_WORKSPACE"/
           git add -A
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
