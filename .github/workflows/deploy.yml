@@ -1,50 +1,142 @@
-name: Deploy to GitHub Pages
+name: Verify and deploy GitHub Pages
 
 on:
   push:
-    branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Check out source
+        uses: actions/checkout@v7
         with:
-          node-version: 20
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
           cache: npm
 
-      - name: Install dependencies
+      - name: Resolve public URL
+        env:
+          CONFIGURED_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+          CONFIGURED_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const owner = process.env.GITHUB_REPOSITORY_OWNER.toLowerCase();
+          const repository = process.env.GITHUB_REPOSITORY.split('/')[1];
+          const defaultOrigin = `https://${owner}.github.io`;
+          const origin = process.env.CONFIGURED_SITE_URL.trim() || defaultOrigin;
+          const parsed = new URL(origin);
+          if (parsed.protocol !== 'https:' || parsed.pathname !== '/' || parsed.search || parsed.hash || parsed.username || parsed.password) {
+            throw new Error('NEXT_PUBLIC_SITE_URL must be an HTTPS origin without a path, credentials, query, or hash.');
+          }
+          const configuredBase = process.env.CONFIGURED_BASE_PATH.trim();
+          const rootSite = repository.toLowerCase() === `${owner}.github.io`;
+          const customOrigin = parsed.origin !== defaultOrigin;
+          const basePath = configuredBase
+            ? configuredBase.replace(/\/$/, '')
+            : rootSite || customOrigin ? '' : `/${repository}`;
+          if (basePath && (!/^\/[a-zA-Z0-9._-]+(?:\/[a-zA-Z0-9._-]+)*$/.test(basePath) || basePath.split('/').some(segment => segment === '.' || segment === '..'))) {
+            throw new Error('NEXT_PUBLIC_BASE_PATH must be a URL path such as /repository. Use / for the site root.');
+          }
+          fs.appendFileSync(process.env.GITHUB_ENV, `NEXT_PUBLIC_SITE_URL=${parsed.origin}\nNEXT_PUBLIC_BASE_PATH=${basePath}\n`);
+          NODE
+
+      - name: Install locked dependencies
         run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test content validation
+        run: npm test
 
       - name: Build static site
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Check exported links
+        run: npm run check:links
+
+      - name: Install browser for verification
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify responsive pages and Lighthouse
+        run: |
+          npm start > /tmp/homepage-preview.log 2>&1 &
+          PREVIEW_PID=$!
+          trap 'kill "$PREVIEW_PID" || true' EXIT
+          node --input-type=module -e 'const url="http://127.0.0.1:3000"+(process.env.NEXT_PUBLIC_BASE_PATH||"")+"/"; for(let i=0;i<30;i++){try{const r=await fetch(url);if(r.ok)process.exit(0)}catch{}await new Promise(r=>setTimeout(r,1000))}process.exit(1)'
+          npm run check:browser
+          npm run audit:lighthouse
+
+      - name: Build isolated content fixture
+        run: |
+          node tests/prepare-fixture.mjs
+          cd work/fixture-site
+          NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3001 NEXT_PUBLIC_BASE_PATH=/qa-prefix.v2 npm run build
+
+      - name: Verify MDX, publications, research and repository paths
+        env:
+          EXPORT_DIR: work/fixture-site/out
+          BASE_PATH: /qa-prefix.v2
+          SITE_URL: http://127.0.0.1:3001
+          QA_DIR: work/qa-fixture
+          PORT: 3001
+        run: |
+          node tests/check-fixture.mjs
+          npm run check:links
+          npm start > /tmp/homepage-fixture.log 2>&1 &
+          PREVIEW_PID=$!
+          trap 'kill "$PREVIEW_PID" || true' EXIT
+          node --input-type=module -e 'const url=process.env.SITE_URL+process.env.BASE_PATH+"/";for(let i=0;i<30;i++){try{const r=await fetch(url);if(r.ok)process.exit(0)}catch{}await new Promise(r=>setTimeout(r,1000))}process.exit(1)'
+          npm run check:browser
+
+      - name: Save verification reports
+        if: always()
+        uses: actions/upload-artifact@v7
         with:
-          path: ./out
+          name: homepage-quality-reports
+          path: |
+            work/qa/
+            work/qa-fixture/
+          if-no-files-found: ignore
+
+      - name: Upload static site
+        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: out
+          include-hidden-files: true
 
   deploy:
+    if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Deploy static site
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
