@@ -13,6 +13,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "check:links": "node scripts/check-links.mjs",
     "check:browser": "node scripts/browser-check.mjs",
+    "figures:optimize": "node scripts/optimize-research-thumbnails.mjs",
     "test": "tsx --test tests/*.test.ts tests/*.test.mjs",
     "check": "npm run lint && npm run typecheck && npm test && npm run build && npm run check:links",
     "audit:lighthouse": "node scripts/lighthouse.mjs"

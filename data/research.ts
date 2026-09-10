@@ -14,10 +14,10 @@ export const research: readonly Research[] = [
     venue: "个人研究项目",
     status: "离线估计器研究",
     thumbnail: {
-      src: "/images/research-agent-teaser.png",
+      src: "/images/research-agent-teaser.webp",
       alt: "有序轨迹归因 visual abstract：从前序依赖、有效线性扩展与精确或均匀采样，到受控协议下的收敛证据。",
-      width: 1200,
-      height: 750,
+      width: 800,
+      height: 500,
     },
     resultFigure: {
       src: "/images/research-agent.png",
@@ -55,10 +55,10 @@ export const research: readonly Research[] = [
     venue: "个人研究项目",
     status: "公开数据 · 离线实验",
     thumbnail: {
-      src: "/images/research-recsys-teaser.png",
+      src: "/images/research-recsys-teaser.webp",
       alt: "离线推荐 visual abstract：固定共同用户、候选集和测试协议，经过 Exact Top-100 召回与 DIN 重排后进行用户级配对评估。",
-      width: 1200,
-      height: 750,
+      width: 800,
+      height: 500,
     },
     resultFigure: {
       src: "/images/research-recsys.png",
@@ -97,10 +97,10 @@ export const research: readonly Research[] = [
     venue: "个人研究项目",
     status: "离线实验 · 公开摘要",
     thumbnail: {
-      src: "/images/research-vlm-teaser.png",
+      src: "/images/research-vlm-teaser.webp",
       alt: "多模态数据选择 visual abstract：ScienceQA 1K 预算分成 Random 与 COINCIDE 两条路径，共用 Qwen2.5-VL-3B LoRA 设置并进行三组配对种子评估。",
-      width: 1200,
-      height: 750,
+      width: 800,
+      height: 500,
     },
     resultFigure: {
       src: "/images/research-vlm.png",

@@ -25,6 +25,7 @@ export function ResearchList({ locale = "zh" }: { locale?: Locale }) {
           sizes="(max-width: 700px) 100vw, 260px"
           preload={index === 0}
           fetchPriority={index === 0 ? "high" : undefined}
+          decoding={index === 0 ? "sync" : "async"}
         />
       </Link>
       <div className="research-card-copy">

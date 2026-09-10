@@ -187,6 +187,7 @@ SITE_URL=http://127.0.0.1:3000 BASE_PATH=/实际仓库名 npm run check:browser
 python3 -m pip install matplotlib==3.11.1
 CHART_FONT=/absolute/path/to/cjk-font.ttc python3 scripts/generate-research-figures.py
 CHART_LANGUAGE=en python3 scripts/generate-research-figures.py
+npm run figures:optimize
 ```
 
-中文图缺少可用 CJK 字体时脚本会直接失败，防止中文文件静默生成英文标签。运行两条生成命令后，应同时提交 12 个 PNG 与 12 个 SVG，其中每个项目各有中英文 teaser 与完整结果图。更新数据时保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。
+中文图缺少可用 CJK 字体时脚本会直接失败，防止中文文件静默生成英文标签。运行两条生成命令和缩略图优化后，应同时提交每个项目的中英文 teaser 源图、800×500 WebP 列表图与完整结果图。更新数据时保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。
