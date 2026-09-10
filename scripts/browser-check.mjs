@@ -65,7 +65,7 @@ try {
         assert.equal(response?.status(), 200, "page must serve HTTP 200");
         await page.evaluate(() => document.fonts.ready);
         for (const image of await page.locator("img").all()) {
-          await image.scrollIntoViewIfNeeded();
+          if (await image.isVisible()) await image.scrollIntoViewIfNeeded();
           await image.evaluate((element) => element.complete ? undefined : new Promise((resolve, reject) => {
             const timeout = setTimeout(() => reject(new Error(`Image did not load: ${element.src}`)), 10000);
             element.addEventListener("load", () => { clearTimeout(timeout); resolve(); }, { once: true });
