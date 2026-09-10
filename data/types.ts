@@ -37,6 +37,13 @@ export interface ResearchSections {
   citation: string;
 }
 
+export interface ResearchImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface Research {
   slug: string;
   title: string;
@@ -45,7 +52,10 @@ export interface Research {
   keyResults: readonly string[];
   venue: string;
   status: string;
-  thumbnail: { src: string; alt: string; width: number; height: number };
+  /** Compact visual abstract used in research lists. */
+  thumbnail: ResearchImage;
+  /** Full statistical evidence figure used in the Results section. */
+  resultFigure: ResearchImage;
   links: ResearchLinks;
   sections: ResearchSections;
 }

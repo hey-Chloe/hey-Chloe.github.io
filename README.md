@@ -61,7 +61,7 @@ npm start
 1. 使用 [content/templates/research.json](content/templates/research.json) 作为字段清单；模板本身不会发布。
 2. 将完整、经过确认的记录加入 `data/research.ts`。`slug` 使用唯一的小写字母、数字与单连字符，例如实际项目名的英文缩写。
 3. 填写 `title`、`question`、`method`、`keyResults`、`venue`、`status`。结果可以是有证据的定性结论，不要求编造数值。
-4. 将有使用权的缩略图放入 `public/images/`，填写 `thumbnail.src`、描述性 `alt` 和真实像素尺寸。路径以 `/images/` 开头，不手动添加部署前缀。
+4. 将有使用权的 visual abstract 与完整结果图放入 `public/images/`，分别填写 `thumbnail`、`resultFigure` 的路径、描述性 `alt` 和真实像素尺寸。路径以 `/images/` 开头，不手动添加部署前缀。
 5. 填写全部详情章节：Abstract、Problem、Method、Architecture、Dataset、Experiments、Results、Ablation、Failure Analysis、Demo、Citation。确实不适用的章节写明原因；尚未获得的信息继续留在 TODO 中。
 6. 在 `links` 中只添加已经存在的 `paper`、`code`、`dataset`、`demo`、`project` 地址。缺失链接省略；至少保留一个支持该工作的真实链接。
 
@@ -181,7 +181,7 @@ SITE_URL=http://127.0.0.1:3000 BASE_PATH=/实际仓库名 npm run check:browser
 
 ## 更新研究图表
 
-首页缩略图使用真实公开实验报告的论文式结果图，详细数据与来源保存在 `content/figure-data.json`，PNG 为网页资源，SVG 可用于高分辨率导出。重新绘图需要 Python 3 与固定版本的 matplotlib：
+研究列表使用源于公开方法与报告数据的 visual abstract，详情页 Results 保留完整统计证据图。详细数据与来源保存在 `content/figure-data.json`，PNG 为网页资源，SVG 可用于高分辨率导出。重新绘图需要 Python 3 与固定版本的 matplotlib：
 
 ```bash
 python3 -m pip install matplotlib==3.11.1
@@ -189,4 +189,4 @@ CHART_FONT=/absolute/path/to/cjk-font.ttc python3 scripts/generate-research-figu
 CHART_LANGUAGE=en python3 scripts/generate-research-figures.py
 ```
 
-中文图缺少可用 CJK 字体时脚本会直接失败，防止中文文件静默生成英文标签。运行两条生成命令后，应同时提交 6 个 PNG 与 6 个 SVG。更新数据时保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。
+中文图缺少可用 CJK 字体时脚本会直接失败，防止中文文件静默生成英文标签。运行两条生成命令后，应同时提交 12 个 PNG 与 12 个 SVG，其中每个项目各有中英文 teaser 与完整结果图。更新数据时保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。

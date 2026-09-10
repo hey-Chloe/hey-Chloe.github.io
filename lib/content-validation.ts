@@ -126,13 +126,16 @@ export function validateContent(input: unknown = { profile, research, publicatio
     texts(item, path, ["title", "question", "method", "venue", "status"]);
     stringArray(item.keyResults, `${path}.keyResults`);
     links(item.links, `${path}.links`, ["paper", "code", "dataset", "demo", "project"], true);
-    if (!isRecord(item.thumbnail)) fail(`${path}.thumbnail`, "A thumbnail with source, alt text, and intrinsic dimensions is required.");
-    else {
-      url(item.thumbnail.src, `${path}.thumbnail.src`);
-      text(item.thumbnail.alt, `${path}.thumbnail.alt`);
-      for (const key of ["width", "height"]) {
-        const dimension = item.thumbnail[key];
-        if (typeof dimension !== "number" || !Number.isInteger(dimension) || dimension <= 0) fail(`${path}.thumbnail.${key}`, "Use a positive integer intrinsic image dimension.");
+    for (const imageKey of ["thumbnail", "resultFigure"] as const) {
+      const image = item[imageKey];
+      if (!isRecord(image)) fail(`${path}.${imageKey}`, "A source, alt text, and intrinsic dimensions are required.");
+      else {
+        url(image.src, `${path}.${imageKey}.src`);
+        text(image.alt, `${path}.${imageKey}.alt`);
+        for (const key of ["width", "height"]) {
+          const dimension = image[key];
+          if (typeof dimension !== "number" || !Number.isInteger(dimension) || dimension <= 0) fail(`${path}.${imageKey}.${key}`, "Use a positive integer intrinsic image dimension.");
+        }
       }
     }
     if (!isRecord(item.sections)) fail(`${path}.sections`, "All research detail sections are required.");

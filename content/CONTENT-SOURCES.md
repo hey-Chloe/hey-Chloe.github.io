@@ -91,7 +91,7 @@
 
 ## 研究图片
 
-缩略图与研究详情中的实验图由 [figure-data.json](figure-data.json) 中的真实公开报告数值生成；该文件保留固定提交、原始路径、下载 SHA256、精确 JSON 字段及全精度数据。绘图脚本为 `scripts/generate-research-figures.py`，PNG 与 SVG 输出均为 1200×750。图表是已有报告的重新可视化，没有重新训练或生成新的实验结果。
+研究列表缩略图采用 visual abstract：方法流程只重绘本文件所引用的公开协议，右侧证据只使用 [figure-data.json](figure-data.json) 的真实公开报告数值。研究详情 Results 继续使用完整统计图。该数据文件保留固定提交、原始路径、下载 SHA256、精确 JSON 字段及全精度数据；绘图脚本为 `scripts/generate-research-figures.py`，teaser 与完整图的 PNG、SVG 均为 1200×750。没有重新训练、生成新实验结果或借用仓库 third-party 目录中的论文图。
 
 - Agent：受控协议中 12 个种子的采样收敛及报告的 95% 区间，不能解释为真实任务收益。
 - RecSys：同一冻结测试协议的 Exact 召回与 DIN 重排均值，纵轴从零开始。

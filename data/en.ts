@@ -7,6 +7,8 @@ import type { OpenSourceContribution, Project, Research } from "./types";
 type ResearchTranslation = Pick<Research, "title" | "question" | "method" | "keyResults" | "venue" | "status"> & {
   thumbnailAlt: string;
   thumbnailSrc: string;
+  resultFigureAlt: string;
+  resultFigureSrc: string;
   sections: Omit<Research["sections"], "citation">;
 };
 
@@ -22,8 +24,10 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     ],
     venue: "Independent project",
     status: "Offline estimator study",
-    thumbnailSrc: "/images/research-agent-en.png",
-    thumbnailAlt: "Line chart of attribution RMSE versus sampling budget with a seed-level confidence interval under a controlled structural protocol.",
+    thumbnailSrc: "/images/research-agent-teaser-en.png",
+    thumbnailAlt: "Visual abstract of ordered trajectory attribution, from precedence dependencies and valid linear extensions to exact or uniform estimation and convergence evidence.",
+    resultFigureSrc: "/images/research-agent-en.png",
+    resultFigureAlt: "Line chart of attribution RMSE versus sampling budget with a seed-level confidence interval under a controlled structural protocol.",
     sections: {
       abstract: "This study uses MiniClaudeCode tool traces to examine credit assignment when actions have prerequisites. The project also provides a bounded agent loop, tool policies, checkpoints, and evaluation infrastructure; the research focus here is offline ordered attribution.",
       problem: "Vanilla Shapley considers coalitions such as edit without read, even when they violate action dependencies. Preserving order within a subset does not make those counterfactuals executable. The question is how to define and estimate marginal credit under explicit precedence constraints.",
@@ -47,8 +51,10 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     ],
     venue: "Independent project",
     status: "Public data · offline experiments",
-    thumbnailSrc: "/images/research-recsys-en.png",
-    thumbnailAlt: "Estimate plot comparing Exact retrieval and DIN reranking means, with a separate paired-difference 95% interval under the same frozen protocol.",
+    thumbnailSrc: "/images/research-recsys-teaser-en.png",
+    thumbnailAlt: "Visual abstract of a frozen offline recommendation protocol, from shared users and Exact Top-100 candidates to DIN reranking and paired evaluation.",
+    resultFigureSrc: "/images/research-recsys-en.png",
+    resultFigureAlt: "Estimate plot comparing Exact retrieval and DIN reranking means, with a separate paired-difference 95% interval under the same frozen protocol.",
     sections: {
       abstract: "A personal public-data lab covering candidate retrieval, reranking, calibration, and cohort evaluation. Its aim is to compare models under explicit shared protocols while distinguishing recommendation quality, ANN systems measurements, and business outcomes.",
       problem: "Ranking metrics may not be comparable when candidate sets, populations, negative sampling, or feature sources differ. Frozen retrieval snapshots, dev-only selection, and a defined test-opening sequence reduce the risk of confusing protocol changes with model gains.",
@@ -72,8 +78,10 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     ],
     venue: "Independent project",
     status: "Offline experiment · public summary",
-    thumbnailSrc: "/images/research-vlm-en.png",
-    thumbnailAlt: "Paired held-out exact-match results across three seeds comparing Random-1K and COINCIDE-1K data selection.",
+    thumbnailSrc: "/images/research-vlm-teaser-en.png",
+    thumbnailAlt: "Visual abstract of a paired multimodal data-selection study with one ScienceQA budget, shared Qwen2.5-VL-3B LoRA settings, and three paired seeds.",
+    resultFigureSrc: "/images/research-vlm-en.png",
+    resultFigureAlt: "Paired held-out exact-match results across three seeds comparing Random-1K and COINCIDE-1K data selection.",
     sections: {
       abstract: "An investigation of whether data selection can outperform random sampling under a limited fine-tuning budget. The Qwen2.5-VL-3B LoRA / SFT study publishes paired-seed summaries, failure analysis, and a static evidence viewer, retaining the observed lack of improvement and questions for further validation.",
       problem: "More elaborate data selection does not necessarily improve downstream results. Fixing the base model, training settings, sample budget, and held-out protocol—and retaining failures—helps separate the selection strategy from other experimental conditions.",
@@ -93,8 +101,14 @@ export const research: readonly Research[] = originalResearch.map((item) => {
   const translation = researchTranslations[item.slug];
   // Preserve newly supplied records and isolated QA fixtures until translated.
   if (!translation) return item;
-  const { thumbnailAlt, thumbnailSrc, sections, ...copy } = translation;
-  return { ...item, ...copy, thumbnail: { ...item.thumbnail, src: thumbnailSrc, alt: thumbnailAlt }, sections: { ...sections, citation: item.sections.citation } };
+  const { thumbnailAlt, thumbnailSrc, resultFigureAlt, resultFigureSrc, sections, ...copy } = translation;
+  return {
+    ...item,
+    ...copy,
+    thumbnail: { ...item.thumbnail, src: thumbnailSrc, alt: thumbnailAlt },
+    resultFigure: { ...item.resultFigure, src: resultFigureSrc, alt: resultFigureAlt },
+    sections: { ...sections, citation: item.sections.citation },
+  };
 });
 
 type ProjectTranslation = Pick<Project, "description" | "problem" | "ownership" | "outcome">;

@@ -22,6 +22,7 @@ function researchFixture(): Research {
     venue: "Test-only venue",
     status: "Test-only status",
     thumbnail: { src: "/images/fixture.svg", alt: "Test-only fixture", width: 1200, height: 720 },
+    resultFigure: { src: "/images/fixture.svg", alt: "Test-only result figure", width: 1200, height: 720 },
     links: { project: "/research/validation-fixture/" },
     sections: {
       abstract: "Fixture abstract.", problem: "Fixture problem.", method: "Fixture method.",
@@ -104,11 +105,14 @@ test("complete research schema passes and omitted sections or invalid images fai
   const broken = {
     ...fixture,
     thumbnail: { ...fixture.thumbnail, width: 0, alt: "" },
+    resultFigure: { ...fixture.resultFigure, height: 0, alt: "" },
     sections: { ...fixture.sections, failureAnalysis: "" },
   };
   const paths = validateContent({ ...emptyContent(), research: [broken] }).map((issue) => issue.path);
   assert(paths.includes("research[0].thumbnail.width"));
   assert(paths.includes("research[0].thumbnail.alt"));
+  assert(paths.includes("research[0].resultFigure.height"));
+  assert(paths.includes("research[0].resultFigure.alt"));
   assert(paths.includes("research[0].sections.failureAnalysis"));
 });
 
