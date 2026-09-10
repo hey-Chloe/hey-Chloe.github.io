@@ -1,0 +1,65 @@
+// Synthetic rendering contracts only. Never copy these records into production data.
+const citation = "@misc{renderingfixture,\n  title = {QA fixture, not a publication},\n  author = {Fixture author},\n  year = {2026}\n}";
+const sections = Object.fromEntries([
+  "abstract", "problem", "method", "architecture", "dataset", "experiments",
+  "results", "ablation", "failureAnalysis", "demo",
+].map((key) => [key, `QA fixture for the ${key} section. This synthetic record verifies layout and does not claim research, experiments, or measured outcomes.`]));
+
+export const fixtureCollections = {
+  research: [{
+    slug: "layout-contract",
+    title: "QA fixture: research editorial layout and detail page",
+    question: "Can a populated research card retain clear hierarchy across every viewport?",
+    method: "Render explicitly synthetic content in an isolated build and inspect its semantics, routes, and responsive layout.",
+    keyResults: ["Rendering verification only; no research result or metric is claimed.", "Long content exercises editorial card wrapping and supports visual inspection."],
+    venue: "QA fixture",
+    status: "Rendering test",
+    thumbnail: { src: "/qa-fixture.svg", alt: "Two test rectangles connected by an arrow.", width: 1200, height: 600 },
+    links: { paper: "/publications/", code: "/projects/", dataset: "/research/", demo: "/writing/rendering/", project: "/research/layout-contract/" },
+    sections: { ...sections, citation },
+  }],
+  publications: [{
+    id: "rendering-contract",
+    year: 2026,
+    title: "QA fixture: publication author emphasis, links, and BibTeX disclosure",
+    authors: [{ name: "Fixture author" }, { name: "李晨悦", isSelf: true }],
+    venue: "QA fixture — not a publication",
+    links: { paper: "/research/layout-contract/", code: "/projects/", project: "/research/layout-contract/" },
+    bibtex: citation,
+  }],
+  experience: [{
+    id: "rendering-role",
+    company: "QA fixture organization — not an employer",
+    role: "Rendering contract",
+    team: "Synthetic test data",
+    startDate: "2026-01",
+    endDate: "2026-02",
+    problem: "Exercise a populated timeline without claiming employment.",
+    ownership: "This record exists exclusively inside an isolated QA build.",
+    method: "Inspect structured problem, ownership, method, scale, and result fields.",
+    scale: "No actual organizational or system scale is claimed.",
+    result: "No employment outcome is claimed.",
+  }],
+  projects: [{
+    slug: "rendering-engineering",
+    title: "QA fixture: engineering card",
+    description: "Synthetic content used only to exercise the secondary project layout.",
+    problem: "Ensure engineering work remains visually subordinate to research.",
+    ownership: "Rendering fixture only.",
+    outcome: "No deployed project or product outcome is claimed.",
+    year: 2026,
+    tags: ["Rendering contract", "Long supporting metadata"],
+    links: { code: "/research/layout-contract/", demo: "/writing/rendering/" },
+  }],
+  openSource: [{
+    id: "rendering-contribution",
+    title: "QA fixture: concrete contribution card",
+    kind: "pull-request",
+    repository: "QA fixture repository — not an actual repository",
+    description: "Verify that concrete contributions have readable evidence links and context.",
+    contribution: "Synthetic content only; no open source contribution is claimed.",
+    result: "No merge or maintenance outcome is claimed.",
+    status: "Rendering fixture",
+    links: { pullRequest: "/research/layout-contract/", repository: "/projects/" },
+  }],
+};

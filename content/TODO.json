@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "policy": "Publish only owner-supplied facts or facts verified from the owner’s public sources. Missing information stays here. Do not invent projects, employers, publications, metrics, awards, or links.",
+  "confirmed": {
+    "name": "李晨悦",
+    "chineseName": "李晨悦",
+    "role": "Research Engineer / AI Engineer",
+    "topics": [
+      "LLM",
+      "Multimodal",
+      "Agent",
+      "Evaluation"
+    ],
+    "github": "https://github.com/hey-Chloe",
+    "email": "xiaoyue0227@yeah.net",
+    "education": {
+      "institution": "江南大学",
+      "degree": "本科在读",
+      "expectedGraduation": "2028",
+      "source": "content/CONTENT-SOURCES.md"
+    }
+  },
+  "tasks": [
+    {
+      "id": "profile-links",
+      "status": "needs-owner-input",
+      "target": "data/profile.ts",
+      "required": [
+        "Google Scholar profile URL",
+        "Verified CV PDF"
+      ],
+      "notes": "GitHub、公开邮箱和本人公开照片已从公开仓库核验；Scholar 与 CV 尚待补充。"
+    },
+    {
+      "id": "deployment-domain",
+      "status": "needs-deployment-configuration",
+      "target": "Environment configuration",
+      "required": [
+        "Canonical public site URL",
+        "GitHub Pages repository base path when used"
+      ],
+      "notes": "The canonical URL must match the actual deployment. Preview builds must not imply a verified personal domain."
+    },
+    {
+      "id": "research-records",
+      "status": "verified-public-records-added",
+      "target": "data/research.ts",
+      "required": [
+        "Title",
+        "Research question",
+        "Method",
+        "Verified key results and evidence",
+        "Venue and current status",
+        "Owned or licensed thumbnail and descriptive alt text",
+        "Paper/code/dataset/demo/project links that exist",
+        "Abstract",
+        "Problem",
+        "Architecture",
+        "Dataset and usage rights",
+        "Experiments",
+        "Results",
+        "Ablation",
+        "Failure analysis",
+        "Demo description",
+        "Citation"
+      ],
+      "notes": "Use content/templates/research.json as a field checklist. Explain genuinely inapplicable sections explicitly; do not manufacture experiments or metrics.",
+      "verifiedAt": "2026-09-09",
+      "evidence": "content/CONTENT-SOURCES.md"
+    },
+    {
+      "id": "experience-records",
+      "status": "needs-owner-input",
+      "target": "data/experience.ts",
+      "required": [
+        "Company or institution",
+        "Role",
+        "Team",
+        "Start and end dates",
+        "Problem",
+        "Personal ownership",
+        "Method",
+        "Confirmed scale or disclosure limitation",
+        "Confirmed result"
+      ],
+      "notes": "Omit endDate only when the role is confirmed as current. Do not infer employment from the research-engineer headline."
+    },
+    {
+      "id": "publication-records",
+      "status": "needs-owner-input",
+      "target": "data/publications.ts",
+      "required": [
+        "Title",
+        "Year",
+        "Venue",
+        "Complete ordered author list",
+        "Owner author marked isSelf",
+        "Paper/code/project links",
+        "BibTeX"
+      ],
+      "notes": "The 2027, 2026, and 2025 display groups do not assert publication counts, acceptance, or future work."
+    },
+    {
+      "id": "open-source-records",
+      "status": "verified-public-records-added",
+      "target": "data/open-source.ts",
+      "required": [
+        "Repository name",
+        "Contribution type",
+        "Actual PR or repository URL",
+        "Specific personal contribution",
+        "Result",
+        "Current merge or maintenance status"
+      ],
+      "notes": "Prefer concrete contribution evidence to contribution-heatmap counts.",
+      "verifiedAt": "2026-09-09",
+      "evidence": "content/CONTENT-SOURCES.md"
+    },
+    {
+      "id": "engineering-records",
+      "status": "verified-public-records-added",
+      "target": "data/projects.ts",
+      "required": [
+        "Title",
+        "Problem",
+        "Description",
+        "Personal ownership",
+        "Confirmed outcome",
+        "Year",
+        "Supporting links",
+        "Optional technology tags"
+      ],
+      "notes": "Technology tags are secondary metadata. Engineering work has lower visual emphasis than research.",
+      "verifiedAt": "2026-09-09",
+      "evidence": "content/CONTENT-SOURCES.md"
+    },
+    {
+      "id": "research-notes",
+      "status": "needs-owner-input",
+      "target": "content/writing/",
+      "required": [
+        "Original MDX article",
+        "Title",
+        "Publication date",
+        "Summary",
+        "Referenced figures and usage rights",
+        "Citations and working links"
+      ],
+      "notes": "Keep authoring examples outside the published notes collection. No sample note should appear as the owner's research."
+    },
+    {
+      "id": "cv-record",
+      "status": "needs-owner-input",
+      "target": "public/cv.pdf and data/profile.ts",
+      "required": [
+        "Owner-approved CV PDF",
+        "Matching public facts"
+      ],
+      "notes": "Do not generate an apparent CV with invented education, employers, papers, awards, or dates."
+    },
+    {
+      "id": "education-details",
+      "status": "optional-owner-input",
+      "target": "data/profile.ts",
+      "required": [
+        "专业名称（如希望公开）"
+      ],
+      "notes": "学校、本科在读和2028预计毕业已公开核实；不推断专业、入学年份、成绩或奖项。"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+---
+title: "QA fixture: MDX rendering contract"
+description: "An isolated test document for typography, references, and responsive content. This is not a published research note."
+date: "2026-09-09"
+tags: ["QA fixture"]
+draft: false
+---
+
+This file is a **test fixture**, never an entry in the production writing collection.
+It exercises inline math $x^2 + y^2 = z^2$, readable Chinese typography 李晨悦,
+and a source reference <Cite id="fixture">[1]</Cite>.
+
+Visit the [research fixture](/research/layout-contract/#method) to verify same-language internal links.
+
+## Math
+
+$$
+\mathcal{L}(\theta) = \mathbb{E}_{(x,y)\sim\mathcal{D}}\left[-\log p_\theta(y\mid x)\right] + \lambda \sum_{i=1}^{N}\left\|\theta_i\right\|_2^2
+$$
+
+## Code
+
+```typescript
+// This deliberately long line tests horizontal scrolling inside code, without creating page overflow.
+const renderingContract = { inlineMath: true, displayMath: true, highlightedCode: true, readableFigures: true, accessibleTables: true, citations: true };
+console.log(renderingContract);
+```
+
+## Figure
+
+<Figure
+  src="/qa-fixture.svg"
+  alt="Two outlined rectangles connected by an arrow, used only to verify figure rendering."
+  width={1200}
+  height={600}
+  caption="QA fixture: a local image with an explicit aspect ratio and caption."
+/>
+
+## Table
+
+| Capability | Input condition | Rendering requirement | Verification approach |
+| --- | --- | --- | --- |
+| Mathematics | Display equation exceeding a narrow viewport | Scroll within the equation region | Browser layout inspection |
+| Source code | A deliberately long unwrapped code line | Retain formatting and allow local scrolling | Keyboard and overflow inspection |
+| Data table | Multiple columns at mobile widths | Keep header associations and local scrolling | Accessibility audit |
+
+## References
+
+<References>
+  <Reference id="fixture">
+    Local rendering fixture; no publication, dataset, or research result is claimed.
+  </Reference>
+</References>

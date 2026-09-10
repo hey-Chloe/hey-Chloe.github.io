@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-09",
+  "rendering": "Values are copied from committed public reports. Figures do not represent rerun experiments; VLM proportions are multiplied by 100 only for display.",
+  "agent": {
+    "source": {
+      "repository": "hey-Chloe/MiniClaudeCode",
+      "commit": "a060de35ad0b5ea42fd98c80c288c9a0bb639cdc",
+      "path": "reports/trajectory_credit_study_20260829.json",
+      "url": "https://github.com/hey-Chloe/MiniClaudeCode/blob/a060de35ad0b5ea42fd98c80c288c9a0bb639cdc/reports/trajectory_credit_study_20260829.json",
+      "raw_url": "https://raw.githubusercontent.com/hey-Chloe/MiniClaudeCode/a060de35ad0b5ea42fd98c80c288c9a0bb639cdc/reports/trajectory_credit_study_20260829.json",
+      "download_sha256": "c38a440ad666efcc8dec0bc92284042bbe1a8129e1cc2cd448f70bfb4634a26c",
+      "source_keys": [
+        "sampling_convergence[*].samples",
+        "sampling_convergence[*].seeds",
+        "sampling_convergence[*].rmse.mean",
+        "sampling_convergence[*].rmse.ci95_low",
+        "sampling_convergence[*].rmse.ci95_high"
+      ]
+    },
+    "protocol": "ordered_trajectory_credit_study_v1",
+    "scope": "Structural protocol environments study estimator behavior; they are not real coding tasks, causal identification from production traces, or policy-training evidence.",
+    "reference": "RMSE against the exact reference; no real coding-task or policy-training claim.",
+    "rows": [
+      {
+        "samples": 8,
+        "seeds": 12,
+        "mean": 0.063142687,
+        "ci95_low": 0.046707797,
+        "ci95_high": 0.079577577
+      },
+      {
+        "samples": 16,
+        "seeds": 12,
+        "mean": 0.035257506,
+        "ci95_low": 0.027953882,
+        "ci95_high": 0.04256113
+      },
+      {
+        "samples": 32,
+        "seeds": 12,
+        "mean": 0.025598999,
+        "ci95_low": 0.020610571,
+        "ci95_high": 0.030587426
+      },
+      {
+        "samples": 64,
+        "seeds": 12,
+        "mean": 0.018645874,
+        "ci95_low": 0.014361531,
+        "ci95_high": 0.022930217
+      },
+      {
+        "samples": 128,
+        "seeds": 12,
+        "mean": 0.013778324,
+        "ci95_low": 0.011170869,
+        "ci95_high": 0.016385779
+      },
+      {
+        "samples": 256,
+        "seeds": 12,
+        "mean": 0.009086905,
+        "ci95_low": 0.005953388,
+        "ci95_high": 0.012220421
+      },
+      {
+        "samples": 512,
+        "seeds": 12,
+        "mean": 0.005773046,
+        "ci95_low": 0.004094356,
+        "ci95_high": 0.007451736
+      }
+    ]
+  },
+  "recsys": {
+    "source": {
+      "repository": "hey-Chloe/KAI-Offline-RecSys-Lab",
+      "commit": "9bfb5693414cdbeaea1df9d712cae3ba333ac73d",
+      "path": "reports/amazon-end-to-end-v3-results.json",
+      "url": "https://github.com/hey-Chloe/KAI-Offline-RecSys-Lab/blob/9bfb5693414cdbeaea1df9d712cae3ba333ac73d/reports/amazon-end-to-end-v3-results.json",
+      "raw_url": "https://raw.githubusercontent.com/hey-Chloe/KAI-Offline-RecSys-Lab/9bfb5693414cdbeaea1df9d712cae3ba333ac73d/reports/amazon-end-to-end-v3-results.json",
+      "download_sha256": "192f13250a48a6e6e847585d867f91f7466d07a5d46d3fabc735c16f03ebdb69",
+      "source_keys": [
+        "results.confidenceInterval.baseline_mean",
+        "results.confidenceInterval.candidate_mean",
+        "results.confidenceInterval.user_count",
+        "selectedCandidate.id",
+        "results.confidenceInterval"
+      ]
+    },
+    "protocol": "Amazon End-to-End V3, frozen public-data offline test",
+    "metric": "test NDCG@100",
+    "baseline_mean": 0.02102618841605414,
+    "candidate_mean": 0.023513774146983038,
+    "user_count": 50653,
+    "selected_candidate": "exact-din-uniform-64-32",
+    "paired_difference_interval": {
+      "baseline_mean": 0.02102618841605414,
+      "bootstrap_samples": 2000,
+      "candidate_mean": 0.023513774146983038,
+      "confidence_level": 0.95,
+      "interval_method": "paired-percentile-bootstrap",
+      "lower_bound": 0.0022832747229818056,
+      "mean_difference": 0.0024875857309288973,
+      "resampling_unit": "user",
+      "seed": 20260827,
+      "upper_bound": 0.0026801428985577095,
+      "user_count": 50653
+    },
+    "scope": "Bar heights are reported means. The paired-difference interval is not an interval for either individual mean. No online-performance claim."
+  },
+  "vlm": {
+    "source": {
+      "repository": "hey-Chloe/hey-Chloe.github.io",
+      "commit": "c34131be71937ad6071ad60730384a54663e7f82",
+      "path": "public/demos/vlm-training/data/snapshot.json",
+      "url": "https://github.com/hey-Chloe/hey-Chloe.github.io/blob/c34131be71937ad6071ad60730384a54663e7f82/public/demos/vlm-training/data/snapshot.json",
+      "raw_url": "https://raw.githubusercontent.com/hey-Chloe/hey-Chloe.github.io/c34131be71937ad6071ad60730384a54663e7f82/public/demos/vlm-training/data/snapshot.json",
+      "download_sha256": "93c4a72dc537ab5c0d864d20c39c1383a0e72cb85144ff81d11a9165955f5c3d",
+      "source_keys": [
+        "research.result.paired_seed_results[*].seed",
+        "research.result.paired_seed_results[*].random_exact_match",
+        "research.result.paired_seed_results[*].coincide_exact_match",
+        "research.result.evaluation_samples",
+        "research.result.paired_delta_ci95_low",
+        "research.result.paired_delta_ci95_high"
+      ]
+    },
+    "protocol": "Qwen2.5-VL-3B × ScienceQA × 1K budget",
+    "metric": "exact match",
+    "stored_unit": "proportion",
+    "display_unit": "percent",
+    "evaluation_samples": 256,
+    "rows": [
+      {
+        "seed": 3407,
+        "random_exact_match": 0.8203125,
+        "coincide_exact_match": 0.796875
+      },
+      {
+        "seed": 6502,
+        "random_exact_match": 0.8359375,
+        "coincide_exact_match": 0.7578125
+      },
+      {
+        "seed": 9109,
+        "random_exact_match": 0.83203125,
+        "coincide_exact_match": 0.79296875
+      }
+    ],
+    "paired_delta_ci95_low": -0.11684910855411433,
+    "paired_delta_ci95_high": 0.02309910855411433,
+    "scope": "n=3 的 exact-match 差值 95% CI 跨过 0，不能外推为方法普遍无效。"
+  }
+}

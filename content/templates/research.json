@@ -1,0 +1,25 @@
+{
+  "_instructions": "AUTHORING CHECKLIST ONLY. This file is not imported by the website. Replace empty values with confirmed facts, remove _instructions, and add the complete object to data/research.ts. Omit unavailable optional links instead of retaining empty strings. Supply true intrinsic thumbnail dimensions. If a section does not apply, provide an owner-confirmed explanation.",
+  "slug": "",
+  "title": "",
+  "question": "",
+  "method": "",
+  "keyResults": [],
+  "venue": "",
+  "status": "",
+  "thumbnail": { "src": "", "alt": "", "width": 0, "height": 0 },
+  "links": {},
+  "sections": {
+    "abstract": "",
+    "problem": "",
+    "method": "",
+    "architecture": "",
+    "dataset": "",
+    "experiments": "",
+    "results": "",
+    "ablation": "",
+    "failureAnalysis": "",
+    "demo": "",
+    "citation": ""
+  }
+}

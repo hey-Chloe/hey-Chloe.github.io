@@ -1,4 +1,0 @@
-interface:
-  display_name: "XIAOYUE 创意系统"
-  short_description: "把小悦的个人痕迹、物件语义与真实证据变成不可换皮的数字空间"
-  default_prompt: "使用 $xiaoyue-creative-system 指导这个体验：先区分稳定身份与可替换表皮，再用个人痕迹、物件语义、真实证据和世界反差建立差异化。"
