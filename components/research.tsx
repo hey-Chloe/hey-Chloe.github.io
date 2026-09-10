@@ -17,7 +17,15 @@ export function ResearchList({ locale = "zh" }: { locale?: Locale }) {
   return <div className="research-list">{research.map((item, index) => (
     <article className="research-card" key={item.slug}>
       <Link href={localePath(`/research/${item.slug}/`, locale)} className="research-thumbnail" aria-label={item.title}>
-        <Image src={assetPath(item.thumbnail.src)} alt={item.thumbnail.alt} width={item.thumbnail.width} height={item.thumbnail.height} sizes="(max-width: 700px) 100vw, 260px" />
+        <Image
+          src={assetPath(item.thumbnail.src)}
+          alt={item.thumbnail.alt}
+          width={item.thumbnail.width}
+          height={item.thumbnail.height}
+          sizes="(max-width: 700px) 100vw, 260px"
+          preload={index === 0}
+          fetchPriority={index === 0 ? "high" : undefined}
+        />
       </Link>
       <div className="research-card-copy">
         <h3><Link href={localePath(`/research/${item.slug}/`, locale)}><span>{item.title}</span><Arrow diagonal /></Link></h3>
