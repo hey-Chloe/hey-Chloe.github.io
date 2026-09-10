@@ -5,7 +5,8 @@ import { chromium } from 'playwright';
 
 const origin = (process.env.SITE_URL || 'http://127.0.0.1:3000').replace(/\/$/, '');
 const basePath = (process.env.BASE_PATH ?? process.env.NEXT_PUBLIC_BASE_PATH ?? '').replace(/\/$/, '');
-const url = `${origin}${basePath}/`;
+const auditPath = `/${(process.env.LIGHTHOUSE_PATH || '/').replace(/^\/+|\/+$/g, '')}${process.env.LIGHTHOUSE_PATH && process.env.LIGHTHOUSE_PATH !== '/' ? '/' : ''}`;
+const url = `${origin}${basePath}${auditPath}`;
 const reportDirectory = process.env.QA_DIR || 'work/qa';
 const chrome = await launch({ chromePath: process.env.BROWSER_EXECUTABLE || chromium.executablePath(), chromeFlags: ['--headless', '--no-sandbox', '--disable-gpu'] });
 try {

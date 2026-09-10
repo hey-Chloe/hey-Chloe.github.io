@@ -317,7 +317,6 @@ export default function ArchiveObject({
       <Link
         className={styles.featuredProject}
         href={project.href}
-        aria-label={`${project.actionLabel}：${project.title}。${project.statusLabel}。${project.evidence}`}
         data-evidence-status={project.status.toLowerCase().replace('_', '-')}
         draggable={false}
         style={{ pointerEvents: 'auto', color: 'inherit', textDecoration: 'none' }}
@@ -343,7 +342,7 @@ export default function ArchiveObject({
         width={object.assetWidth}
         height={object.assetHeight}
         unoptimized
-        loading="eager"
+        loading={object.id === 'lab' ? 'eager' : 'lazy'}
         alt=""
         aria-hidden="true"
         draggable={false}
@@ -365,7 +364,7 @@ export default function ArchiveObject({
           width={decoration.assetWidth}
           height={decoration.assetHeight}
           unoptimized
-          loading="eager"
+          loading="lazy"
           alt=""
           aria-hidden="true"
           draggable={false}

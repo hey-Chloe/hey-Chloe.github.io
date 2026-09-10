@@ -1009,7 +1009,7 @@
 
   .descriptor {
     margin-top: 10px;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.4;
     letter-spacing: 0.035em;
   }
@@ -1211,11 +1211,11 @@
   }
 
   .featuredIndex {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .featuredProjectTitle {
-    font-size: clamp(10px, 3vw, 12px);
+    font-size: 12px;
     line-height: 1.22;
     display: -webkit-box;
     overflow: hidden;
@@ -1225,22 +1225,17 @@
 
   .foldoutCenter .featuredProjectTitle {
     font-family: var(--xy-sans);
-    font-size: clamp(11px, 3.2vw, 13px);
+    font-size: 13px;
     line-height: 1.22;
   }
 
   .featuredEvidence {
-    display: block;
-    overflow: hidden;
-    font-size: clamp(7.5px, 2.1vw, 9px);
-    line-height: 1.25;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: none;
   }
 
   .featuredStatus {
     margin-bottom: 1px;
-    font-size: 7px;
+    font-size: 10px;
   }
 
   .featuredStatus::before {
@@ -1250,7 +1245,7 @@
   }
 
   .featuredAction {
-    font-size: 7px;
+    font-size: 10px;
   }
 
   .featuredIndex,

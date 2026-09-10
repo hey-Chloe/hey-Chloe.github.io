@@ -52,7 +52,7 @@
 .face[data-font-state='ready'] .fallback { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 @media (max-width: 720px) {
-  .english { max-width: 14em; font-size: 9px; }
+  .english { max-width: 14em; font-size: 12px; }
   .subtitle { display: none; }
   /* Keep the mark on the exposed paper beside the Garden packet.
      50% width with this top still meets the same 67% physical crease. */

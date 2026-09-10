@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: { default: "小悦的数字收藏室 — Chloe’s Archive", template: "%s | Chloe’s Archive" },
   description: "小悦的互动档案室：移动桌上的物件，打开作品、研究与生活来信。",
   alternates: { canonical: absoluteUrl("/archive/") },
+  icons: { icon: assetPath("/icon.svg") },
   robots: { index: hasPublicOrigin, follow: true },
   openGraph: {
     title: "小悦的数字收藏室 — Chloe’s Archive",
@@ -23,7 +24,7 @@ export default function ArchiveLayout({ children }: { children: ReactNode }) {
     <ArchiveFonts />
     <a className="archive-skip" href="#archive-main">跳至档案室内容</a>
     <header className="archive-navigation">
-      <a className="archive-brand" href={assetPath("/archive/")} aria-label="返回互动档案室桌面">
+      <a className="archive-brand" href={assetPath("/archive/")}>
         <span aria-hidden="true">✳</span><span>Chloe’s Archive<small>小悦的数字收藏室</small></span>
       </a>
       <nav aria-label="两个主页之间切换">

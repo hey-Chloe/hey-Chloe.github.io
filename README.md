@@ -38,6 +38,7 @@ npm start
 | `/projects/` | `data/projects.ts`、`data/open-source.ts` |
 | `/writing/`、`/writing/[slug]/` | `content/writing/*.mdx` |
 | `/cv/` | `data/profile.ts` 与真实 CV 文件 |
+| `/archive/`、`/archive/about/`、`/archive/garden/` | 共享的中文互动档案室；从中英文主导航进入，并可返回学术主页 |
 
 所有数据类型在 [data/types.ts](data/types.ts)，编辑内容不需要改动 React 组件。界面文案与兴趣描述在 `data/site-copy.ts`。兴趣描述不代表已经完成的工作。个人简介与已核实教育信息位于 `data/profile.ts` 的 `biography`、`education` 字段。
 
@@ -127,6 +128,7 @@ npm run check
 npx playwright install chromium
 npm run check:browser
 npm run audit:lighthouse
+LIGHTHOUSE_PATH=/archive/ QA_DIR=work/qa-archive npm run audit:lighthouse
 ```
 
 浏览器脚本覆盖 1440px 桌面、768px 平板、390px 手机与 320px 小屏，检查页面加载、console/runtime errors、资源加载、横向溢出、空链接、标题与 SEO 标签、键盘跳转、可用交互及 axe 无障碍规则，并保存截图与报告至 `work/qa/`。截图还应实际检查排版、留白、断行与视觉层级。

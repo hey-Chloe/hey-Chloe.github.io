@@ -65,7 +65,8 @@ try {
         assert.equal(response?.status(), 200, "page must serve HTTP 200");
         await page.evaluate(() => document.fonts.ready);
         for (const image of await page.locator("img").all()) {
-          if (await image.isVisible()) await image.scrollIntoViewIfNeeded();
+          if (!(await image.isVisible())) continue;
+          await image.scrollIntoViewIfNeeded();
           await image.evaluate((element) => element.complete ? undefined : new Promise((resolve, reject) => {
             const timeout = setTimeout(() => reject(new Error(`Image did not load: ${element.src}`)), 10000);
             element.addEventListener("load", () => { clearTimeout(timeout); resolve(); }, { once: true });
@@ -106,7 +107,10 @@ try {
             if (scrollContainer && scrollContainer.scrollWidth > scrollContainer.clientWidth) return false;
             return rect.right > viewportWidth + 2 || rect.left < -2;
           }).slice(0, 8).map((element) => `${element.tagName}.${element.className}`);
-          const brokenImages = Array.from(document.images).filter((img) => !img.complete || img.naturalWidth === 0).map((img) => img.src);
+          const brokenImages = Array.from(document.images).filter((img) => {
+            const visible = Boolean(img.offsetWidth || img.offsetHeight || img.getClientRects().length);
+            return visible && (!img.complete || img.naturalWidth === 0);
+          }).map((img) => img.src);
           const placeholderLinks = Array.from(document.querySelectorAll("a[href]")).filter((link) => {
             const href = link.getAttribute("href")?.trim();
             return !href || href === "#" || href.startsWith("javascript:");
