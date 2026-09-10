@@ -25,6 +25,17 @@ for (const entry of await readdir(source)) {
 await writeFile(marker, "isolated-homepage-rendering-fixture\n");
 await symlink(path.join(source, "node_modules"), path.join(destination, "node_modules"), "dir");
 
+assert.equal(fixtureCollections.research.length, 1, "The isolated archive fixture expects exactly one research record.");
+const fixtureResearchPath = `/research/${fixtureCollections.research[0].slug}/`;
+const archiveDataPath = path.join(destination, "components/archive/ArchiveData.ts");
+let archiveData = await readFile(archiveDataPath, "utf8");
+for (const productionResearchPath of ["/research/vlm-data-selection/", "/research/offline-retrieval-ranking/"]) {
+  const needle = `href: '${productionResearchPath}'`;
+  assert.equal(archiveData.split(needle).length - 1, 1, `Expected one archive link to ${productionResearchPath}.`);
+  archiveData = archiveData.replace(needle, `href: '${fixtureResearchPath}'`);
+}
+await writeFile(archiveDataPath, archiveData);
+
 const schema = {
   research: { filename: "research", type: "Research" },
   publications: { filename: "publications", type: "Publication" },

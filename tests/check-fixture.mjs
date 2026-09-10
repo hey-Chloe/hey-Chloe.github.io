@@ -8,7 +8,7 @@ const artifactDirectory = path.resolve(process.env.QA_DIR || "work/qa-fixture");
 const checks = [];
 const failures = [];
 const documents = {};
-for (const route of ["", "publications", "projects", "experience", "cv", "research/layout-contract", "writing/rendering", "en", "en/publications", "en/research/layout-contract", "en/writing/rendering"]) {
+for (const route of ["", "archive", "publications", "projects", "experience", "cv", "research/layout-contract", "writing/rendering", "en", "en/publications", "en/research/layout-contract", "en/writing/rendering"]) {
   documents[route || "home"] = await readFile(path.join(directory, route, "index.html"), "utf8");
 }
 const visible = (html) => html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
@@ -20,6 +20,7 @@ const research = visible(documents["research/layout-contract"]);
 const note = visible(documents["writing/rendering"]);
 const publications = visible(documents.publications);
 const home = visible(documents.home);
+const archive = visible(documents.archive);
 
 check("Academic homepage has a Chinese identity and accessible content landmark", () => {
   assert.match(home, /<main\b(?=[^>]*\bid="main")(?=[^>]*\btabindex="-1")[^>]*>/i);
@@ -38,6 +39,10 @@ check("Populated editorial research cards and prefixed detail links", () => {
   assert.match(home, /class="research-card"/);
   assert.ok(home.includes(`href="${basePath}/research/layout-contract/"`));
   for (const label of ["研究问题", "方法", "主要结果"]) assert.ok(home.includes(label));
+});
+check("Interactive archive links stay inside the isolated research fixture", () => {
+  assert.equal(archive.split(`href="${basePath}/research/layout-contract/"`).length - 1, 2);
+  assert.doesNotMatch(archive, /\/research\/(?:vlm-data-selection|offline-retrieval-ranking)\//);
 });
 check("All eleven research detail sections", () => {
   const headings = Array.from(research.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g), (match) => text(match[1]));
