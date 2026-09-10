@@ -22,6 +22,7 @@ export function Navigation({ locale = "zh" }: { locale?: Locale }) {
     <Link className="wordmark" href={localePath("/", locale)} aria-label={`${profile.name} · ${l.home}`} onClick={() => setOpen(false)}>{profile.name}</Link>
     <nav id="primary-navigation" aria-label={l.navigation} className={open ? "primary-nav is-open" : "primary-nav"} onKeyDown={(event) => { if (event.key === "Escape") { setOpen(false); document.querySelector<HTMLButtonElement>(".menu-toggle")?.focus(); } }}>
       {items.map(({ href, label }) => { const target = localePath(href, locale); return <Link key={href} href={target} aria-current={pathname === target || pathname === target.slice(0, -1) || pathname.startsWith(target) ? "page" : undefined} onClick={() => setOpen(false)}>{label}</Link>; })}
+      <a href={assetPath("/archive/")} className="nav-archive" onClick={() => setOpen(false)}>{locale === "zh" ? "互动档案室" : "Interactive archive"}</a>
       <Link href={localePath("/cv/", locale)} className="nav-cv" onClick={() => setOpen(false)}>{l.cv} <Arrow diagonal /></Link>
     </nav>
     <div className="header-actions"><nav className="language-switch" aria-label={locale === "zh" ? "语言" : "Language"}>

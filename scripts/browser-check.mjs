@@ -77,8 +77,15 @@ try {
         assert.equal(await page.locator("h1").count(), 1, "exactly one primary heading");
         assert.ok((await page.title()).trim().length > 0, "document title exists");
         assert.equal(await page.locator("html").getAttribute("lang"), english ? "en" : "zh-CN", "language is present in server-rendered markup");
-        assert.ok(await page.locator('link[rel="alternate"][hreflang="zh-CN"]').count(), "Chinese alternate URL exists");
-        assert.ok(await page.locator('link[rel="alternate"][hreflang="en"]').count(), "English alternate URL exists");
+        if (route.startsWith("/archive/")) {
+          assert.equal(await page.locator("body").getAttribute("class"), "archive-document", "archive uses its own document");
+          assert.equal(await page.locator('link[rel="alternate"][hreflang="en"]').count(), 0, "shared archive has no nonexistent English alternate");
+          assert.equal(await page.getByRole("link", { name: "学术主页", exact: true }).getAttribute("href"), `${basePath}/`, "archive links back to the academic homepage");
+        } else {
+          assert.ok(await page.locator('link[rel="alternate"][hreflang="zh-CN"]').count(), "Chinese alternate URL exists");
+          assert.ok(await page.locator('link[rel="alternate"][hreflang="en"]').count(), "English alternate URL exists");
+          assert.equal(await page.locator(".nav-archive").getAttribute("href"), `${basePath}/archive/`, "academic pages link to the shared archive");
+        }
         assert.doesNotMatch(await page.locator("body").innerText(), /Chloe\s+Li/, "the removed English personal name is not displayed");
         const metadata = await page.locator('meta[name="description"]').getAttribute("content");
         assert.ok(metadata?.trim(), "page description exists");

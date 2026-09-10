@@ -15,5 +15,5 @@ test("content links localize pages while preserving shared downloads and externa
  assert.equal(contentHref("/research/study/#method","en"),"/en/research/study/#method");
  assert.equal(contentHref("/research?view=all#main","en"),"/en/research?view=all#main");
  assert.equal(contentHref("/?view=all#main","en"),"/en/?view=all#main");
- for(const href of ["/images/figure.webp","/cv.pdf","/data/results.json","#reference","https://github.com/hey-Chloe"]){assert.equal(contentHref(href,"en"),href);}
+ for(const href of ["/archive/","/archive/garden/","/images/figure.webp","/cv.pdf","/data/results.json","#reference","https://github.com/hey-Chloe"]){assert.equal(contentHref(href,"en"),href);}
 });

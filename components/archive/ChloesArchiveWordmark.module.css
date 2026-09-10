@@ -1,0 +1,16 @@
+.wordmark {
+  display: inline-flex;
+  width: fit-content;
+  align-items: baseline;
+  gap: .16em;
+  font-family: 'Archive Kaushan Script', cursive;
+  font-style: normal;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -.045em;
+  white-space: nowrap;
+}
+
+.stacked { align-items: flex-start; flex-direction: column; gap: 0; white-space: normal; }
+.prefix { margin-right: .1em; font-size: .72em; }
+.chloe,.archive { display: block; }

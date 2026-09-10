@@ -220,6 +220,12 @@ dd ul { list-style:disc; padding-left:16px; margin:0; }
 
 /* Language controls remain visible independently of the mobile navigation. */
 .header-actions { display:flex; align-items:center; gap:24px; }
+@media(min-width:701px) and (max-width:1020px) {
+  .header-inner { gap:16px; }
+  .primary-nav { gap:14px; font-size:11px; }
+  .primary-nav .nav-cv { padding-left:10px; }
+  .header-actions { gap:12px; }
+}
 .language-switch { display:flex; align-items:center; gap:11px; font-size:11px; white-space:nowrap; }
 .language-switch a { min-height:30px; display:inline-flex; align-items:center; color:var(--muted); }
 .language-switch a[aria-current] { color:var(--ink); font-weight:600; }
