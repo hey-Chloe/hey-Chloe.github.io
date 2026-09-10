@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+<title id="title">SciFact BM25 field-setting comparison</title>
+<desc id="desc">Merged-field nDCG@10 is 0.661835; separate fields 0.652560. Variant minus baseline is -0.009275. The exploratory 95 percent paired query bootstrap interval is [-0.026811, 0.007409] and crosses zero. This is an independent implementation on 300 judged queries; it is not a significance or generalization claim.</desc>
+<rect width="1200" height="750" rx="8" fill="#fafafa"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#252525">
+<text x="64" y="77" font-size="43" font-weight="600" fill="#252525" text-anchor="start">SciFact · BM25 field settings</text>
+<text x="64" y="121" font-size="27" font-weight="400" fill="#626262" text-anchor="start">300 judged queries · exploratory comparison</text>
+<text x="64" y="186" font-size="28" font-weight="600" fill="#252525" text-anchor="start">Mean nDCG@10</text>
+<text x="64" y="247" font-size="27" font-weight="400" fill="#252525" text-anchor="start">Merged field</text>
+<rect x="325" y="217" width="512.9220" height="35" fill="#454545"/>
+<text x="853.9220065875127" y="245" font-size="28" font-weight="600" fill="#454545" text-anchor="start">0.6618</text>
+<text x="64" y="315" font-size="27" font-weight="400" fill="#252525" text-anchor="start">Separate fields</text>
+<rect x="325" y="285" width="505.7341" height="35" fill="#766198"/>
+<text x="846.7341240987683" y="313" font-size="28" font-weight="600" fill="#766198" text-anchor="start">0.6526</text>
+<line x1="325.000" y1="350.000" x2="1100.000" y2="350.000" stroke="#d6d6d6" stroke-width="2"/>
+<line x1="325.000" y1="350.000" x2="325.000" y2="358.000" stroke="#d6d6d6" stroke-width="2"/>
+<text x="325" y="389" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">0</text>
+<line x1="518.750" y1="350.000" x2="518.750" y2="358.000" stroke="#d6d6d6" stroke-width="2"/>
+<text x="518.75" y="389" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">0.25</text>
+<line x1="712.500" y1="350.000" x2="712.500" y2="358.000" stroke="#d6d6d6" stroke-width="2"/>
+<text x="712.5" y="389" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">0.5</text>
+<line x1="906.250" y1="350.000" x2="906.250" y2="358.000" stroke="#d6d6d6" stroke-width="2"/>
+<text x="906.25" y="389" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">0.75</text>
+<line x1="1100.000" y1="350.000" x2="1100.000" y2="358.000" stroke="#d6d6d6" stroke-width="2"/>
+<text x="1100.0" y="389" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">1</text>
+<text x="64" y="461" font-size="28" font-weight="600" fill="#252525" text-anchor="start">Difference: separate − merged</text>
+<text x="1100" y="461" font-size="32" font-weight="600" fill="#766198" text-anchor="end">-0.0093</text>
+<line x1="210.000" y1="533.000" x2="1100.000" y2="533.000" stroke="#a4a4a4" stroke-width="2"/>
+<line x1="803.333" y1="486.000" x2="803.333" y2="562.000" stroke="#a0a0a0" stroke-width="2" stroke-dasharray="6 6"/>
+<line x1="405.637" y1="520.000" x2="913.229" y2="520.000" stroke="#766198" stroke-width="5"/>
+<line x1="405.637" y1="510.000" x2="405.637" y2="530.000" stroke="#766198" stroke-width="4"/>
+<line x1="913.229" y1="510.000" x2="913.229" y2="530.000" stroke="#766198" stroke-width="4"/>
+<circle cx="665.759" cy="520" r="9" fill="#766198"/>
+<text x="210.0" y="582" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">-0.04</text>
+<text x="506.6666666666667" y="582" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">-0.02</text>
+<text x="803.3333333333334" y="582" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">0</text>
+<text x="1100.0" y="582" font-size="23" font-weight="400" fill="#696969" text-anchor="middle">+0.02</text>
+<text x="64" y="638" font-size="26" font-weight="600" fill="#252525" text-anchor="start">Exploratory 95% interval: [-0.0268, 0.0074] · includes zero</text>
+<text x="64" y="683" font-size="23" font-weight="400" fill="#626262" text-anchor="start">Independent implementation · paired query bootstrap, 2,000 draws</text>
+<text x="64" y="720" font-size="23" font-weight="400" fill="#626262" text-anchor="start">Query dependence and repeated-test selection are not corrected.</text>
+</g>
+</svg>

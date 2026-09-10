@@ -253,3 +253,33 @@ html[lang="zh-CN"] .research-card h3 { font-size:22px; line-height:1.6; }
   .profile-introduction>.hero-role { font-size:11px; }
 }
 .profile-link .contact-icon { width:14px; height:14px; flex-shrink:0; }
+
+/* Academic research rows: preserve the figures and verified project stages. */
+#research .section-heading::after,#publications .section-heading::after { width:54px; background:#cb334d; }
+#research .section-heading h2,#publications .section-heading h2 { font-weight:700; }
+.academic-research-list { gap:0; }
+.academic-research-list .research-card { grid-template-columns:230px minmax(0,1fr); gap:30px; padding:31px 0 35px; border-bottom:0; }
+.academic-research-list .research-card:first-child { padding-top:10px; }
+.academic-research-list .research-thumbnail { margin:4px 0 0; background:#fff; border:1px solid #e8e9e9; border-radius:4px; }
+.academic-research-list .research-thumbnail img { aspect-ratio:8/5; object-fit:contain; }
+.academic-research-list .research-card h3 { font-family:var(--font-heading); font-size:23px; font-weight:700; line-height:1.45; margin:0 0 9px; }
+.academic-research-list .research-card h3 a { display:inline; }
+.academic-research-list .research-stage { color:var(--ink); font-size:13px; font-weight:600; line-height:1.8; }
+.academic-research-list .research-summary { color:#555e63; font-size:13px; line-height:1.85; margin-top:10px; }
+.academic-research-list .research-results { color:#555e63; font-size:12px; line-height:1.85; margin:8px 0; padding-left:17px; list-style:disc; }
+.academic-research-list .resource-links { gap:17px; margin-top:10px; }
+.academic-research-list .resource-link,#research .text-link,#publications .text-link,.publication-list .resource-link { color:#0759a8; font-size:12px; }
+.academic-research-list a:hover { color:#0759a8; }
+.academic-research-list a:focus-visible { outline-color:#0759a8; }
+#publications .publication-year { padding:24px 0; }
+@media(max-width:800px) {
+  .academic-research-list .research-card { grid-template-columns:200px minmax(0,1fr); gap:25px; }
+  .academic-research-list .research-card h3 { font-size:21px; }
+}
+@media(max-width:700px) {
+  .academic-research-list .research-card { grid-template-columns:minmax(0,1fr); gap:19px; padding:22px 0 32px; }
+  .academic-research-list .research-thumbnail { width:100%; max-width:420px; margin:0; }
+  .academic-research-list .research-card h3 { font-size:23px; line-height:1.5; }
+  .academic-research-list .research-stage { font-size:12px; }
+  .academic-research-list .resource-link { min-height:36px; }
+}
