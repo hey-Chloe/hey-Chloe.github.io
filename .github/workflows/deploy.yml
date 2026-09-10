@@ -83,6 +83,7 @@ jobs:
           node --input-type=module -e 'const url="http://127.0.0.1:3000"+(process.env.NEXT_PUBLIC_BASE_PATH||"")+"/"; for(let i=0;i<30;i++){try{const r=await fetch(url);if(r.ok)process.exit(0)}catch{}await new Promise(r=>setTimeout(r,1000))}process.exit(1)'
           npm run check:browser
           npm run audit:lighthouse
+          LIGHTHOUSE_PATH=/archive/ QA_DIR=work/qa-archive npm run audit:lighthouse
 
       - name: Build isolated content fixture
         run: |
@@ -113,6 +114,7 @@ jobs:
           name: homepage-quality-reports
           path: |
             work/qa/
+            work/qa-archive/
             work/qa-fixture/
           if-no-files-found: ignore
 
