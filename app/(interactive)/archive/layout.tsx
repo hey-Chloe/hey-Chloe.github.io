@@ -20,7 +20,18 @@ export const metadata: Metadata = {
 };
 
 export default function ArchiveLayout({ children }: { children: ReactNode }) {
-  return <html lang="zh-CN"><body className="archive-document">
+  return <html lang="zh-CN">
+    <head>
+      <link rel="preload" as="image" href={assetPath("/images/pearl-marble-texture.svg")} fetchPriority="high" />
+      <link
+        rel="preload"
+        as="font"
+        href={assetPath("/fonts/kaushan-script/KaushanScript-Regular.woff2")}
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+    </head>
+    <body className="archive-document">
     <ArchiveFonts />
     <a className="archive-skip" href="#archive-main">跳至档案室内容</a>
     <header className="archive-navigation">
