@@ -1,0 +1,37 @@
+name: Publish homepage source
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/homepage-source.zip
+      - .github/workflows/publish-homepage-source.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out current repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Replace the old site with the reviewed source
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$GITHUB_WORKSPACE/.github/workflows/homepage-source.zip"
+          extracted="$(mktemp -d)"
+          trap 'rm -rf "$extracted"' EXIT
+          unzip -q "$archive" -d "$extracted"
+          git ls-files -z | xargs -0 rm -f
+          cp -a "$extracted"/. "$GITHUB_WORKSPACE"/
+          git add -A
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "feat: publish academic research homepage"
+          git push origin main
