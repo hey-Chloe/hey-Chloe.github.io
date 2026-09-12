@@ -2,7 +2,7 @@ import { research as originalResearch } from "./research";
 import { projects as originalProjects } from "./projects";
 import { openSource as originalOpenSource } from "./open-source";
 import { siteCopy as originalSiteCopy } from "./site-copy";
-import type { OpenSourceContribution, Project, Research } from "./types";
+import type { Experience, OpenSourceContribution, Project, Research } from "./types";
 
 type ResearchTranslation = Pick<Research, "title" | "question" | "method" | "keyResults" | "venue" | "status"> & {
   thumbnailAlt: string;
@@ -11,6 +11,14 @@ type ResearchTranslation = Pick<Research, "title" | "question" | "method" | "key
   resultFigureSrc: string;
   sections: Omit<Research["sections"], "citation">;
 };
+
+export const experience: readonly Experience[] = [
+  {
+    id: "tencent-music-internship",
+    company: "Tencent Music",
+    role: "Java Backend & AIGC Application Engineering Intern",
+  },
+];
 
 /** Translate presentation only; identifiers, evidence links, and citations remain shared. */
 const researchTranslations: Record<string, ResearchTranslation> = {

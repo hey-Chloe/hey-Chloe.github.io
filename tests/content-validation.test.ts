@@ -144,6 +144,8 @@ test("experience dates reject reversed periods and accept a month containing the
   assert(validateContent({ ...emptyContent(), experience: [{ ...fixture, endDate: "2024-09" }] }).some((issue) => issue.path === "experience[0].endDate"));
   assert.deepEqual(validateContent({ ...emptyContent(), experience: [{ ...fixture, startDate: "2026-09-30", endDate: "2026-09" }] }), []);
   assert.deepEqual(validateContent({ ...emptyContent(), experience: [{ ...fixture, endDate: undefined }] }), []);
+  assert.deepEqual(validateContent({ ...emptyContent(), experience: [{ id: "confirmed-role", company: "Confirmed company", role: "Confirmed role" }] }), []);
+  assert(validateContent({ ...emptyContent(), experience: [{ id: "bad-date", company: "Confirmed company", role: "Confirmed role", endDate: "2026-09" }] }).some((issue) => issue.path === "experience[0].startDate"));
 });
 
 test("optional profile links are omitted, never fake links or mailto query strings", () => {

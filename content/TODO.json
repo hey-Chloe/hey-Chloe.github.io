@@ -18,6 +18,11 @@
       "degree": "本科在读",
       "expectedGraduation": "2028",
       "source": "content/CONTENT-SOURCES.md"
+    },
+    "experience": {
+      "company": "腾讯音乐",
+      "role": "Java 后端与 AIGC 应用工程实习生",
+      "source": "owner supplied in conversation on 2026-09-12"
     }
   },
   "tasks": [
@@ -70,11 +75,9 @@
     },
     {
       "id": "experience-records",
-      "status": "needs-owner-input",
+      "status": "partially-confirmed",
       "target": "data/experience.ts",
       "required": [
-        "Company or institution",
-        "Role",
         "Team",
         "Start and end dates",
         "Problem",
@@ -83,7 +86,7 @@
         "Confirmed scale or disclosure limitation",
         "Confirmed result"
       ],
-      "notes": "Omit endDate only when the role is confirmed as current. Do not infer employment from the research-engineer headline."
+      "notes": "腾讯音乐及 Java 后端与 AIGC 应用工程实习岗位已由本人确认并发布。日期、团队、职责、规模与成果继续留在此清单中，未写入公开经历。"
     },
     {
       "id": "publication-records",

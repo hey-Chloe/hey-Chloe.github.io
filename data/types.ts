@@ -76,16 +76,16 @@ export interface Experience {
   id: string;
   company: string;
   role: string;
-  team: string;
+  team?: string;
   /** ISO calendar date: YYYY-MM or YYYY-MM-DD. */
-  startDate: string;
-  /** Omit only for an explicitly confirmed current role. */
+  startDate?: string;
+  /** Omit when the role is current or its dates have not yet been verified. */
   endDate?: string;
-  problem: string;
-  ownership: string;
-  method: string;
-  scale: string;
-  result: string;
+  problem?: string;
+  ownership?: string;
+  method?: string;
+  scale?: string;
+  result?: string;
 }
 
 export interface Project {

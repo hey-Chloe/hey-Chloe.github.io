@@ -161,11 +161,13 @@ export function validateContent(input: unknown = { profile, research, publicatio
   });
 
   collection("experience", "id", (item, path) => {
-    texts(item, path, ["company", "role", "team", "problem", "ownership", "method", "scale", "result"]);
-    const start = parseContentDate(item.startDate);
+    texts(item, path, ["company", "role"]);
+    for (const key of ["team", "problem", "ownership", "method", "scale", "result"]) if (item[key] !== undefined) text(item[key], `${path}.${key}`);
+    const start = item.startDate === undefined ? null : parseContentDate(item.startDate);
     const end = item.endDate === undefined ? null : parseContentDate(item.endDate);
-    if (start === null) fail(`${path}.startDate`, "Use a valid ISO calendar month or day.");
+    if (item.startDate !== undefined && start === null) fail(`${path}.startDate`, "Use a valid ISO calendar month or day.");
     if (item.endDate !== undefined && end === null) fail(`${path}.endDate`, "Use a valid ISO calendar month or day; omit for a confirmed current role.");
+    if (item.endDate !== undefined && item.startDate === undefined) fail(`${path}.startDate`, "A start date is required when an end date is provided.");
     const endBoundary = end !== null && typeof item.endDate === "string" && item.endDate.length === 7
       ? Date.UTC(new Date(end).getUTCFullYear(), new Date(end).getUTCMonth() + 1, 0)
       : end;
