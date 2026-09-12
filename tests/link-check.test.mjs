@@ -16,7 +16,7 @@ async function withExport(basePath, callback) {
     await writeFile(path.join(directory, "image.svg"), "<svg/>");
     await writeFile(path.join(directory, "robots.txt"), "User-agent: *\n");
     await writeFile(path.join(directory, "sitemap.xml"), "<urlset/>\n");
-    for (const route of ["research", "publications", "projects", "experience", "writing", "cv"]) {
+    for (const route of ["research", "projects", "experience", "writing", "cv"]) {
       await mkdir(path.join(directory, route));
       await writeFile(path.join(directory, route, "index.html"), '<html><main id="details">Fixture</main></html>');
     }
