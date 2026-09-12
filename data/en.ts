@@ -188,8 +188,8 @@ export const siteCopy: SiteCopy = {
   },
   research: {
     eyebrow: "01 / RESEARCH",
-    title: "Selected Research",
-    description: "Independent research and engineering explorations, organized around questions, methods, and evidence.",
+    title: "Academic Research",
+    description: "Independent research, engineering explorations, and disclosure-safe updates, organized around questions, methods, and evidence.",
     emptyTitle: "A space for the work.",
     emptyDescription: "Research projects will appear here once their details and supporting materials are available.",
   },

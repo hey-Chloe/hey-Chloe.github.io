@@ -31,9 +31,8 @@ npm start
 
 | 页面 | 内容来源 |
 | --- | --- |
-| `/` | Profile、研究、经历、论文、开源、工程和写作摘要 |
+| `/` | Profile、学术研究、经历、开源、工程和写作摘要 |
 | `/research/`、`/research/[slug]/` | `data/research.ts` |
-| `/publications/` | `data/publications.ts` |
 | `/experience/` | `data/experience.ts` |
 | `/projects/` | `data/projects.ts`、`data/open-source.ts` |
 | `/writing/`、`/writing/[slug]/` | `content/writing/*.mdx` |
@@ -67,18 +66,6 @@ npm start
 6. 在 `links` 中只添加已经存在的 `paper`、`code`、`dataset`、`demo`、`project` 地址。缺失链接省略；至少保留一个支持该工作的真实链接。
 
 重新构建后，自动生成独立详情页、列表条目与 sitemap 路径。没有已确认项目时，不发布示例项目。
-
-## 新增论文
-
-在 `data/publications.ts` 加入符合 `Publication` 类型的完整记录：
-
-- `id`：唯一的小写连字符标识。
-- `year`、`venue`、`title`：与正式论文或本人确认的状态一致。
-- `authors`：保留原始作者顺序，且仅在本人作者上设置 `isSelf: true`，页面将加粗该姓名。
-- `links`：真实的 `paper`、`code`、`project` 地址，不可用的字段省略。
-- `bibtex`：完整条目，保留换行、引用键及必要字段。
-
-年份按降序展示，预留 2027、2026、2025 分组；空分组不暗示有论文或已有录用。论文元数据与对应研究项目分别维护，以便一个研究项目关联多篇工作。
 
 ## 新增经历、开源贡献与工程项目
 

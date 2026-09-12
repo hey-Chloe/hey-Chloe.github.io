@@ -8,7 +8,7 @@ const artifactDirectory = path.resolve(process.env.QA_DIR || "work/qa-fixture");
 const checks = [];
 const failures = [];
 const documents = {};
-for (const route of ["", "archive", "publications", "projects", "experience", "cv", "research/layout-contract", "writing/rendering", "en", "en/publications", "en/research/layout-contract", "en/writing/rendering"]) {
+for (const route of ["", "archive", "projects", "experience", "cv", "research/layout-contract", "writing/rendering", "en", "en/research/layout-contract", "en/writing/rendering"]) {
   documents[route || "home"] = await readFile(path.join(directory, route, "index.html"), "utf8");
 }
 const visible = (html) => html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
@@ -18,7 +18,6 @@ function check(label, assertion) {
 }
 const research = visible(documents["research/layout-contract"]);
 const note = visible(documents["writing/rendering"]);
-const publications = visible(documents.publications);
 const home = visible(documents.home);
 const archive = visible(documents.archive);
 
@@ -53,16 +52,6 @@ check("Research navigation anchors match rendered evidence sections", () => {
     assert.ok(research.includes(`href="#${id}"`));
     assert.ok(research.includes(`id="${id}"`));
   }
-});
-check("Publication owner emphasis and native BibTeX disclosure", () => {
-  assert.ok(publications.includes("<strong>李晨悦</strong>"));
-  assert.match(publications, /<details class="bibtex"><summary>BibTeX<\/summary>/);
-  assert.match(publications, /@misc\{renderingfixture,/);
-  assert.match(publications, /复制引用/);
-});
-check("Requested publication year groups", () => {
-  const years = Array.from(publications.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/g), (match) => text(match[1]));
-  assert.deepEqual(years, ["2027", "2026", "2025"]);
 });
 check("Populated industry timeline and ownership evidence", () => {
   const html = visible(documents.experience);
