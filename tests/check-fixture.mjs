@@ -8,7 +8,7 @@ const artifactDirectory = path.resolve(process.env.QA_DIR || "work/qa-fixture");
 const checks = [];
 const failures = [];
 const documents = {};
-for (const route of ["", "archive", "projects", "experience", "cv", "research", "research/layout-contract", "writing/rendering", "en", "en/research", "en/research/layout-contract", "en/writing/rendering"]) {
+for (const route of ["", "archive", "publications", "projects", "experience", "cv", "research/layout-contract", "writing/rendering", "en", "en/publications", "en/research/layout-contract", "en/writing/rendering"]) {
   documents[route || "home"] = await readFile(path.join(directory, route, "index.html"), "utf8");
 }
 const visible = (html) => html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
@@ -18,6 +18,7 @@ function check(label, assertion) {
 }
 const research = visible(documents["research/layout-contract"]);
 const note = visible(documents["writing/rendering"]);
+const publications = visible(documents.publications);
 const home = visible(documents.home);
 const archive = visible(documents.archive);
 
@@ -39,10 +40,6 @@ check("Populated editorial research cards and prefixed detail links", () => {
   assert.ok(home.includes(`href="${basePath}/research/layout-contract/"`));
   for (const label of ["研究问题", "方法", "主要结果"]) assert.ok(home.includes(label));
 });
-check("Academic research replaces the removed publications routes", () => {
-  assert.match(visible(documents.research), /<h1\b[^>]*>[\s\S]*?学术研究[\s\S]*?<\/h1>/);
-  assert.match(visible(documents["en/research"]), /<h1\b[^>]*>[\s\S]*?Academic Research[\s\S]*?<\/h1>/);
-});
 check("Interactive archive links stay inside the isolated research fixture", () => {
   assert.equal(archive.split(`href="${basePath}/research/layout-contract/"`).length - 1, 2);
   assert.doesNotMatch(archive, /\/research\/(?:vlm-data-selection|offline-retrieval-ranking)\//);
@@ -56,6 +53,16 @@ check("Research navigation anchors match rendered evidence sections", () => {
     assert.ok(research.includes(`href="#${id}"`));
     assert.ok(research.includes(`id="${id}"`));
   }
+});
+check("Publication owner emphasis and native BibTeX disclosure", () => {
+  assert.ok(publications.includes("<strong>李晨悦</strong>"));
+  assert.match(publications, /<details class="bibtex"><summary>BibTeX<\/summary>/);
+  assert.match(publications, /@misc\{renderingfixture,/);
+  assert.match(publications, /复制引用/);
+});
+check("Requested publication year groups", () => {
+  const years = Array.from(publications.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/g), (match) => text(match[1]));
+  assert.deepEqual(years, ["2027", "2026", "2025"]);
 });
 check("Populated industry timeline and ownership evidence", () => {
   const html = visible(documents.experience);
@@ -117,7 +124,7 @@ check("Missing real CV stays unavailable", () => {
   assert.doesNotMatch(visible(documents.cv), /href="(?:#|\/cv\.pdf)"/);
 });
 check("Bilingual documents have server-rendered language and reciprocal alternate links", () => {
-  for (const route of ["", "research/layout-contract", "writing/rendering"]) {
+  for (const route of ["", "publications", "research/layout-contract", "writing/rendering"]) {
     const zh = documents[route || "home"];
     const en = documents[route ? `en/${route}` : "en"];
     assert.match(zh, /<html lang="zh-CN"/);
@@ -134,6 +141,7 @@ check("English research has the same eleven sections and translated interface", 
   const headings = Array.from(html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g), (match) => text(match[1]));
   assert.deepEqual(headings, ["Abstract", "Problem", "Method", "Architecture", "Dataset", "Experiments", "Results", "Ablation", "Failure Analysis", "Demo", "Citation"]);
   assert.match(html, /Copy citation/);
+  assert.match(visible(documents["en/publications"]), /<strong>李晨悦<\/strong>/);
 });
 check("MDX page links preserve language while figures keep shared asset paths", () => {
   assert.ok(note.includes(`href="${basePath}/research/layout-contract/#method"`));
@@ -150,11 +158,6 @@ check("Sitemap includes published detail pages with base paths", () => {
   assert.doesNotMatch(sitemap, /_unpublished|draft-safety/);
 });
 const draftExportExists = await access(path.join(directory, "writing/draft-safety/index.html")).then(() => true, () => false);
-const publicationExportsExist = await Promise.all(["publications", "en/publications"].map((route) =>
-  access(path.join(directory, route, "index.html")).then(() => true, () => false)));
-check("Removed publications routes are absent from the export", () => {
-  assert.deepEqual(publicationExportsExist, [false, false]);
-});
 check("Draft notes are excluded from pages, lists, and sitemap", () => {
   assert.equal(draftExportExists, false);
   for (const html of Object.values(documents)) assert.doesNotMatch(html, /QA_DRAFT_NOT_PUBLIC|QA draft: must never be published/);

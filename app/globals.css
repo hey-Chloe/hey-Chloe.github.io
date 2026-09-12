@@ -118,11 +118,13 @@ dd ul { list-style:disc; padding-left:16px; margin:0; }
 .bibtex pre,.citation-block pre { white-space:pre-wrap; overflow-wrap:anywhere; overflow:auto; font:11px/1.8 monospace; margin-top:12px; }
 .copy-button { border:1px solid #ccd9d6; border-radius:4px; padding:5px 9px; background:transparent; color:var(--accent); font-size:10px; }
 .timeline { margin-top:24px; }
-.timeline-entry { display:grid; grid-template-columns:140px minmax(0,1fr); gap:24px; }
+.timeline-entry { display:grid; grid-template-columns:170px minmax(0,1fr); gap:24px; }
+.timeline-meta { min-width:0; }
 .timeline-date { display:flex; flex-direction:column; gap:3px; font-size:12px; color:var(--muted); }
+.timeline-meta h3 { margin:7px 0 0; font-family:var(--font-heading); font-size:24px; font-weight:600; line-height:1.35; overflow-wrap:anywhere; }
 .timeline-body { padding:0 0 35px 28px; border-left:1px solid var(--line); position:relative; }
 .timeline-body::before { content:""; position:absolute; top:8px; left:-4px; width:7px; height:7px; background:#fff; border:1px solid var(--accent); border-radius:50%; }
-.timeline-body h3 { font-family:var(--font-heading); font-size:23px; margin:8px 0; line-height:1.4; }
+.timeline-role { margin:1px 0 0; font-family:var(--font-heading); font-size:15px; font-weight:500; line-height:1.65; }
 .muted { color:var(--muted); }
 .timeline-body>.muted { font-size:13px; }
 .contribution-list,.project-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; margin-top:24px; }
@@ -207,7 +209,7 @@ dd ul { list-style:disc; padding-left:16px; margin:0; }
   .biography h2,.section-heading h2,.page-section>h2 { font-size:24px; }.biography p { font-size:14px; }.biography p:last-child { font-size:12px; }.home-section { padding-top:39px; }.section-heading { gap:12px; }.text-link { font-size:10px; gap:6px; }.section-description { font-size:12px; margin:16px 0 18px; }
   .research-list { gap:21px; }.research-card { grid-template-columns:1fr; gap:16px; padding:7px 0 29px; }.research-thumbnail { margin:0; }.research-thumbnail img { max-height:none; aspect-ratio:8/5; object-fit:contain; }.research-card h3 { font-size:22px; }.research-card-copy>.small-label { font-size:10px; }.research-card dl>div { grid-template-columns:1fr; gap:3px; margin-top:11px; }.research-card dd { font-size:13px; }.research-card dt { font-size:10px; }.resource-link { font-size:12px; }.resource-links { gap:18px; }
   .empty-state { padding-top:20px; }.empty-label { display:none; }.publication-year { grid-template-columns:61px minmax(0,1fr); }.publication-year>h3 { font-size:18px; }.year-empty { font-size:11px; }.publication-entry h4 { font-size:21px; }.authors { font-size:12px; }
-  .timeline-entry { grid-template-columns:1fr; gap:14px; }.timeline-date { flex-direction:row; gap:8px; font-size:11px; }.timeline-body { margin-left:4px; padding-left:20px; }.timeline-body h3 { font-size:23px; }
+  .timeline-entry { grid-template-columns:1fr; gap:14px; }.timeline-date { flex-direction:row; gap:8px; font-size:11px; }.timeline-meta h3 { margin-top:5px; font-size:22px; }.timeline-body { margin-left:4px; padding-left:20px; }.timeline-role { font-size:14px; }
   .contribution-list,.project-list { grid-template-columns:1fr; gap:19px; }.contribution { padding:21px; }.project-entry { padding:20px 0; }.contribution h3,.project-entry h3 { font-size:23px; }.contribution p,.project-entry p { font-size:13px; }dd { font-size:13px; }dt { font-size:10px; }
   .writing-section { padding-bottom:39px; }.footer-top { flex-wrap:wrap; gap:13px 21px; padding:25px 0; }.footer-top p { font-size:9px; }.footer-name { font-size:13px; }.back-top { font-size:9px; }.footer-bottom { flex-wrap:wrap; gap:10px; font-size:9px; }
   .page-intro { padding:40px 0 28px; }.page-intro h1 { font-size:32px; }.page-description { font-size:13px; }.page-section { margin-top:36px; }.interest-grid { grid-template-columns:1fr; gap:23px; }.interest p { font-size:13px; }

@@ -77,6 +77,8 @@ export interface Experience {
   company: string;
   role: string;
   team?: string;
+  /** Confirmed calendar year when exact start and end dates are not public. */
+  year?: number;
   /** ISO calendar date: YYYY-MM or YYYY-MM-DD. */
   startDate?: string;
   /** Omit when the role is current or its dates have not yet been verified. */

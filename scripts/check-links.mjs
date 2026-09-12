@@ -103,7 +103,7 @@ for (const filename of filenames.filter((item) => item.endsWith(".css"))) {
   }
 }
 
-for (const route of ["/", "/research/", "/projects/", "/experience/", "/writing/", "/cv/"]) {
+for (const route of ["/", "/research/", "/publications/", "/projects/", "/experience/", "/writing/", "/cv/"]) {
   await checkReference(`${basePath}${route}`, "required routes", `${basePath}/`);
 }
 

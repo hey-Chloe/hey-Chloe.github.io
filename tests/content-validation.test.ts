@@ -145,6 +145,9 @@ test("experience dates reject reversed periods and accept a month containing the
   assert.deepEqual(validateContent({ ...emptyContent(), experience: [{ ...fixture, startDate: "2026-09-30", endDate: "2026-09" }] }), []);
   assert.deepEqual(validateContent({ ...emptyContent(), experience: [{ ...fixture, endDate: undefined }] }), []);
   assert.deepEqual(validateContent({ ...emptyContent(), experience: [{ id: "confirmed-role", company: "Confirmed company", role: "Confirmed role" }] }), []);
+  assert.deepEqual(validateContent({ ...emptyContent(), experience: [{ id: "year-only-role", company: "Confirmed company", role: "Confirmed role", year: 2026 }] }), []);
+  assert(validateContent({ ...emptyContent(), experience: [{ id: "bad-year", company: "Confirmed company", role: "Confirmed role", year: 2026.5 }] }).some((issue) => issue.path === "experience[0].year"));
+  assert(validateContent({ ...emptyContent(), experience: [{ ...fixture, year: 2026 }] }).some((issue) => issue.path === "experience[0].year"));
   assert(validateContent({ ...emptyContent(), experience: [{ id: "bad-date", company: "Confirmed company", role: "Confirmed role", endDate: "2026-09" }] }).some((issue) => issue.path === "experience[0].startDate"));
 });
 

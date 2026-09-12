@@ -31,8 +31,9 @@ npm start
 
 | 页面 | 内容来源 |
 | --- | --- |
-| `/` | Profile、学术研究、经历、开源、工程和写作摘要 |
+| `/` | Profile、研究、经历、论文、开源、工程和写作摘要 |
 | `/research/`、`/research/[slug]/` | `data/research.ts` |
+| `/publications/` | `data/publications.ts` |
 | `/experience/` | `data/experience.ts` |
 | `/projects/` | `data/projects.ts`、`data/open-source.ts` |
 | `/writing/`、`/writing/[slug]/` | `content/writing/*.mdx` |
@@ -67,6 +68,18 @@ npm start
 
 重新构建后，自动生成独立详情页、列表条目与 sitemap 路径。没有已确认项目时，不发布示例项目。
 
+## 新增论文
+
+在 `data/publications.ts` 加入符合 `Publication` 类型的完整记录：
+
+- `id`：唯一的小写连字符标识。
+- `year`、`venue`、`title`：与正式论文或本人确认的状态一致。
+- `authors`：保留原始作者顺序，且仅在本人作者上设置 `isSelf: true`，页面将加粗该姓名。
+- `links`：真实的 `paper`、`code`、`project` 地址，不可用的字段省略。
+- `bibtex`：完整条目，保留换行、引用键及必要字段。
+
+年份按降序展示，预留 2027、2026、2025 分组；空分组不暗示有论文或已有录用。论文元数据与对应研究项目分别维护，以便一个研究项目关联多篇工作。
+
 ## 新增经历、开源贡献与工程项目
 
 | 文件 | 填写重点 |
@@ -75,7 +88,7 @@ npm start
 | `data/open-source.ts` | 实际 PR、本人维护的仓库或研究基础设施；具体贡献、结果、状态和证据链接 |
 | `data/projects.ts` | 问题、本人负责的范围、描述、结果、年份与链接；技术标签是辅助信息 |
 
-经历日期支持 `YYYY-MM` 或 `YYYY-MM-DD`；仅确认仍在职时省略 `endDate`。不能公开的规模或结果应说明披露限制，不用估算数字代替事实。`pull-request` 类型必须提供 `links.pullRequest`。贡献热图不能替代具体贡献记录。
+经历可使用 `year` 记录仅确认到年份的信息，也可使用 `YYYY-MM` 或 `YYYY-MM-DD` 精度的 `startDate` / `endDate`；仅确认仍在职时省略 `endDate`。`year` 与具体起止日期不要同时填写。不能公开的规模或结果应说明披露限制，不用估算数字代替事实。`pull-request` 类型必须提供 `links.pullRequest`。贡献热图不能替代具体贡献记录。
 
 ## 发布 MDX Research Notes
 
@@ -155,7 +168,7 @@ SITE_URL=http://127.0.0.1:3000 BASE_PATH=/实际仓库名 npm run check:browser
 2. 在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。[GitHub 官方设置说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 3. 工作流默认使用 `https://OWNER.github.io` 作为 origin；普通仓库自动使用 `/REPO` 前缀，`OWNER.github.io` 仓库使用根路径。
 4. 若使用自定义域名，在 **Settings → Secrets and variables → Actions → Variables** 设置 `NEXT_PUBLIC_SITE_URL`。配置该 origin 后，工作流默认采用空 base path；需要子路径时额外设置 `NEXT_PUBLIC_BASE_PATH`，显式 `/` 表示根路径。自定义域名还需要在 Pages 设置和 DNS 服务中完成实际配置。
-5. 推送或 PR 触发安装、lint、typecheck、测试、构建、死链检查、真实浏览器与 Lighthouse 验证。工作流另外构建隔离的测试内容，检查研究详情、MDX 和仓库子路径；测试内容不进入部署产物。只有默认分支且全部检查成功时才部署正式 `out/`；PR 只验证，不发布。`work/qa/` 中的截图与报告作为 Actions artifact 保存。
+5. 推送或 PR 触发安装、lint、typecheck、测试、构建、死链检查、真实浏览器与 Lighthouse 验证。工作流另外构建隔离的测试内容，检查研究详情、论文、MDX 和仓库子路径；测试内容不进入部署产物。只有默认分支且全部检查成功时才部署正式 `out/`；PR 只验证，不发布。`work/qa/` 中的截图与报告作为 Actions artifact 保存。
 
 检查 Actions 的真实结果与站点地址后，再确认页面导航、静态资源、CV、sitemap 和 robots。在其他静态托管平台，同样上传整个 `out/` 并使用目录索引与生成的 `404.html`；不要把未知路径重写为返回 200 的首页。
 

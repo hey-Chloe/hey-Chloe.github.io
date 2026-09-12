@@ -22,6 +22,7 @@
     "experience": {
       "company": "腾讯音乐",
       "role": "Java 后端与 AIGC 应用工程实习生",
+      "year": 2026,
       "source": "owner supplied in conversation on 2026-09-12"
     }
   },
@@ -79,14 +80,14 @@
       "target": "data/experience.ts",
       "required": [
         "Team",
-        "Start and end dates",
+        "Exact start and end months, if intended for publication",
         "Problem",
         "Personal ownership",
         "Method",
         "Confirmed scale or disclosure limitation",
         "Confirmed result"
       ],
-      "notes": "腾讯音乐及 Java 后端与 AIGC 应用工程实习岗位已由本人确认并发布。日期、团队、职责、规模与成果继续留在此清单中，未写入公开经历。"
+      "notes": "腾讯音乐、岗位与年份 2026 已由本人确认并发布。具体月份、团队、职责、规模与成果继续留在此清单中，未写入公开经历。"
     },
     {
       "id": "publication-records",

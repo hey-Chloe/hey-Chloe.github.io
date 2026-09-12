@@ -253,10 +253,10 @@ try {
         if (await navigationMenu.count() && await navigationMenu.isVisible()) {
           await navigationMenu.click();
           const navigation = page.locator(`[id="${await navigationMenu.getAttribute("aria-controls")}"]`);
-          await navigation.getByRole("link", { name: english ? "Academic Research" : "学术研究", exact: true }).click();
+          await navigation.getByRole("link", { name: english ? "Research" : "研究", exact: true }).click();
           await page.waitForURL(`**${basePath}${prefix}/research/`);
           assert.equal(await navigationMenu.getAttribute("aria-expanded"), "false", "following a mobile navigation link closes the menu");
-          assert.equal(await navigation.getByRole("link", { name: english ? "Academic Research" : "学术研究", exact: true, includeHidden: true }).getAttribute("aria-current"), "page", "navigation identifies the current route");
+          assert.equal(await navigation.getByRole("link", { name: english ? "Research" : "研究", exact: true, includeHidden: true }).getAttribute("aria-current"), "page", "navigation identifies the current route");
           await page.reload({ waitUntil: "networkidle" });
           assert.equal(await page.locator("h1").count(), 1, "a navigated route survives a direct refresh");
           await page.goto(`${site}${basePath}${prefix}/`, { waitUntil: "networkidle" });
