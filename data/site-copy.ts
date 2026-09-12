@@ -9,8 +9,8 @@ export const siteCopy = {
   },
   research: {
     eyebrow: "01 / RESEARCH",
-    title: "精选研究",
-    description: "围绕真实问题、实验方法与证据，整理公开的独立研究和工程探索。",
+    title: "学术研究",
+    description: "围绕真实问题、实验方法与证据，整理公开的独立研究、工程探索与脱敏进展。",
     emptyTitle: "研究项目整理中",
     emptyDescription: "项目详情与支撑材料核实后将在此公开。",
   },
