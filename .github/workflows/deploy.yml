@@ -91,7 +91,7 @@ jobs:
           cd work/fixture-site
           NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3001 NEXT_PUBLIC_BASE_PATH=/qa-prefix.v2 npm run build
 
-      - name: Verify MDX, publications, research and repository paths
+      - name: Verify MDX, research and repository paths
         env:
           EXPORT_DIR: work/fixture-site/out
           BASE_PATH: /qa-prefix.v2

@@ -155,7 +155,7 @@ SITE_URL=http://127.0.0.1:3000 BASE_PATH=/实际仓库名 npm run check:browser
 2. 在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。[GitHub 官方设置说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 3. 工作流默认使用 `https://OWNER.github.io` 作为 origin；普通仓库自动使用 `/REPO` 前缀，`OWNER.github.io` 仓库使用根路径。
 4. 若使用自定义域名，在 **Settings → Secrets and variables → Actions → Variables** 设置 `NEXT_PUBLIC_SITE_URL`。配置该 origin 后，工作流默认采用空 base path；需要子路径时额外设置 `NEXT_PUBLIC_BASE_PATH`，显式 `/` 表示根路径。自定义域名还需要在 Pages 设置和 DNS 服务中完成实际配置。
-5. 推送或 PR 触发安装、lint、typecheck、测试、构建、死链检查、真实浏览器与 Lighthouse 验证。工作流另外构建隔离的测试内容，检查研究详情、论文、MDX 和仓库子路径；测试内容不进入部署产物。只有默认分支且全部检查成功时才部署正式 `out/`；PR 只验证，不发布。`work/qa/` 中的截图与报告作为 Actions artifact 保存。
+5. 推送或 PR 触发安装、lint、typecheck、测试、构建、死链检查、真实浏览器与 Lighthouse 验证。工作流另外构建隔离的测试内容，检查研究详情、MDX 和仓库子路径；测试内容不进入部署产物。只有默认分支且全部检查成功时才部署正式 `out/`；PR 只验证，不发布。`work/qa/` 中的截图与报告作为 Actions artifact 保存。
 
 检查 Actions 的真实结果与站点地址后，再确认页面导航、静态资源、CV、sitemap 和 robots。在其他静态托管平台，同样上传整个 `out/` 并使用目录索引与生成的 `404.html`；不要把未知路径重写为返回 200 的首页。
 
