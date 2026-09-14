@@ -16,7 +16,7 @@ export const fixtureCollections = {
     status: "Rendering test",
     thumbnail: { src: "/qa-fixture.svg", alt: "Two test rectangles connected by an arrow.", width: 1200, height: 600 },
     resultFigure: { src: "/qa-fixture.svg", alt: "Test-only experimental result figure.", width: 1200, height: 600 },
-    links: { paper: "/publications/", code: "/projects/", dataset: "/research/", demo: "/writing/rendering/", project: "/research/layout-contract/" },
+    links: { paper: "/research/layout-contract/", code: "/projects/", dataset: "/research/", demo: "/writing/rendering/", project: "/research/layout-contract/" },
     sections: { ...sections, citation },
   }],
   publications: [{

@@ -11,7 +11,7 @@ export function Navigation({ locale = "zh" }: { locale?: Locale }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname() || "/";
   const l = labels(locale);
-  const items = [{ href: "/research/", label: l.research }, { href: "/publications/", label: l.publications }, { href: "/experience/", label: l.experience }, { href: "/projects/", label: l.projects }, { href: "/writing/", label: l.writing }];
+  const items = [{ href: "/research/", label: l.research }, { href: "/experience/", label: l.experience }, { href: "/projects/", label: l.projects }, { href: "/writing/", label: l.writing }];
   const preserveLocation = (event: MouseEvent<HTMLAnchorElement>) => {
     const target = new URL(event.currentTarget.href);
     target.search = window.location.search; target.hash = window.location.hash;
