@@ -170,7 +170,7 @@ SITE_URL=http://127.0.0.1:3000 BASE_PATH=/实际仓库名 npm run check:browser
 
 ## 更新研究图表
 
-研究列表使用三张独立设计的论文主图，分别对应 Agent 归因、离线推荐与多模态数据选择。每张图只读取 `scripts/paper_figures/data/` 下的固定数据摘录；摘录记录公开报告的提交、路径、SHA256 和精确字段。详情页 Results 继续保留单项统计图。首页直接加载 1200×750 的可编辑 SVG；同名 PDF 可用于 LaTeX / Word 排版，2x PNG 与 WebP 用于位图预览和兼容导出。重新绘图需要 Python 3、matplotlib 与 numpy：
+研究列表使用三张独立设计的论文主图，分别对应 Agent 归因、离线推荐与多模态数据选择。每张图只读取 `scripts/paper_figures/data/` 下的固定数据摘录；摘录记录公开报告的提交、路径、SHA256 和精确字段。详情页 Results 复用同一张完整矢量图，保持数据语法和配色一致。页面直接加载 1200×750 的可编辑 SVG；同名 PDF 可用于 LaTeX / Word 排版，2x PNG 与 WebP 用于位图预览和兼容导出。重新绘图需要 Python 3、matplotlib 与 numpy：
 
 ```bash
 python3 -m pip install matplotlib==3.9.4 numpy==1.26.4
@@ -179,4 +179,4 @@ python3 scripts/generate-research-figures.py --language en
 npm run figures:optimize
 ```
 
-不带参数时会生成中英两套文件；`--language zh` 或 `--language en` 可单独生成。中文图缺少可用 CJK 字体时脚本会直接失败，防止静默使用错误字体。完成绘图与缩略图优化后，应提交每个项目的中英文 SVG、PDF、PNG、2x PNG、800×500 WebP，以及详情页结果图。SVG 保留文本节点，PDF 保留矢量线条并嵌入字体。更新数据时必须保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。
+不带参数时会生成中英两套文件；`--language zh` 或 `--language en` 可单独生成。中文图缺少可用 CJK 字体时脚本会直接失败，防止静默使用错误字体。完成绘图与缩略图优化后，应提交每个项目的中英文 SVG、PDF、PNG、2x PNG 和 800×500 WebP。SVG 保留文本节点，PDF 保留矢量线条并嵌入字体。更新数据时必须保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。

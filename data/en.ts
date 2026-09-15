@@ -35,8 +35,8 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     status: "Offline estimator study",
     thumbnailSrc: "/images/research-agent-teaser-en.svg",
     thumbnailAlt: "Publication figure for ordered trajectory attribution: a six-action recovery DAG, action-level credit comparison, six-estimator aggregate table over forty cases, and Monte Carlo convergence across twelve seeds.",
-    resultFigureSrc: "/images/research-agent-en.png",
-    resultFigureAlt: "Line chart of attribution RMSE versus sampling budget with a seed-level confidence interval under a controlled structural protocol.",
+    resultFigureSrc: "/images/research-agent-teaser-en.svg",
+    resultFigureAlt: "Complete publication figure combining the recovery DAG, action-level attribution, aggregate estimator comparison, and sampling convergence.",
     sections: {
       abstract: "This study uses MiniClaudeCode tool traces to examine credit assignment when actions have prerequisites. The project also provides a bounded agent loop, tool policies, checkpoints, and evaluation infrastructure; the research focus here is offline ordered attribution.",
       problem: "Vanilla Shapley considers coalitions such as edit without read, even when they violate action dependencies. Preserving order within a subset does not make those counterfactuals executable. The question is how to define and estimate marginal credit under explicit precedence constraints.",
@@ -62,8 +62,8 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     status: "Public data · offline experiments",
     thumbnailSrc: "/images/research-recsys-teaser-en.svg",
     thumbnailAlt: "Publication figure for offline recommendation: selection among five development candidates, Exact-versus-DIN results at three frozen-test cutoffs, and user-level paired differences, interval, wins, ties, and losses.",
-    resultFigureSrc: "/images/research-recsys-en.png",
-    resultFigureAlt: "Estimate plot comparing Exact retrieval and DIN reranking means, with a separate paired-difference 95% interval under the same frozen protocol.",
+    resultFigureSrc: "/images/research-recsys-teaser-en.svg",
+    resultFigureAlt: "Complete publication figure combining development selection, frozen-test Exact versus DIN results, and user-level paired evidence.",
     sections: {
       abstract: "A personal public-data lab covering candidate retrieval, reranking, calibration, and cohort evaluation. Its aim is to compare models under explicit shared protocols while distinguishing recommendation quality, ANN systems measurements, and business outcomes.",
       problem: "Ranking metrics may not be comparable when candidate sets, populations, negative sampling, or feature sources differ. Frozen retrieval snapshots, dev-only selection, and a defined test-opening sequence reduce the risk of confusing protocol changes with model gains.",
@@ -89,8 +89,8 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     status: "Offline experiment · public summary",
     thumbnailSrc: "/images/research-vlm-teaser-en.svg",
     thumbnailAlt: "Publication figure for multimodal data selection: Random and COINCIDE subset overlap, exact match for three paired seeds and the untuned base, plus the paired interval and improved-versus-harmed audit counts.",
-    resultFigureSrc: "/images/research-vlm-en.png",
-    resultFigureAlt: "Paired held-out exact-match results across three seeds comparing Random-1K and COINCIDE-1K data selection.",
+    resultFigureSrc: "/images/research-vlm-teaser-en.svg",
+    resultFigureAlt: "Complete publication figure combining subset overlap, paired-seed exact match, the reported interval, and the error audit.",
     sections: {
       abstract: "An investigation of whether data selection can outperform random sampling under a limited fine-tuning budget. The Qwen2.5-VL-3B LoRA / SFT study publishes paired-seed summaries, failure analysis, and a static evidence viewer, retaining the observed lack of improvement and questions for further validation.",
       problem: "More elaborate data selection does not necessarily improve downstream results. Fixing the base model, training settings, sample budget, and held-out protocol—and retaining failures—helps separate the selection strategy from other experimental conditions.",

@@ -31,14 +31,14 @@ HOMEPAGE_ROOT = SCRIPT_DIR.parents[1]
 DEFAULT_DATA = SCRIPT_DIR / "data" / "agent_credit.json"
 DEFAULT_OUTPUT = HOMEPAGE_ROOT / "public" / "images"
 
-INK = "#17211F"
-MUTED = "#64706D"
-RULE = "#CFD7D4"
-GRID = "#E8ECEA"
-ACCENT = "#146C60"
-ACCENT_LIGHT = "#DCEBE7"
-BASELINE = "#C15A32"
-BLUE = "#3B6F9B"
+INK = "#25282B"
+MUTED = "#62676C"
+RULE = "#CFCEC9"
+GRID = "#E2E1DC"
+ACCENT = "#315B7D"
+ACCENT_LIGHT = "#DDE6ED"
+BASELINE = "#70767C"
+RUST = "#A65A3A"
 PAPER = "#FFFFFF"
 
 METHOD_ORDER = [
@@ -198,7 +198,7 @@ def draw_dag(ax: plt.Axes, data: dict, language: str) -> None:
         -0.94,
         f"{rate:.3f}%",
         fontsize=10.5,
-        color=BASELINE,
+        color=RUST,
         weight="bold",
         va="bottom",
     )
@@ -312,7 +312,7 @@ def draw_method_table(ax: plt.Axes, data: dict, language: str) -> None:
         cell.set_linewidth(0.55)
         cell.set_edgecolor(RULE)
         if row == 0:
-            cell.set_facecolor("#F3F5F4")
+            cell.set_facecolor("#F3F2EF")
             cell.set_text_props(weight="bold", color=INK)
         elif row == 1:
             cell.set_facecolor(ACCENT_LIGHT)

@@ -91,7 +91,7 @@
 
 ## 研究图片
 
-研究列表使用三张不同图形语法的论文主图，不复用网页卡片模板。可核验的数据摘录位于 `scripts/paper_figures/data/`，分别保留固定提交、原始路径、下载 SHA256、精确 JSON 字段及全精度数据；三个独立渲染器由 `scripts/generate-research-figures.py` 统一调用。列表直接加载 1200×750 的可编辑 SVG，并保留同名 PDF、PNG、2x PNG 与 800×500 WebP 导出；详情页结果图保留 SVG 与 PNG。PDF / SVG 用于论文排版，WebP 用于兼容预览；没有重新训练、生成新实验结果或借用第三方论文图。
+研究列表使用三张不同图形语法的论文主图，不复用网页卡片模板。可核验的数据摘录位于 `scripts/paper_figures/data/`，分别保留固定提交、原始路径、下载 SHA256、精确 JSON 字段及全精度数据；三个独立渲染器由 `scripts/generate-research-figures.py` 统一调用。列表与详情页 Results 均加载同一张 1200×750 可编辑 SVG，并保留同名 PDF、PNG、2x PNG 与 800×500 WebP 导出。PDF / SVG 用于论文排版，WebP 用于兼容预览；没有重新训练、生成新实验结果或借用第三方论文图。
 
 - Agent：真实六节点失败恢复 DAG、单案例动作归因、40 个受控案例上的六估计器比较，以及 12 个种子的采样收敛；不能解释为真实任务收益。
 - RecSys：开发集五候选选型、冻结测试集 K=20/50/100 的 Exact 与 DIN 对照，以及 K=100 用户级配对区间和 wins/ties/losses；不代表线上业务效果。

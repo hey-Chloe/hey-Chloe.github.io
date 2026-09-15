@@ -33,13 +33,14 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA_PATH = Path(__file__).resolve().parent / "data" / "vlm_figure_data.json"
 OUTPUT = ROOT / "public" / "images"
 
-INK = "#202522"
-MUTED = "#5F6764"
-RULE = "#C9CFCC"
-GRID = "#E7EAE8"
-RANDOM = "#59635F"
-COINCIDE = "#1F6B5C"
-SHARED = "#B7CEC6"
+INK = "#25282B"
+MUTED = "#62676C"
+RULE = "#CFCEC9"
+GRID = "#E2E1DC"
+RANDOM = "#70767C"
+COINCIDE = "#315B7D"
+SHARED = "#B8B5AE"
+RUST = "#A65A3A"
 PAPER = "#FFFFFF"
 
 
@@ -253,7 +254,7 @@ def plot_paired(axis, data: dict[str, Any], labels: dict[str, str]) -> None:
         axis.plot(
             [coincide_values[index], random_values[index]],
             [y[index], y[index]],
-            color="#AEB8B4",
+            color="#B8B5AE",
             linewidth=width,
             zorder=1,
         )
@@ -320,7 +321,7 @@ def plot_effect_and_audit(figure, container, data: dict[str, Any], labels: dict[
         0,
         xerr=[[mean - low], [high - mean]],
         fmt="D",
-        color=COINCIDE,
+        color=INK,
         markeredgecolor=INK,
         markeredgewidth=0.45,
         markersize=5.2,
@@ -332,7 +333,7 @@ def plot_effect_and_audit(figure, container, data: dict[str, Any], labels: dict[
     effect.set_yticks([])
     effect.xaxis.set_major_locator(ticker.MultipleLocator(5))
     effect.set_xlabel(labels["paired_delta"], fontsize=7.2, labelpad=4)
-    effect.text(mean, 0.43, f"{mean:.2f}", ha="center", fontsize=7.7, fontweight="bold", color=COINCIDE)
+    effect.text(mean, 0.43, f"{mean:.2f}", ha="center", fontsize=7.7, fontweight="bold", color=INK)
     effect.text(0.0, -0.42, f"{labels['reported_ci']} [{low:.2f}, {high:+.2f}]", transform=effect.transAxes, fontsize=6.7, color=MUTED)
     clean_axis(effect)
     effect.spines["left"].set_visible(False)
@@ -341,7 +342,7 @@ def plot_effect_and_audit(figure, container, data: dict[str, Any], labels: dict[
     names = [labels["improved"], labels["harmed"]]
     counts = [error["improved_samples"], error["harmed_samples"]]
     y = [1, 0]
-    bars = audit.barh(y, counts, height=0.44, color=[COINCIDE, RANDOM], edgecolor=INK, linewidth=0.45)
+    bars = audit.barh(y, counts, height=0.44, color=[COINCIDE, RUST], edgecolor=INK, linewidth=0.45)
     for bar, count in zip(bars, counts):
         audit.text(count + 1.0, bar.get_y() + bar.get_height() / 2, str(count), va="center", fontsize=7.2)
     audit.set_yticks(y, names)

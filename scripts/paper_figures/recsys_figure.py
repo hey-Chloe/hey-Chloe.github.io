@@ -28,13 +28,14 @@ DATA_PATH = HERE / "data" / "recsys_figure.json"
 REPO_ROOT = HERE.parents[1]
 OUTPUT_DIR = REPO_ROOT / "public" / "images"
 
-INK = "#17201e"
-MUTED = "#596461"
-GRID = "#d9dfdd"
-LIGHT = "#eef1f0"
-ACCENT = "#176c61"
-ACCENT_LIGHT = "#bcd7d1"
-LOSS = "#7f8986"
+INK = "#25282B"
+MUTED = "#62676C"
+GRID = "#DDDCD7"
+LIGHT = "#F1F0EC"
+ACCENT = "#315B7D"
+ACCENT_LIGHT = "#DDE6ED"
+SLATE = "#70767C"
+RUST = "#A65A3A"
 REGULAR_WEIGHT = 400
 EMPHASIS_WEIGHT = 700
 
@@ -207,7 +208,7 @@ def protocol_panel(ax: plt.Axes, strings: dict[str, Any]) -> None:
             Rectangle(
                 (x, y), w, h,
                 facecolor=ACCENT_LIGHT if accent else "white",
-                edgecolor=ACCENT if accent else "#8f9996",
+                edgecolor=ACCENT if accent else "#8E9296",
                 linewidth=0.9,
                 zorder=2,
             )
@@ -262,7 +263,7 @@ def dev_selection_panel(ax: plt.Axes, data: dict[str, Any], strings: dict[str, A
         is_selected = cid == selected
         ax.plot(
             ks, values,
-            color=ACCENT if is_selected else LOSS,
+            color=ACCENT if is_selected else SLATE,
             lw=1.8 if is_selected else 0.9,
             ls="-" if is_selected else styles[idx],
             marker=markers[idx],
@@ -341,7 +342,7 @@ def paired_evidence_panel(ax: plt.Axes, data: dict[str, Any], strings: dict[str,
     segments = [
         (strings["win"], record["wins"], ACCENT, None),
         (strings["tie"], record["ties"], LIGHT, ".."),
-        (strings["loss"], record["losses"], LOSS, "////"),
+        (strings["loss"], record["losses"], RUST, "////"),
     ]
     outcomes = ax.inset_axes([0.02, 0.06, 0.96, 0.27])
     outcomes.set_facecolor("white")
@@ -353,7 +354,7 @@ def paired_evidence_panel(ax: plt.Axes, data: dict[str, Any], strings: dict[str,
     for label, count, color, hatch in segments:
         width = count / total
         bar = Rectangle((cursor, 0.40), width, 0.28, facecolor=color,
-                        edgecolor="white" if hatch is None else LOSS, linewidth=0.45,
+                        edgecolor="white" if hatch is None else (RUST if color == RUST else SLATE), linewidth=0.45,
                         hatch=hatch)
         outcomes.add_patch(bar)
         if width > 0.08:

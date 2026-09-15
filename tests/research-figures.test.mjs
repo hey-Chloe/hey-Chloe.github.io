@@ -6,6 +6,14 @@ import test from "node:test";
 const root = process.cwd();
 const names = ["agent", "recsys", "vlm"];
 const figureDataDir = path.join(root, "scripts", "paper_figures", "data");
+const retiredGreenHexes = [
+  "#146c60",
+  "#176c61",
+  "#1f6b5c",
+  "#246b60",
+  "#bcd7d1",
+  "#dcebe7",
+];
 
 async function readJson(filename) {
   return JSON.parse(await readFile(path.join(figureDataDir, filename), "utf8"));
@@ -48,11 +56,19 @@ for (const name of names) {
 
     test(`${stem} is a safe, editable paper vector`, async () => {
       const svg = await readFile(path.join(root, "public", "images", `${stem}.svg`), "utf8");
+      const normalizedSvg = svg.toLowerCase();
       assert.match(svg, /<svg\b[^>]*\bwidth="1200"[^>]*\bheight="750"/);
       assert.match(svg, /\bviewBox="[^"]+"/);
       assert.match(svg, /<text\b/, "SVG labels must remain editable text");
       assert.doesNotMatch(svg, /<script\b/i);
       assert.doesNotMatch(svg, /\bon(?:load|error|click)\s*=/i);
+      for (const retiredColor of retiredGreenHexes) {
+        assert.equal(
+          normalizedSvg.includes(retiredColor),
+          false,
+          `${stem} still contains the retired green ${retiredColor}`,
+        );
+      }
     });
 
     test(`${stem} includes a paper-ready PDF export`, async () => {
@@ -70,3 +86,13 @@ for (const name of names) {
     });
   }
 }
+
+test("research list and Results use the same publication figure", async () => {
+  for (const dataFile of ["data/research.ts", "data/en.ts"]) {
+    const source = await readFile(path.join(root, dataFile), "utf8");
+    for (const name of names) {
+      const matches = source.match(new RegExp(`/images/research-${name}-teaser(?:-en)?\\.svg`, "g"));
+      assert.equal(matches?.length, 2, `${dataFile} should reuse the ${name} figure exactly twice`);
+    }
+  }
+});

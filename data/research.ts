@@ -20,8 +20,8 @@ export const research: readonly Research[] = [
       height: 750,
     },
     resultFigure: {
-      src: "/images/research-agent.png",
-      alt: "归因采样收敛：在受控协议下，增加采样预算时，相对精确参考的 RMSE 下降；误差棒为公开报告的 95% 区间，包含 12 个随机种子。",
+      src: "/images/research-agent-teaser.svg",
+      alt: "六节点失败恢复 DAG、动作级归因对照、六种估计器聚合比较与采样收敛组成的完整论文图。",
       width: 1200,
       height: 750,
     },
@@ -61,8 +61,8 @@ export const research: readonly Research[] = [
       height: 750,
     },
     resultFigure: {
-      src: "/images/research-recsys.png",
-      alt: "冻结测试集上的 NDCG@100：Exact 召回排序为 0.02103，DIN 重排为 0.02351；统一候选协议，50,653 位测试用户。",
+      src: "/images/research-recsys-teaser.svg",
+      alt: "开发集选型、冻结测试集 Exact 与 DIN 对照，以及用户级配对区间和胜负统计组成的完整论文图。",
       width: 1200,
       height: 750,
     },
@@ -103,8 +103,8 @@ export const research: readonly Research[] = [
       height: 750,
     },
     resultFigure: {
-      src: "/images/research-vlm.png",
-      alt: "三个配对种子的 exact match 对比：固定 Qwen2.5-VL-3B、1K 预算与 256 条留出评估，COINCIDE 均低于 Random；种子级均值差区间跨零。",
+      src: "/images/research-vlm-teaser.svg",
+      alt: "训练子集重叠、三个配对种子、均值差区间和改善退化审计组成的完整论文图。",
       width: 1200,
       height: 750,
     },
