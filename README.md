@@ -170,13 +170,13 @@ SITE_URL=http://127.0.0.1:3000 BASE_PATH=/实际仓库名 npm run check:browser
 
 ## 更新研究图表
 
-研究列表使用源于公开方法与报告数据的 visual abstract，详情页 Results 保留完整统计证据图。详细数据与来源保存在 `content/figure-data.json`，PNG 为网页资源，SVG 可用于高分辨率导出。重新绘图需要 Python 3 与固定版本的 matplotlib：
+研究列表使用源于公开方法与报告数据的论文式 method overview，详情页 Results 保留完整统计证据图。详细数据与来源保存在 `content/figure-data.json`。首页直接加载 1200×750 的可编辑 teaser SVG；同名 teaser PDF 可直接用于 LaTeX / Word 论文排版，2x PNG 与 WebP 用于位图预览和兼容导出。重新绘图需要 Python 3 与固定版本的 matplotlib：
 
 ```bash
-python3 -m pip install matplotlib==3.11.1
+python3 -m pip install matplotlib==3.9.4
 CHART_FONT=/absolute/path/to/cjk-font.ttc python3 scripts/generate-research-figures.py
 CHART_LANGUAGE=en python3 scripts/generate-research-figures.py
 npm run figures:optimize
 ```
 
-中文图缺少可用 CJK 字体时脚本会直接失败，防止中文文件静默生成英文标签。运行两条生成命令和缩略图优化后，应同时提交每个项目的中英文 teaser 源图、800×500 WebP 列表图与完整结果图。更新数据时保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。
+中文图缺少可用 CJK 字体时脚本会直接失败，防止中文文件静默生成英文标签。运行两条生成命令和缩略图优化后，应提交每个项目的中英文 teaser SVG、PDF、PNG、2x PNG、800×500 WebP，以及详情页结果图的 SVG 与 PNG。SVG 保留文本节点，方便在 Illustrator、Inkscape 或 Figma 中继续编辑；PDF 保留矢量线条并嵌入字体。更新数据时保留原始来源、指标定义、样本范围和不确定性，不将离线图表写成线上业务收益。

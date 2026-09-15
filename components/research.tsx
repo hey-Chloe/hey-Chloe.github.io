@@ -16,18 +16,28 @@ export function ResearchList({ locale = "zh" }: { locale?: Locale }) {
 
   return <div className="research-list">{research.map((item, index) => (
     <article className="research-card" key={item.slug}>
-      <Link href={localePath(`/research/${item.slug}/`, locale)} className="research-thumbnail" aria-label={item.title}>
-        <Image
-          src={assetPath(item.thumbnail.src)}
-          alt={item.thumbnail.alt}
-          width={item.thumbnail.width}
-          height={item.thumbnail.height}
-          sizes="(max-width: 700px) 100vw, 260px"
-          preload={index === 0}
-          fetchPriority={index === 0 ? "high" : undefined}
-          decoding={index === 0 ? "sync" : "async"}
-        />
-      </Link>
+      <figure className="research-figure">
+        <div
+          className="research-thumbnail-scroll"
+          data-scrollable=""
+          tabIndex={0}
+          aria-label={locale === "zh" ? `${item.title} 论文图，可左右滚动` : `${item.title} paper figure, horizontally scrollable`}
+        >
+          <Link href={localePath(`/research/${item.slug}/`, locale)} className="research-thumbnail" aria-label={item.title}>
+            <Image
+              src={assetPath(item.thumbnail.src)}
+              alt={item.thumbnail.alt}
+              width={item.thumbnail.width}
+              height={item.thumbnail.height}
+              sizes="(max-width: 700px) 720px, 920px"
+              preload={index === 0}
+              fetchPriority={index === 0 ? "high" : undefined}
+              decoding={index === 0 ? "sync" : "async"}
+            />
+          </Link>
+        </div>
+        <figcaption>{locale === "zh" ? "左右滑动查看完整论文图" : "Swipe horizontally to inspect the full figure"}</figcaption>
+      </figure>
       <div className="research-card-copy">
         <h3><Link href={localePath(`/research/${item.slug}/`, locale)}><span>{item.title}</span><Arrow diagonal /></Link></h3>
         <span className="small-label research-meta">{String(index + 1).padStart(2, "0")} / {item.venue} <span className="badge">{item.status}</span></span>

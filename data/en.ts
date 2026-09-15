@@ -33,8 +33,8 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     ],
     venue: "Independent project",
     status: "Offline estimator study",
-    thumbnailSrc: "/images/research-agent-teaser-en.webp",
-    thumbnailAlt: "Visual abstract of ordered trajectory attribution, from precedence dependencies and valid linear extensions to exact or uniform estimation and convergence evidence.",
+    thumbnailSrc: "/images/research-agent-teaser-en.svg",
+    thumbnailAlt: "Paper-style method figure for ordered trajectory attribution: a declared Read-Edit-Test precedence DAG, exact and uniformly sampled ordered-Shapley estimation, and RMSE convergence with reported intervals.",
     resultFigureSrc: "/images/research-agent-en.png",
     resultFigureAlt: "Line chart of attribution RMSE versus sampling budget with a seed-level confidence interval under a controlled structural protocol.",
     sections: {
@@ -60,8 +60,8 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     ],
     venue: "Independent project",
     status: "Public data · offline experiments",
-    thumbnailSrc: "/images/research-recsys-teaser-en.webp",
-    thumbnailAlt: "Visual abstract of a frozen offline recommendation protocol, from shared users and Exact Top-100 candidates to DIN reranking and paired evaluation.",
+    thumbnailSrc: "/images/research-recsys-teaser-en.svg",
+    thumbnailAlt: "Paper-style method figure for offline recommendation: dev selection and a frozen test manifest, schematic DIN reranking of the same candidates, and a paired user-level difference with a 95% interval.",
     resultFigureSrc: "/images/research-recsys-en.png",
     resultFigureAlt: "Estimate plot comparing Exact retrieval and DIN reranking means, with a separate paired-difference 95% interval under the same frozen protocol.",
     sections: {
@@ -87,8 +87,8 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     ],
     venue: "Independent project",
     status: "Offline experiment · public summary",
-    thumbnailSrc: "/images/research-vlm-teaser-en.webp",
-    thumbnailAlt: "Visual abstract of a paired multimodal data-selection study with one ScienceQA budget, shared Qwen2.5-VL-3B LoRA settings, and three paired seeds.",
+    thumbnailSrc: "/images/research-vlm-teaser-en.svg",
+    thumbnailAlt: "Paper-style method figure for multimodal data selection: a shared Qwen2.5-VL-3B checkpoint and training configuration, independent Random and COINCIDE runs, and three paired seeds with a cross-zero interval.",
     resultFigureSrc: "/images/research-vlm-en.png",
     resultFigureAlt: "Paired held-out exact-match results across three seeds comparing Random-1K and COINCIDE-1K data selection.",
     sections: {

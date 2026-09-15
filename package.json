@@ -46,6 +46,7 @@
     "lighthouse": "12.8.2",
     "playwright": "1.63.0",
     "postcss": "8.5.28",
+    "sharp": "0.35.4",
     "tailwindcss": "4.3.3",
     "tsx": "4.23.13",
     "typescript": "5.9.3"
