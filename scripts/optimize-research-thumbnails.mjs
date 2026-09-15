@@ -22,7 +22,10 @@ for (const sourceName of sourceFiles) {
 
   const metadata = await sharp(output).metadata();
   const file = await stat(output);
-  if (metadata.width !== 800 || metadata.height !== 500 || file.size > 30_000) {
+  // Dense publication figures contain substantially more text and line work
+  // than the former visual abstracts. Keep the preview lightweight without
+  // forcing labels into visibly lossy compression.
+  if (metadata.width !== 800 || metadata.height !== 500 || file.size > 60_000) {
     throw new Error(`Unexpected optimized teaser output: ${output}`);
   }
 

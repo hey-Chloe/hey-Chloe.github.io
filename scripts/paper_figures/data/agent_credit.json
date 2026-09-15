@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "hey-Chloe/MiniClaudeCode",
+    "commit": "a060de35ad0b5ea42fd98c80c288c9a0bb639cdc",
+    "path": "reports/trajectory_credit_study_20260829.json",
+    "url": "https://github.com/hey-Chloe/MiniClaudeCode/blob/a060de35ad0b5ea42fd98c80c288c9a0bb639cdc/reports/trajectory_credit_study_20260829.json",
+    "raw_url": "https://raw.githubusercontent.com/hey-Chloe/MiniClaudeCode/a060de35ad0b5ea42fd98c80c288c9a0bb639cdc/reports/trajectory_credit_study_20260829.json",
+    "download_sha256": "c38a440ad666efcc8dec0bc92284042bbe1a8129e1cc2cd448f70bfb4634a26c",
+    "source_keys": {
+      "study": [
+        "protocol",
+        "seed",
+        "case_count",
+        "families",
+        "claim_scope",
+        "falsifiability.prefix_reference_boundary"
+      ],
+      "invalid_coalitions": [
+        "vanilla_counterfactual_audit.mean_impossible_coalition_rate",
+        "vanilla_counterfactual_audit.definition"
+      ],
+      "aggregate": [
+        "method_aggregate.*"
+      ],
+      "convergence": [
+        "sampling_convergence[*].samples",
+        "sampling_convergence[*].seeds",
+        "sampling_convergence[*].rmse.*"
+      ],
+      "representative_case": [
+        "case_details[case_id=failure_recovery-00].actions",
+        "case_details[case_id=failure_recovery-00].predecessors",
+        "case_details[case_id=failure_recovery-00].prefix_sequential_reference",
+        "case_details[case_id=failure_recovery-00].methods.vanilla_shapley.credit_vector",
+        "case_details[case_id=failure_recovery-00].methods.precedence_shapley.credit_vector"
+      ]
+    }
+  },
+  "protocol": "ordered_trajectory_credit_study_v1",
+  "seed": 29,
+  "case_count": 40,
+  "families": [
+    "chain_interaction",
+    "failure_recovery",
+    "parallel_evidence",
+    "policy_guard",
+    "redundant_evidence"
+  ],
+  "claim_scope": "Structural protocol environments study estimator behavior; they are not real coding tasks, causal identification from production traces, or policy-training evidence.",
+  "prefix_reference_boundary": "The prefix sequential marginal is a declared reference semantics, not universal causal ground truth.",
+  "invalid_coalitions": {
+    "mean_impossible_coalition_rate": 0.71875,
+    "definition": "coalition contains an action while omitting at least one declared prerequisite"
+  },
+  "method_aggregate": {
+    "cost": {
+      "mae_to_prefix_sequential_reference": 0.283028959,
+      "mean_abs_efficiency_residual": 0.0,
+      "mean_abs_dummy_credit": 0.172340437,
+      "top_action_match_rate": 0.125
+    },
+    "leave_one_out": {
+      "mae_to_prefix_sequential_reference": 0.573333333,
+      "mean_abs_efficiency_residual": 3.44,
+      "mean_abs_dummy_credit": 0.0,
+      "top_action_match_rate": 0.0
+    },
+    "position": {
+      "mae_to_prefix_sequential_reference": 0.238730159,
+      "mean_abs_efficiency_residual": 0.0,
+      "mean_abs_dummy_credit": 0.142857143,
+      "top_action_match_rate": 1.0
+    },
+    "precedence_shapley": {
+      "mae_to_prefix_sequential_reference": 0.006666667,
+      "mean_abs_efficiency_residual": 0.0,
+      "mean_abs_dummy_credit": 0.0,
+      "top_action_match_rate": 1.0
+    },
+    "uniform": {
+      "mae_to_prefix_sequential_reference": 0.28,
+      "mean_abs_efficiency_residual": 0.0,
+      "mean_abs_dummy_credit": 0.166666667,
+      "top_action_match_rate": 0.0
+    },
+    "vanilla_shapley": {
+      "mae_to_prefix_sequential_reference": 0.256666667,
+      "mean_abs_efficiency_residual": 0.0,
+      "mean_abs_dummy_credit": 0.0,
+      "top_action_match_rate": 0.0
+    }
+  },
+  "sampling_convergence": [
+    {
+      "samples": 8,
+      "seeds": 12,
+      "rmse": {
+        "mean": 0.063142687,
+        "ci95_low": 0.046707797,
+        "ci95_high": 0.079577577
+      }
+    },
+    {
+      "samples": 16,
+      "seeds": 12,
+      "rmse": {
+        "mean": 0.035257506,
+        "ci95_low": 0.027953882,
+        "ci95_high": 0.04256113
+      }
+    },
+    {
+      "samples": 32,
+      "seeds": 12,
+      "rmse": {
+        "mean": 0.025598999,
+        "ci95_low": 0.020610571,
+        "ci95_high": 0.030587426
+      }
+    },
+    {
+      "samples": 64,
+      "seeds": 12,
+      "rmse": {
+        "mean": 0.018645874,
+        "ci95_low": 0.014361531,
+        "ci95_high": 0.022930217
+      }
+    },
+    {
+      "samples": 128,
+      "seeds": 12,
+      "rmse": {
+        "mean": 0.013778324,
+        "ci95_low": 0.011170869,
+        "ci95_high": 0.016385779
+      }
+    },
+    {
+      "samples": 256,
+      "seeds": 12,
+      "rmse": {
+        "mean": 0.009086905,
+        "ci95_low": 0.005953388,
+        "ci95_high": 0.012220421
+      }
+    },
+    {
+      "samples": 512,
+      "seeds": 12,
+      "rmse": {
+        "mean": 0.005773046,
+        "ci95_low": 0.004094356,
+        "ci95_high": 0.007451736
+      }
+    }
+  ],
+  "representative_case": {
+    "case_id": "failure_recovery-00",
+    "family": "failure_recovery",
+    "actions": [
+      "wrong_search",
+      "diagnose",
+      "noise_0_a",
+      "retry",
+      "edit",
+      "test"
+    ],
+    "predecessors": {
+      "1": [
+        0
+      ],
+      "3": [
+        1
+      ],
+      "4": [
+        3
+      ],
+      "5": [
+        4
+      ]
+    },
+    "prefix_sequential_reference": [
+      -0.2,
+      0.0,
+      0.0,
+      0.2,
+      0.0,
+      1.0
+    ],
+    "vanilla_impossible_coalition_rate": 0.8125,
+    "methods": {
+      "vanilla_shapley": {
+        "credit_vector": [
+          0.1,
+          0.2,
+          0.0,
+          0.3,
+          0.2,
+          0.2
+        ],
+        "evaluations": 64
+      },
+      "precedence_shapley": {
+        "credit_vector": [
+          -0.2,
+          0.0,
+          0.0,
+          0.2,
+          0.0,
+          1.0
+        ],
+        "linear_extensions": 6,
+        "utility_evaluations": 12
+      }
+    }
+  }
+}

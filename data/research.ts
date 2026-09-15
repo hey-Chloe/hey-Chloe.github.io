@@ -15,7 +15,7 @@ export const research: readonly Research[] = [
     status: "离线估计器研究",
     thumbnail: {
       src: "/images/research-agent-teaser.svg",
-      alt: "有序轨迹归因论文方法图：声明 Read、Edit、Test 的前序 DAG，展示有序 Shapley 的精确与均匀采样估计，以及带报告置信区间的 RMSE 收敛。",
+      alt: "有序轨迹归因论文主图：六节点失败恢复 DAG、动作级归因对照、六种估计器在四十个案例上的聚合比较，以及十二个种子的 Monte Carlo 收敛。",
       width: 1200,
       height: 750,
     },
@@ -56,7 +56,7 @@ export const research: readonly Research[] = [
     status: "公开数据 · 离线实验",
     thumbnail: {
       src: "/images/research-recsys-teaser.svg",
-      alt: "离线推荐论文方法图：开发集选型后冻结清单，在同一候选集合上示意 DIN 重排，并报告测试用户级配对差值及 95% 区间。",
+      alt: "离线推荐论文主图：五个开发集候选的选型结果、冻结测试集上三个截断位置的 Exact 与 DIN 对照，以及用户级配对差值、区间和胜负统计。",
       width: 1200,
       height: 750,
     },
@@ -98,7 +98,7 @@ export const research: readonly Research[] = [
     status: "离线实验 · 公开摘要",
     thumbnail: {
       src: "/images/research-vlm-teaser.svg",
-      alt: "多模态数据选择论文方法图：共享 Qwen2.5-VL-3B 基础检查点与训练配置，独立微调 Random 和 COINCIDE 两条路径，并展示三个配对种子及跨零区间。",
+      alt: "多模态数据选择论文主图：Random 与 COINCIDE 训练子集重叠、三个配对种子与未微调 Base 的 Exact Match，以及配对区间和改善退化样本审计。",
       width: 1200,
       height: 750,
     },

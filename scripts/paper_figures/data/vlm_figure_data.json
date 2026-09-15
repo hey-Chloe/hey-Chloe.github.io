@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-15",
+  "source": {
+    "repository": "hey-Chloe/hey-Chloe.github.io",
+    "commit": "c34131be71937ad6071ad60730384a54663e7f82",
+    "path": "public/demos/vlm-training/data/snapshot.json",
+    "url": "https://github.com/hey-Chloe/hey-Chloe.github.io/blob/c34131be71937ad6071ad60730384a54663e7f82/public/demos/vlm-training/data/snapshot.json",
+    "raw_url": "https://raw.githubusercontent.com/hey-Chloe/hey-Chloe.github.io/c34131be71937ad6071ad60730384a54663e7f82/public/demos/vlm-training/data/snapshot.json",
+    "download_sha256": "93c4a72dc537ab5c0d864d20c39c1383a0e72cb85144ff81d11a9165955f5c3d",
+    "source_keys": [
+      "research.question",
+      "research.result.base_exact_match",
+      "research.result.evaluation_samples",
+      "research.result.random_exact_match_mean",
+      "research.result.coincide_exact_match_mean",
+      "research.result.paired_delta_mean",
+      "research.result.paired_delta_ci95_low",
+      "research.result.paired_delta_ci95_high",
+      "research.result.paired_seed_results[*].seed",
+      "research.result.paired_seed_results[*].random_exact_match",
+      "research.result.paired_seed_results[*].coincide_exact_match",
+      "research.result.paired_seed_results[*].random_loss",
+      "research.result.paired_seed_results[*].coincide_loss",
+      "research.result.selection_overlap.count",
+      "research.result.selection_overlap.fraction_of_each_budget",
+      "research.result.improved_samples",
+      "research.result.harmed_samples",
+      "research.result.manual_reviewed_samples",
+      "evidence.error_analysis"
+    ]
+  },
+  "protocol": {
+    "model": "Qwen2.5-VL-3B",
+    "dataset": "ScienceQA",
+    "selection_budget_per_method": 1000,
+    "paired_seeds": 3,
+    "evaluation_samples": 256,
+    "metric": "exact match",
+    "stored_unit": "proportion",
+    "display_unit": "percent"
+  },
+  "selection_overlap": {
+    "count": 133,
+    "fraction_of_each_budget": 0.133
+  },
+  "base_exact_match": 0.7421875,
+  "method_means": {
+    "random_exact_match": 0.8294270833333334,
+    "coincide_exact_match": 0.7825520833333334
+  },
+  "paired_seed_results": [
+    {
+      "seed": 3407,
+      "random_exact_match": 0.8203125,
+      "coincide_exact_match": 0.796875,
+      "random_loss": 0.051864781340043464,
+      "coincide_loss": 0.058250971404183005
+    },
+    {
+      "seed": 6502,
+      "random_exact_match": 0.8359375,
+      "coincide_exact_match": 0.7578125,
+      "random_loss": 0.05163832032449278,
+      "coincide_loss": 0.06350028247121742
+    },
+    {
+      "seed": 9109,
+      "random_exact_match": 0.83203125,
+      "coincide_exact_match": 0.79296875,
+      "random_loss": 0.05005105688872469,
+      "coincide_loss": 0.06185011298445531
+    }
+  ],
+  "paired_delta": {
+    "mean": -0.046875,
+    "ci95_low": -0.11684910855411433,
+    "ci95_high": 0.02309910855411433,
+    "interval_method": "reported_by_source"
+  },
+  "paired_error_audit": {
+    "improved_samples": 20,
+    "harmed_samples": 35,
+    "manual_reviewed_samples": 6,
+    "source_artifact_path": "artifacts/error_analysis/paired_random_vs_coincide_1k_3seed_v2/analysis.json"
+  },
+  "derived_fields": {
+    "random_only_count": "protocol.selection_budget_per_method - selection_overlap.count",
+    "coincide_only_count": "protocol.selection_budget_per_method - selection_overlap.count",
+    "display_percentages": "stored proportions multiplied by 100"
+  },
+  "scope": "The three paired runs are a real negative result under this fixed Qwen2.5-VL-3B × ScienceQA × 1K protocol. The reported 95% interval crosses zero; the result does not establish that COINCIDE is generally ineffective. Error-audit counts are reproduced exactly as reported and are not assigned an unreported denominator."
+}

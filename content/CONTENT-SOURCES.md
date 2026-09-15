@@ -91,8 +91,8 @@
 
 ## 研究图片
 
-研究列表缩略图采用论文式 method overview：方法结构只重绘本文件所引用的公开协议，结果面板只使用 [figure-data.json](figure-data.json) 的真实公开报告数值。研究详情 Results 继续使用完整统计图。该数据文件保留固定提交、原始路径、下载 SHA256、精确 JSON 字段及全精度数据；绘图脚本为 `scripts/generate-research-figures.py`。列表直接加载 1200×750 的可编辑 teaser SVG，并保留同名 PDF、PNG、2x PNG 与 800×500 WebP 导出；详情页结果图保留 SVG 与 PNG。PDF / SVG 用于论文排版，WebP 用于兼容预览；没有重新训练、生成新实验结果或借用仓库 third-party 目录中的论文图。
+研究列表使用三张不同图形语法的论文主图，不复用网页卡片模板。可核验的数据摘录位于 `scripts/paper_figures/data/`，分别保留固定提交、原始路径、下载 SHA256、精确 JSON 字段及全精度数据；三个独立渲染器由 `scripts/generate-research-figures.py` 统一调用。列表直接加载 1200×750 的可编辑 SVG，并保留同名 PDF、PNG、2x PNG 与 800×500 WebP 导出；详情页结果图保留 SVG 与 PNG。PDF / SVG 用于论文排版，WebP 用于兼容预览；没有重新训练、生成新实验结果或借用第三方论文图。
 
-- Agent：受控协议中 12 个种子的采样收敛及报告的 95% 区间，不能解释为真实任务收益。
-- RecSys：同一冻结测试协议的 Exact 召回与 DIN 重排均值，纵轴从零开始。
-- VLM：固定 1K 预算、256 条留出评估下三个种子的配对 exact match；保留负结果与均值差区间跨零的限制。
+- Agent：真实六节点失败恢复 DAG、单案例动作归因、40 个受控案例上的六估计器比较，以及 12 个种子的采样收敛；不能解释为真实任务收益。
+- RecSys：开发集五候选选型、冻结测试集 K=20/50/100 的 Exact 与 DIN 对照，以及 K=100 用户级配对区间和 wins/ties/losses；不代表线上业务效果。
+- VLM：两种 1K 训练子集的真实重叠、三个配对种子与未微调 Base、配对区间和 improved/harmed 审计；区间跨零，不外推为方法普遍无效。

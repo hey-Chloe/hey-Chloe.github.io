@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "figure_id": "recsys_frozen_offline_protocol",
+  "metric": "NDCG@K",
+  "provenance": {
+    "repository": "hey-Chloe/KAI-Offline-RecSys-Lab",
+    "commit": "9bfb5693414cdbeaea1df9d712cae3ba333ac73d",
+    "source_path": "reports/amazon-end-to-end-v3-results.json",
+    "source_url": "https://github.com/hey-Chloe/KAI-Offline-RecSys-Lab/blob/9bfb5693414cdbeaea1df9d712cae3ba333ac73d/reports/amazon-end-to-end-v3-results.json",
+    "source_sha256": "192f13250a48a6e6e847585d867f91f7466d07a5d46d3fabc735c16f03ebdb69",
+    "rendering_note": "Copied from the committed public report; no experiment was rerun.",
+    "source_keys": {
+      "protocol": "protocol",
+      "dev_candidates": "devSelection.candidates[*].{id,devMetrics.{20,50,100}.ndcg}",
+      "selected_candidate": "selectedCandidate.id",
+      "test_retrieval": "test.retrieval.exact.{20,50,100}.ndcg",
+      "test_reranked_per_seed": "test.rerankedPerSeed.{3407,6502,9109}.testMetrics.{20,50,100}.ndcg",
+      "test_reranked_summary": "test.rerankedSummary.{20,50,100}.ndcg",
+      "paired_summary": "test.pairedAcrossSeeds.{20,50,100}.ndcg",
+      "primary_interval": "results.confidenceInterval"
+    }
+  },
+  "protocol": {
+    "selection_split": "dev",
+    "calibration_split": "train_only",
+    "test_opened_after_selection_frozen": true,
+    "test_tuning_forbidden": true,
+    "same_queries_within_pair": true,
+    "seeds": [
+      3407,
+      6502,
+      9109
+    ],
+    "ks": [
+      20,
+      50,
+      100
+    ],
+    "test_users": 50653,
+    "candidate_reranking_k": 100
+  },
+  "selected_candidate": "exact-din-uniform-64-32",
+  "dev_candidates": [
+    {
+      "id": "exact-din-hard-64-32",
+      "ndcg": {
+        "20": 0.0031837911217746082,
+        "50": 0.006957424812154798,
+        "100": 0.017976396279554878
+      }
+    },
+    {
+      "id": "exact-dcn-hard-64-32",
+      "ndcg": {
+        "20": 0.0034880761876159116,
+        "50": 0.007416906727478025,
+        "100": 0.018183275763892587
+      }
+    },
+    {
+      "id": "exact-din-uniform-64-32",
+      "ndcg": {
+        "20": 0.01832515451484447,
+        "50": 0.024090077972579473,
+        "100": 0.027767488707926762
+      }
+    },
+    {
+      "id": "exact-din-inbatch-64-32",
+      "ndcg": {
+        "20": 0.011737742162668232,
+        "50": 0.016148136685646637,
+        "100": 0.023907195511225686
+      }
+    },
+    {
+      "id": "hnsw-din-hard-64-32",
+      "ndcg": {
+        "20": 0.003177973770527521,
+        "50": 0.0069375317894718735,
+        "100": 0.017968879040695825
+      }
+    }
+  ],
+  "test": {
+    "exact_retrieval": {
+      "20": 0.011178374093433476,
+      "50": 0.016122255536340415,
+      "100": 0.02102618841605414
+    },
+    "din_reranking_per_seed": {
+      "3407": {
+        "20": 0.01536599920360623,
+        "50": 0.02037872783011575,
+        "100": 0.023463659516002676
+      },
+      "6502": {
+        "20": 0.015509108459965998,
+        "50": 0.020399024255918975,
+        "100": 0.02352519678298554
+      },
+      "9109": {
+        "20": 0.015531626502555526,
+        "50": 0.020508263376087084,
+        "100": 0.023552466141960895
+      }
+    },
+    "din_reranking_summary": {
+      "20": {
+        "mean": 0.015468911388709252,
+        "std": 7.334827397435152e-05
+      },
+      "50": {
+        "mean": 0.02042867182070727,
+        "std": 5.688642480668531e-05
+      },
+      "100": {
+        "mean": 0.023513774146983038,
+        "std": 3.714396912425153e-05
+      }
+    },
+    "paired_ndcg": {
+      "20": {
+        "mean_delta": 0.0042905372952757774,
+        "wins": 1503,
+        "losses": 576,
+        "ties": 48574,
+        "query_count": 50653,
+        "inference_scope": "descriptive",
+        "confidence_interval": null
+      },
+      "50": {
+        "mean_delta": 0.004306416284366856,
+        "wins": 2316,
+        "losses": 1054,
+        "ties": 47283,
+        "query_count": 50653,
+        "inference_scope": "descriptive",
+        "confidence_interval": null
+      },
+      "100": {
+        "mean_delta": 0.0024875857309288973,
+        "wins": 2638,
+        "losses": 1338,
+        "ties": 46677,
+        "query_count": 50653,
+        "inference_scope": "primary_paired_user_bootstrap",
+        "confidence_interval": {
+          "baseline_mean": 0.02102618841605414,
+          "bootstrap_samples": 2000,
+          "candidate_mean": 0.023513774146983038,
+          "confidence_level": 0.95,
+          "interval_method": "paired-percentile-bootstrap",
+          "lower_bound": 0.0022832747229818056,
+          "mean_difference": 0.0024875857309288973,
+          "resampling_unit": "user",
+          "seed": 20260827,
+          "upper_bound": 0.0026801428985577095,
+          "user_count": 50653
+        }
+      }
+    }
+  },
+  "scope": "Offline Amazon V3 protocol only. The K=100 confidence interval is for paired per-user NDCG differences after averaging across three reranker seeds; it is not an interval for either marginal mean and does not support an online-performance claim."
+}

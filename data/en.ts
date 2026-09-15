@@ -34,7 +34,7 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     venue: "Independent project",
     status: "Offline estimator study",
     thumbnailSrc: "/images/research-agent-teaser-en.svg",
-    thumbnailAlt: "Paper-style method figure for ordered trajectory attribution: a declared Read-Edit-Test precedence DAG, exact and uniformly sampled ordered-Shapley estimation, and RMSE convergence with reported intervals.",
+    thumbnailAlt: "Publication figure for ordered trajectory attribution: a six-action recovery DAG, action-level credit comparison, six-estimator aggregate table over forty cases, and Monte Carlo convergence across twelve seeds.",
     resultFigureSrc: "/images/research-agent-en.png",
     resultFigureAlt: "Line chart of attribution RMSE versus sampling budget with a seed-level confidence interval under a controlled structural protocol.",
     sections: {
@@ -61,7 +61,7 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     venue: "Independent project",
     status: "Public data · offline experiments",
     thumbnailSrc: "/images/research-recsys-teaser-en.svg",
-    thumbnailAlt: "Paper-style method figure for offline recommendation: dev selection and a frozen test manifest, schematic DIN reranking of the same candidates, and a paired user-level difference with a 95% interval.",
+    thumbnailAlt: "Publication figure for offline recommendation: selection among five development candidates, Exact-versus-DIN results at three frozen-test cutoffs, and user-level paired differences, interval, wins, ties, and losses.",
     resultFigureSrc: "/images/research-recsys-en.png",
     resultFigureAlt: "Estimate plot comparing Exact retrieval and DIN reranking means, with a separate paired-difference 95% interval under the same frozen protocol.",
     sections: {
@@ -88,7 +88,7 @@ const researchTranslations: Record<string, ResearchTranslation> = {
     venue: "Independent project",
     status: "Offline experiment · public summary",
     thumbnailSrc: "/images/research-vlm-teaser-en.svg",
-    thumbnailAlt: "Paper-style method figure for multimodal data selection: a shared Qwen2.5-VL-3B checkpoint and training configuration, independent Random and COINCIDE runs, and three paired seeds with a cross-zero interval.",
+    thumbnailAlt: "Publication figure for multimodal data selection: Random and COINCIDE subset overlap, exact match for three paired seeds and the untuned base, plus the paired interval and improved-versus-harmed audit counts.",
     resultFigureSrc: "/images/research-vlm-en.png",
     resultFigureAlt: "Paired held-out exact-match results across three seeds comparing Random-1K and COINCIDE-1K data selection.",
     sections: {

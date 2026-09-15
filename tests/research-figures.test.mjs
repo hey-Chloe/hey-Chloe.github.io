@@ -5,6 +5,42 @@ import test from "node:test";
 
 const root = process.cwd();
 const names = ["agent", "recsys", "vlm"];
+const figureDataDir = path.join(root, "scripts", "paper_figures", "data");
+
+async function readJson(filename) {
+  return JSON.parse(await readFile(path.join(figureDataDir, filename), "utf8"));
+}
+
+test("paper figures retain the reported Agent study evidence", async () => {
+  const data = await readJson("agent_credit.json");
+  assert.equal(data.case_count, 40);
+  assert.equal(data.families.length, 5);
+  assert.equal(Object.keys(data.method_aggregate).length, 6);
+  assert.equal(data.invalid_coalitions.mean_impossible_coalition_rate, 0.71875);
+  assert.equal(data.representative_case.methods.precedence_shapley.linear_extensions, 6);
+});
+
+test("paper figures retain the frozen RecSys comparison", async () => {
+  const data = await readJson("recsys_figure.json");
+  assert.equal(data.dev_candidates.length, 5);
+  assert.deepEqual(data.protocol.ks, [20, 50, 100]);
+  assert.equal(data.protocol.seeds.length, 3);
+  assert.equal(data.selected_candidate, "exact-din-uniform-64-32");
+  const primary = data.test.paired_ndcg["100"];
+  assert(primary.confidence_interval.lower_bound > 0);
+  assert.equal(primary.wins + primary.ties + primary.losses, primary.query_count);
+});
+
+test("paper figures retain the paired VLM evidence and claim boundary", async () => {
+  const data = await readJson("vlm_figure_data.json");
+  assert.equal(data.selection_overlap.count, 133);
+  assert.equal(data.paired_seed_results.length, 3);
+  assert.equal(data.base_exact_match, 0.7421875);
+  assert.equal(data.paired_error_audit.improved_samples, 20);
+  assert.equal(data.paired_error_audit.harmed_samples, 35);
+  assert(data.paired_delta.ci95_low < 0);
+  assert(data.paired_delta.ci95_high > 0);
+});
 
 for (const name of names) {
   for (const suffix of ["", "-en"]) {
